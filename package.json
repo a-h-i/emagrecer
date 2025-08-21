@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@auth/typeorm-adapter": "^2.10.0",
+    "lodash": "^4.17.21",
     "next": "15.5.0",
     "next-auth": "5.0.0-beta.29",
     "next-intl": "^4.3.5",
@@ -22,6 +23,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@types/lodash": "^4.17.20",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
