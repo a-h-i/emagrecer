@@ -1,49 +1,58 @@
 {
-  "Hero": {
-    "h1_a": "Planeie as refeições e poupe no supermercado",
-    "h1_b": "Planos semanais com listas por corredor",
-    "sub": "Cumpra os seus macros, mantenha o orçamento e leve uma lista organizada como no seu supermercado.",
-    "cta_primary": "Planear a semana",
-    "cta_secondary": "Ver demo",
-    "store_row": "Funciona com Continente, Pingo Doce, Lidl, Auchan e Mercadona."
-  },
-  "Steps": {
-    "title": "Como funciona",
-    "s1_t": "Defina objetivos",
-    "s1_d": "Calorias/macros, dieta e alergias.",
-    "s2_t": "Construa a semana",
-    "s2_d": "Arraste receitas. Calculamos os totais diários.",
-    "s3_t": "Compre por corredor",
-    "s3_d": "Lista por corredores PT, com estimativa em €."
-  },
-  "UseCases": {
-    "title": "Feito para a vida real",
-    "c1_t": "Perda de peso",
-    "c1_d": "Planos proteicos com metas diárias.",
-    "c2_t": "Orçamento apertado",
-    "c2_d": "Preços por loja e embalagens.",
-    "c3_t": "Família de 3",
-    "c3_d": "Doseamento e aproveitamento.",
-    "c4_t": "Vegetariano",
-    "c4_d": "Filtros e opções ricas em proteína."
-  },
-  "Features": {
-    "title": "O que inclui",
-    "f1": "Listas por corredores portugueses",
-    "f2": "Estimativas em EUR por loja",
-    "f3": "Metas de macros e alertas",
-    "f4": "Lista offline (PWA)",
-    "f5": "Interface EN / PT",
-    "f6": "Exportar CSV / Imprimir"
-  },
-  "FAQ": {
-    "title": "Perguntas frequentes",
-    "q1": "Preciso de conta?",
-    "a1": "Não para a demo. Inicie sessão com a Google para guardar planos e preços.",
-    "q2": "Os preços são exatos?",
-    "a2": "São estimativas por embalagens típicas. Pode alterar qualquer item.",
-    "q3": "Que lojas suporta?",
-    "a3": "Continente, Pingo Doce, Lidl, Auchan e Mercadona. Mais em breve."
-  },
-  "CTA": { "title": "Pronto para planear a semana?", "primary": "Começar a planear", "secondary": "Ver demo" }
+  "Landing": {
+    "Hero": {
+      "h1": "Planeie as refeições e poupe no supermercado",
+      "sub": "Cumpra os seus macros, mantenha o orçamento e leve uma lista organizada como no seu supermercado.",
+      "cta": "Planear a semana",
+      "stores": "Funciona com Continente, Pingo Doce, Lidl, Auchan e Mercadona."
+    },
+    "Steps": {
+      "title": "Como funciona",
+      "s1_t": "Defina objetivos",
+      "s1_d": "Calorias/macros, dieta e alergias.",
+      "s2_t": "Construa a semana",
+      "s2_d": "Arraste receitas. Calculamos os totais diários.",
+      "s3_t": "Compre por corredor",
+      "s3_d": "Lista por corredores PT, com estimativa em €."
+    },
+    "UseCases": {
+      "title": "Feito para a vida real",
+      "c1_t": "Perda de peso",
+      "c1_d": "Planos proteicos com metas diárias.",
+      "c2_t": "Orçamento apertado",
+      "c2_d": "Preços por loja e embalagens.",
+      "c3_t": "Família de 3",
+      "c3_d": "Doseamento e aproveitamento.",
+      "c4_t": "Vegetariano",
+      "c4_d": "Filtros e opções ricas em proteína."
+    },
+    "Features": {
+      "title": "O que inclui",
+      "f1": "Listas por corredores portugueses",
+      "f2": "Estimativas em EUR por loja",
+      "f3": "Metas de macros e alertas",
+      "f4": "Lista offline (PWA)",
+      "f5": "Interface EN / PT",
+      "f6": "Exportar CSV / Imprimir"
+    },
+    "Gallery": {
+      "title": "Capturas de ecrã",
+      "cap1": "Planeador semanal",
+      "cap2": "Lista de compras por corredor",
+      "cap3": "Orçamento por loja"
+    },
+    "FAQ": {
+      "title": "Perguntas frequentes",
+      "q1": "Preciso de conta?",
+      "a1": "Pode explorar. Inicie sessão com a Google para guardar planos e preços.",
+      "q2": "Os preços são exatos?",
+      "a2": "São estimativas por embalagens típicas. Pode alterar qualquer item.",
+      "q3": "Que lojas suporta?",
+      "a3": "Continente, Pingo Doce, Lidl, Auchan e Mercadona. Mais em breve."
+    },
+    "CTA": {
+      "title": "Pronto para planear a semana?",
+      "primary": "Começar a planear"
+    }
+  }
 }

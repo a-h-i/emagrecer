@@ -1,49 +1,58 @@
 {
-  "Hero": {
-    "h1_a": "Plan meals, shop smarter — for Portuguese supermarkets",
-    "h1_b": "Weekly meal plans with PT-aisle shopping lists",
-    "sub": "Hit your macros, stay on budget, and get a list grouped like your local store.",
-    "cta_primary": "Plan your week",
-    "cta_secondary": "See a demo",
-    "store_row": "Works with Continente, Pingo Doce, Lidl, Auchan, Mercadona."
-  },
-  "Steps": {
-    "title": "How it works",
-    "s1_t": "Set goals",
-    "s1_d": "Calories/macros, diet, and allergies.",
-    "s2_t": "Build your week",
-    "s2_d": "Drag & drop recipes. We track daily totals.",
-    "s3_t": "Shop by aisle",
-    "s3_d": "Get a list grouped like PT aisles—with a € estimate."
-  },
-  "UseCases": {
-    "title": "Built for real life",
-    "c1_t": "Cutting weight",
-    "c1_d": "Protein-forward plans with daily targets.",
-    "c2_t": "On a budget",
-    "c2_d": "Price per store and pack-size rounding.",
-    "c3_t": "Family of 3",
-    "c3_d": "Servings & smart leftovers.",
-    "c4_t": "Vegetarian",
-    "c4_d": "Filters and high-protein options."
-  },
-  "Features": {
-    "title": "What you get",
-    "f1": "Shopping lists by Portuguese aisles",
-    "f2": "Price estimates in EUR by store",
-    "f3": "Macro targets & warnings",
-    "f4": "Offline-ready shopping list (PWA)",
-    "f5": "EN / PT interface",
-    "f6": "Export CSV / Print"
-  },
-  "FAQ": {
-    "title": "FAQ",
-    "q1": "Do I need an account?",
-    "a1": "No for demos. Sign in with Google to save your plans and prices.",
-    "q2": "Are prices exact?",
-    "a2": "They’re estimates from typical pack sizes. You can override any item.",
-    "q3": "Which stores are supported?",
-    "a3": "Continente, Pingo Doce, Lidl, Auchan, Mercadona. More coming."
-  },
-  "CTA": { "title": "Ready to plan your week?", "primary": "Start planning", "secondary": "Preview a demo" }
+  "Landing": {
+    "Hero": {
+      "h1": "Plan meals, shop smarter — for Portuguese supermarkets",
+      "sub": "Hit your macros, stay on budget, and get a list grouped like your local store.",
+      "cta": "Plan your week",
+      "stores": "Works with Continente, Pingo Doce, Lidl, Auchan, Mercadona."
+    },
+    "Steps": {
+      "title": "How it works",
+      "s1_t": "Set goals",
+      "s1_d": "Calories/macros, diet, and allergies.",
+      "s2_t": "Build your week",
+      "s2_d": "Drag & drop recipes. We track daily totals.",
+      "s3_t": "Shop by aisle",
+      "s3_d": "Get a list grouped like PT aisles—with a € estimate."
+    },
+    "UseCases": {
+      "title": "Built for real life",
+      "c1_t": "Cutting weight",
+      "c1_d": "Protein-forward plans with daily targets.",
+      "c2_t": "On a budget",
+      "c2_d": "Price per store and pack-size rounding.",
+      "c3_t": "Family of 3",
+      "c3_d": "Servings & smart leftovers.",
+      "c4_t": "Vegetarian",
+      "c4_d": "Filters and high-protein options."
+    },
+    "Features": {
+      "title": "What you get",
+      "f1": "Shopping lists by Portuguese aisles",
+      "f2": "Price estimates in EUR by store",
+      "f3": "Macro targets & warnings",
+      "f4": "Offline-ready shopping list (PWA)",
+      "f5": "EN / PT interface",
+      "f6": "Export CSV / Print"
+    },
+    "Gallery": {
+      "title": "Screenshots",
+      "cap1": "Weekly planner",
+      "cap2": "Aisle-based shopping list",
+      "cap3": "Budget by store"
+    },
+    "FAQ": {
+      "title": "FAQ",
+      "q1": "Do I need an account?",
+      "a1": "You can browse. Sign in with Google to save your plans and prices.",
+      "q2": "Are prices exact?",
+      "a2": "They’re estimates from typical pack sizes. You can override any item.",
+      "q3": "Which stores are supported?",
+      "a3": "Continente, Pingo Doce, Lidl, Auchan, Mercadona. More coming."
+    },
+    "CTA": {
+      "title": "Ready to plan your week?",
+      "primary": "Start planning"
+    }
+  }
 }

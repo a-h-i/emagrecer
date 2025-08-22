@@ -64,6 +64,6 @@ export const config = {
     // Pages (locale-aware)
     '/((?!_next|.*\\..*|opengraph-image|twitter-image|icon|apple-icon|api).*)',
     // API (but not /api/auth)
-    '/api/(?!auth)(.*)',
+    '/api/(!auth)(.*)',
   ],
 };
