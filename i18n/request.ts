@@ -1,7 +1,8 @@
 
 import {getRequestConfig} from 'next-intl/server';
+import { DEFAULT_LOCALE, routing } from '@/i18n/routing';
+import { hasLocale } from 'next-intl';
 
-const DEFAULT_LOCALE = 'pt' as const;
 
 const NAMESPACES = ['landing', 'metadata'] as const;
 
@@ -19,17 +20,18 @@ async function loadNamespace(locale: string, ns: string) {
   }
 }
 
-export default getRequestConfig(async ({locale}) => {
-  const l = locale ?? DEFAULT_LOCALE;
+export default getRequestConfig(async ({requestLocale}) => {
+  const requested = await requestLocale;
+  const locale = hasLocale(routing.locales, requested) ? requested : routing.defaultLocale;
 
   const parts = await Promise.all(
-    NAMESPACES.map((ns) => loadNamespace(l, ns))
+    NAMESPACES.map((ns) => loadNamespace(locale, ns))
   );
 
   // Merge all subtrees into a single messages object
   const messages = Object.assign({}, ...parts);
 
-  return {locale: l, messages};
+  return {locale: locale, messages};
 });
 
 

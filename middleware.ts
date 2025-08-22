@@ -1,5 +1,5 @@
 import createMiddleware from 'next-intl/middleware';
-import { LOCALES, routing } from './i18n/routing';
+import { DEFAULT_LOCALE, LOCALES, routing } from './i18n/routing';
 import { NextResponse } from 'next/server';
 import { auth } from '@/auth';
 
@@ -17,7 +17,7 @@ function stripLocale(pathname: string): { locale: string; path: string } {
       path: rest.startsWith('/') ? rest : `/${rest}`,
     };
   }
-  return { locale: 'pt', path: pathname };
+  return { locale: DEFAULT_LOCALE, path: pathname };
 }
 
 export default auth((req) => {
@@ -43,9 +43,11 @@ export default auth((req) => {
   // page protection
   if (!isApi) {
     const { locale, path: strippedPath } = stripLocale(pathname);
+    console.log(locale);
+    console.log(strippedPath);
     const isPublic = PUBLIC_PATHS.includes(strippedPath);
     if (!isPublic && !req.auth) {
-      const url = new URL(`${locale}/login`, req.nextUrl);
+      const url = new URL(`/${locale}/login`, req.nextUrl);
       url.searchParams.set('callbackUrl', req.nextUrl.href);
       return NextResponse.redirect(url);
     }
