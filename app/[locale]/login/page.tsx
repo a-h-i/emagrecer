@@ -3,7 +3,7 @@ import { auth, signIn } from '@/auth';
 import { redirect } from 'next/navigation';
 import { Link } from '@/i18n/navigation';
 import Image from 'next/image';
-import Button from '@/ui/components/Button';
+import { Button } from '@/ui/components/Button';
 
 export default async function Login({
   searchParams,
@@ -34,11 +34,13 @@ export default async function Login({
           <Button
             type="submit"
             variant='primary'
-            className="inline-flex w-full items-center justify-center gap-2 rounded-xl"
+            leadingIcon={
+              <div className="h-6 w-6 relative">
+                <Image src='/icons/Google.svg' alt='google' fill />
+              </div>
+            }
           >
-            <div className="h-6 w-6 relative">
-              <Image src='/icons/Google.svg' alt='google' fill />
-            </div>
+
             {t("google")}
           </Button>
         </form>

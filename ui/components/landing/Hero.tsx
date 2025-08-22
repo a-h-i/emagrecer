@@ -1,6 +1,6 @@
 import { getTranslations } from 'next-intl/server';
-import { Link } from '@/i18n/navigation';
 import Image from 'next/image';
+import { ButtonLink } from '@/ui/components/Button';
 
 
 export default async function Hero() {
@@ -12,12 +12,13 @@ export default async function Hero() {
       </h1>
       <p className="mt-4 text-neutral-600 md:text-lg">{t("sub")}</p>
       <div className="mt-6 flex items-center gap-3">
-        <Link
+        <ButtonLink
           href="/plan"
+          variant="primary"
           className="rounded-xl bg-neutral-900 px-5 py-3 text-sm font-medium text-white shadow hover:opacity-90"
         >
           {t("cta")}
-        </Link>
+        </ButtonLink>
       </div>
       <p className="mt-4 text-sm text-neutral-500">{t("stores")}</p>
     </div>
