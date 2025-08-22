@@ -4,7 +4,7 @@ import { DEFAULT_LOCALE, routing } from '@/i18n/routing';
 import { hasLocale } from 'next-intl';
 
 
-const NAMESPACES = ['landing', 'metadata'] as const;
+const NAMESPACES = ['landing', 'metadata', 'auth'] as const;
 
 async function loadNamespace(locale: string, ns: string) {
   try {
