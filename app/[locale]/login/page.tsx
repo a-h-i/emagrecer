@@ -13,42 +13,44 @@ export default async function Login({
   const t = await getTranslations('SignIn');
   const params = await searchParams;
   const locale = await getLocale();
-  const callbackUrl = typeof params?.callbackUrl === "string" ? params.callbackUrl : `/${locale}/plan`;
+  const callbackUrl =
+    typeof params?.callbackUrl === 'string'
+      ? params.callbackUrl
+      : `/${locale}/plan`;
   const session = await auth();
   if (session?.user != null) {
     redirect(callbackUrl);
   }
   async function handleSignIn() {
     'use server';
-    await signIn('google', {redirectTo: callbackUrl});
+    await signIn('google', { redirectTo: callbackUrl });
   }
 
   return (
-    <main className="mx-auto flex min-h-[70vh] max-w-md flex-col justify-center px-4">
-      <div className="rounded-2xl border p-6 shadow-sm">
-        <h1 className="text-2xl font-semibold tracking-tight">{t("title")}</h1>
-        <p className="mt-2 text-sm text-neutral-600">{t("subtitle")}</p>
+    <main className='mx-auto flex min-h-[70vh] max-w-md flex-col justify-center px-4'>
+      <div className='rounded-2xl border p-6 shadow-sm'>
+        <h1 className='text-2xl font-semibold tracking-tight'>{t('title')}</h1>
+        <p className='mt-2 text-sm text-neutral-600'>{t('subtitle')}</p>
 
-
-        <form action={handleSignIn} className="mt-6">
+        <form action={handleSignIn} className='mt-6'>
           <Button
-            type="submit"
+            type='submit'
             variant='primary'
             leadingIcon={
-              <div className="h-6 w-6 relative">
+              <div className='relative h-6 w-6'>
                 <Image src='/icons/Google.svg' alt='google' fill />
               </div>
             }
           >
-
-            {t("google")}
+            {t('google')}
           </Button>
         </form>
 
-
-        <p className="mt-4 text-xs text-neutral-500">
-          {t("footnote")} {" "}
-          <Link href="/privacy" className="underline underline-offset-2">{t("privacy")}</Link>
+        <p className='mt-4 text-xs text-neutral-500'>
+          {t('footnote')}{' '}
+          <Link href='/privacy' className='underline underline-offset-2'>
+            {t('privacy')}
+          </Link>
         </p>
       </div>
     </main>

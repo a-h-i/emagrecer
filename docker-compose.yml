@@ -16,4 +16,4 @@ services:
     image: postgres:17
     shm_size: 1gb
     ports:
-      - "5432:5432"
+      - '5432:5432'

@@ -27,9 +27,9 @@ export class RecipeIngredient {
   @Column({ type: 'text', default: '' })
   note!: string;
 
-  @Column({ type: 'timestamp', default: () => "now()"})
+  @Column({ type: 'timestamp', default: () => 'now()' })
   created_at!: Date;
 
-  @Column({ type: 'timestamp', default: () => "now()"})
+  @Column({ type: 'timestamp', default: () => 'now()' })
   updated_at!: Date;
 }

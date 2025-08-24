@@ -1,9 +1,8 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class CreateRecipeIngredient1755993748558 implements MigrationInterface {
-
-    public async up(queryRunner: QueryRunner): Promise<void> {
-      await queryRunner.query(`
+  public async up(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`
         CREATE TABLE recipe_ingredient
         (
           id            uuid primary key        default gen_random_uuid(),
@@ -22,13 +21,12 @@ export class CreateRecipeIngredient1755993748558 implements MigrationInterface {
           on recipe_ingredient
           for each row
           execute procedure set_updated_at();
-      `)
-    }
+      `);
+  }
 
-    public async down(queryRunner: QueryRunner): Promise<void> {
-      await queryRunner.query(`
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`
         DROP TABLE recipe_ingredient cascade;
-      `)
-    }
-
+      `);
+  }
 }

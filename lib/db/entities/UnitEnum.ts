@@ -1,8 +1,5 @@
-
-
-
 export enum UnitEnum {
-  GRAM = "g",
-   ML = "ml",
-  PIECE = "piece"
+  GRAM = 'g',
+  ML = 'ml',
+  PIECE = 'piece',
 }

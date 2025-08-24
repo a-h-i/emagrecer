@@ -22,15 +22,13 @@ export class Product {
   @Column({ type: 'text', nullable: true })
   brand!: string | null;
 
-
   @Column({ type: 'text' })
   label!: string;
 
-
-  @Column({ type: "numeric", precision: 10, scale: 2 })
+  @Column({ type: 'numeric', precision: 10, scale: 2 })
   size_g!: string;
 
-  @Column({ type: "numeric", precision: 10, scale: 2 })
+  @Column({ type: 'numeric', precision: 10, scale: 2 })
   unit_price_eur!: string;
 
   @Column({
@@ -39,10 +37,9 @@ export class Product {
   })
   is_active!: boolean;
 
-  @Column({ type: 'timestamp', default: () => "now()"})
+  @Column({ type: 'timestamp', default: () => 'now()' })
   created_at!: Date;
 
-  @Column({ type: 'timestamp', default: () => "now()"})
+  @Column({ type: 'timestamp', default: () => 'now()' })
   updated_at!: Date;
-
 }

@@ -5,9 +5,13 @@ import Features from '@/ui/components/landing/Features';
 import Gallery from '@/ui/components/landing/Gallery';
 import FAQ from '@/ui/components/landing/FAQ';
 
-export default function Home() {
+
+
+
+export default async function Home() {
+
   return (
-    <main className='mx-auto max-w-6xl px-4 py-12 md:py-16'>
+    <main className='mx-auto max-w-6xl px-4 py-12 md:py-16'>c
       <Hero />
       <Steps />
       <UseCases />

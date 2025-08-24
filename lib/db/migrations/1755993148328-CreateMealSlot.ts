@@ -1,9 +1,8 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class CreateMealSlot1755993148328 implements MigrationInterface {
-
-    public async up(queryRunner: QueryRunner): Promise<void> {
-      await queryRunner.query(`
+  public async up(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`
         CREATE TABLE meal_slot
         (
           id         uuid PRIMARY KEY        DEFAULT gen_random_uuid(),
@@ -22,13 +21,12 @@ export class CreateMealSlot1755993148328 implements MigrationInterface {
           on meal_slot
           for each row
         execute procedure set_updated_at();
-      `)
-    }
+      `);
+  }
 
-    public async down(queryRunner: QueryRunner): Promise<void> {
-      await queryRunner.query(`
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`
         DROP TABLE meal_slot cascade;
-      `)
-    }
-
+      `);
+  }
 }

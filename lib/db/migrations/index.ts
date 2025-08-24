@@ -15,7 +15,6 @@ import { CreateAllergenEnum1755968586517 } from '@/lib/db/migrations/17559685865
 import { CreateDietPreferenceEnum1755997125098 } from '@/lib/db/migrations/1755997125098-CreateDietPreferenceEnum';
 import { CreateUserProfile1755997130659 } from '@/lib/db/migrations/1755997130659-CreateUserProfile';
 
-
 export const migrations = [
   CreateUpdatedAtFunc1755968395802,
   CreateExtensions1755968464258,
@@ -32,5 +31,5 @@ export const migrations = [
   CreateRecipeIngredient1755993748558,
   CreateUserPriceOverride1755994119078,
   CreateDietPreferenceEnum1755997125098,
-  CreateUserProfile1755997130659
-]
+  CreateUserProfile1755997130659,
+];

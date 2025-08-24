@@ -1,9 +1,10 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class CreateUserPriceOverride1755994119078 implements MigrationInterface {
-
-    public async up(queryRunner: QueryRunner): Promise<void> {
-      await queryRunner.query(`
+export class CreateUserPriceOverride1755994119078
+  implements MigrationInterface
+{
+  public async up(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`
         CREATE TABLE user_price_override
         (
           user_id        uuid           not null references users (id) on delete cascade on update cascade,
@@ -20,13 +21,12 @@ export class CreateUserPriceOverride1755994119078 implements MigrationInterface 
           on user_price_override
           for each row
           execute procedure set_updated_at();
-      `)
-    }
+      `);
+  }
 
-    public async down(queryRunner: QueryRunner): Promise<void> {
-      await queryRunner.query(`
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`
         DROP TABLE user_price_override cascade;
-      `)
-    }
-
+      `);
+  }
 }

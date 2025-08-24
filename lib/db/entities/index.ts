@@ -9,25 +9,26 @@ import { Store } from '@/lib/db/entities/Store';
 import { UserPriceOverride } from '@/lib/db/entities/UserPriceOverride';
 import { UserProfile } from '@/lib/db/entities/UserProfile';
 
-export * from './Aisle';
-export * from './Product';
-export * from './Ingredient';
 export * from './MacroSplit';
-export * from './MealPlan';
-export * from './MealSlot';
-export * from './MealType';
 export * from './NurtitionInfo';
-export * from './Product';
-export * from './Receipe';
-export * from './ReceipeIngredient';
-export * from './Store';
 export * from './UnitEnum';
-export * from './UserPriceOverride';
 export * from './Allergens';
 export * from './DietPreference';
-export * from './UserProfile';
 
-export const Entities = [
+export {
+  UserProfile,
+  UserPriceOverride,
+  Aisle,
+  Ingredient,
+  MealPlan,
+  MealSlot,
+  Product,
+  Recipe,
+  RecipeIngredient,
+  Store,
+}
+
+export const entities = [
   Aisle,
   Ingredient,
   MealPlan,

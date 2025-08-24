@@ -1,8 +1,9 @@
-import assert from 'assert';
+import 'reflect-metadata';
+import 'server-only';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { migrations } from '@/lib/db/migrations';
-import { Entities } from '@/lib/db/entities';
-
+import { entities } from '@/lib/db/entities';
+import assert from 'assert';
 
 export function getPgConfig(runMigrations = false): DataSourceOptions {
   const pgHost = process.env.PG_HOST;
@@ -30,7 +31,7 @@ export function getPgConfig(runMigrations = false): DataSourceOptions {
     poolSize: Number.parseInt(process.env.PG_POOL_SIZE ?? '10', 10),
     synchronize: false,
     migrationsRun: runMigrations,
-    entities: Entities,
+    entities: entities,
     migrations: migrations,
     connectTimeoutMS: 60 * 1000,
     extra: {
@@ -46,8 +47,21 @@ function createPgDataSource(runMigrations: boolean): DataSource {
   return new DataSource(getPgConfig(runMigrations));
 }
 
-export async function setupPostgres(runMigrations = false) {
-  const datasource = createPgDataSource(runMigrations);
-  await datasource.initialize();
-  return datasource;
+type DSBag = { __ds?: DataSource; __dsInit?: Promise<DataSource> };
+const bag = globalThis as unknown as DSBag;
+
+export const dataSource =
+  bag.__ds ?? (bag.__ds = createPgDataSource(true));
+
+export async function getDS(): Promise<DataSource> {
+  if (dataSource.isInitialized) {
+    return dataSource;
+  }
+  if (!bag.__dsInit) {
+    bag.__dsInit = dataSource.initialize().catch((e) => {
+      bag.__dsInit = undefined; // allow retry on next call
+      throw e;
+    });
+  }
+  return bag.__dsInit;
 }

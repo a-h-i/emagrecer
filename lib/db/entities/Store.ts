@@ -36,9 +36,9 @@ export class Store {
   })
   is_active!: boolean;
 
-  @Column({ type: 'timestamp', default: () => "now()"})
+  @Column({ type: 'timestamp', default: () => 'now()' })
   created_at!: Date;
 
-  @Column({ type: 'timestamp', default: () => "now()"})
+  @Column({ type: 'timestamp', default: () => 'now()' })
   updated_at!: Date;
 }
