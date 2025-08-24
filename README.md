@@ -1,0 +1,3 @@
+# Emagrecer
+
+Meal planning application
