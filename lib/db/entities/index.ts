@@ -7,6 +7,7 @@ import { Recipe } from '@/lib/db/entities/Receipe';
 import { RecipeIngredient } from '@/lib/db/entities/ReceipeIngredient';
 import { Store } from '@/lib/db/entities/Store';
 import { UserPriceOverride } from '@/lib/db/entities/UserPriceOverride';
+import { UserProfile } from '@/lib/db/entities/UserProfile';
 
 export * from './Aisle';
 export * from './Product';
@@ -22,8 +23,9 @@ export * from './ReceipeIngredient';
 export * from './Store';
 export * from './UnitEnum';
 export * from './UserPriceOverride';
-
-
+export * from './Allergens';
+export * from './DietPreference';
+export * from './UserProfile';
 
 export const Entities = [
   Aisle,
@@ -35,4 +37,5 @@ export const Entities = [
   RecipeIngredient,
   Store,
   UserPriceOverride,
+  UserProfile,
 ];

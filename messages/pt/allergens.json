@@ -1,0 +1,18 @@
+{
+  "Allergens": {
+    "gluten": "Glúten (cereais)",
+    "crustaceans": "Crustáceos",
+    "eggs": "Ovos",
+    "fish": "Peixe",
+    "peanuts": "Amendoins",
+    "soy": "Soja",
+    "milk": "Leite (incl. lactose)",
+    "tree-nuts": "Frutos de casca rija",
+    "celery": "Aipo",
+    "mustard": "Mostarda",
+    "sesame": "Sésamo",
+    "sulphites": "Dióxido de enxofre e sulfitos",
+    "lupin": "Tremoço",
+    "molluscs": "Moluscos"
+  }
+}

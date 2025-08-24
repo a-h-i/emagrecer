@@ -11,11 +11,15 @@ import { CreateRecipe1755993148327 } from '@/lib/db/migrations/1755993148327-Cre
 import { CreateMealSlot1755993148328 } from '@/lib/db/migrations/1755993148328-CreateMealSlot';
 import { CreateRecipeIngredient1755993748558 } from '@/lib/db/migrations/1755993748558-CreateRecipeIngredient';
 import { CreateUserPriceOverride1755994119078 } from '@/lib/db/migrations/1755994119078-CreateUserPriceOverride';
+import { CreateAllergenEnum1755968586517 } from '@/lib/db/migrations/1755968586517-CreateAllergenEnum';
+import { CreateDietPreferenceEnum1755997125098 } from '@/lib/db/migrations/1755997125098-CreateDietPreferenceEnum';
+import { CreateUserProfile1755997130659 } from '@/lib/db/migrations/1755997130659-CreateUserProfile';
 
 
 export const migrations = [
   CreateUpdatedAtFunc1755968395802,
   CreateExtensions1755968464258,
+  CreateAllergenEnum1755968586517,
   CreateUnitEnum1755968586518,
   CreateMealTypeEnum1755979325628,
   CreateAisle1755992317179,
@@ -27,4 +31,6 @@ export const migrations = [
   CreateMealSlot1755993148328,
   CreateRecipeIngredient1755993748558,
   CreateUserPriceOverride1755994119078,
+  CreateDietPreferenceEnum1755997125098,
+  CreateUserProfile1755997130659
 ]

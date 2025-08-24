@@ -1,6 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { UnitEnum } from '@/lib/db/entities/UnitEnum';
 import type { NurtitionInfo } from '@/lib/db/entities/NurtitionInfo';
+import { Allergens } from '@/lib/db/entities/Allergens';
 
 @Entity({
   name: 'ingredient',
@@ -37,6 +38,14 @@ export class Ingredient {
     nullable: false
   })
   nutrition_per_100g!: NurtitionInfo;
+
+  @Column({
+    type: 'enum',
+    enum: Allergens,
+    array: true,
+    default: [],
+  })
+  allergens!: string[];
 
 
   @Column({
