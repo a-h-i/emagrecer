@@ -17,3 +17,36 @@ services:
     shm_size: 1gb
     ports:
       - '5432:5432'
+  emagrecer-image:
+    build:
+      context: ../..
+      dockerfile: Dockerfile.testing
+    image: emagrecer-image
+
+  migrate:
+    image: emagrecer-image
+    depends_on:
+      pg-db:
+        condition: service_started
+      controls-image:
+        condition: service_completed_successfully
+    volumes:
+      - ../../:/app
+    command: moon migrator:migrate
+    environment:
+      - PG_HOST=pg-db
+      - PG_PORT=5432
+      - PG_PASSWORD=password
+      - PG_USER=db_user
+      - PG_DB=emagrecer_db
+
+  server:
+    image: emagrecer-image
+    depends_on:
+      pg-db:
+        condition: service_started
+      controls-image:
+        condition: service_completed_successfully
+    volumes:
+      - ../../:/app
+    command: moon client:dev

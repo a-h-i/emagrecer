@@ -19,10 +19,6 @@ tasks:
       - 'dist'
     deps:
       - 'storage:build'
-  migrate:
-    script: pnpm run migrate
-    deps:
-      - 'build'
   lint:
     inputs:
       - '@files(configs)'
@@ -44,3 +40,8 @@ tasks:
     inputs:
       - '@files(configs)'
       - '@files(sources)'
+  migrate:
+    command: pnpm run migrate
+    deps:
+      - 'build'
+    local: true
