@@ -4,7 +4,6 @@ import { TypeORMAdapter } from '@auth/typeorm-adapter';
 import { getOrCreateProfile } from '@emagrecer/control';
 import assert from 'assert';
 
-
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [Google],
   pages: {

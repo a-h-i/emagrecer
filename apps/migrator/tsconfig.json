@@ -1,26 +1,25 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "ESNext"],
     "allowJs": true,
-    "outDir": "lib",
+    "outDir": "dist",
     "strict": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "module": "CommonJS",
+    "module": "ESNext",
+    "moduleResolution": "node10",
     "resolveJsonModule": true,
     "incremental": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "sourceMap": true,
     "rootDir": ".",
-    "composite": true
+    "composite": true,
+    "target": "ES2023"
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules", "dist"],
   "references": [
     {
-      "path": "../storage"
+      "path": "../../packages/storage"
     }
   ]
 }

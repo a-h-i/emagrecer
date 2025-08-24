@@ -46,21 +46,3 @@ export function getPgConfig(runMigrations = false): DataSourceOptions {
 export function createPgDataSource(runMigrations: boolean): DataSource {
   return new DataSource(getPgConfig(runMigrations));
 }
-
-type DSBag = { __ds?: DataSource; __dsInit?: Promise<DataSource> };
-const bag = globalThis as unknown as DSBag;
-
-export const dataSource = bag.__ds ?? (bag.__ds = createPgDataSource(true));
-
-export async function getDS(): Promise<DataSource> {
-  if (dataSource.isInitialized) {
-    return dataSource;
-  }
-  if (!bag.__dsInit) {
-    bag.__dsInit = dataSource.initialize().catch((e) => {
-      bag.__dsInit = undefined; // allow retry on next call
-      throw e;
-    });
-  }
-  return bag.__dsInit;
-}

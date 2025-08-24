@@ -25,6 +25,7 @@
     "prettier": "catalog:",
     "ts-node": "catalog:",
     "typescript": "catalog:",
+    "typescript-eslint": "catalog:",
     "vitest": "catalog:"
   }
 }

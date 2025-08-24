@@ -26,6 +26,7 @@
     "eslint-config-next": "catalog:",
     "prettier": "catalog:",
     "ts-node": "catalog:",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "typescript-eslint": "catalog:"
   }
 }
