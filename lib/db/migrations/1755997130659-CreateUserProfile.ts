@@ -8,7 +8,7 @@ export class CreateUserProfile1755997130659 implements MigrationInterface {
         (
           user_id uuid PRIMARY KEY references users (id) on delete cascade on update cascade,
           diet_preference diet_preference_enum not null,
-          allergens allergens_enum[] not null default '[]',
+          allergens allergens_enum[] not null default '{}',
           kcal_target int,
           macro_split jsonb,
           height_cm int,

@@ -13,7 +13,7 @@ export class CreateRecipe1755993148327 implements MigrationInterface {
           servings              int           not null default 2,
           instructions_md_en    text,
           instructions_md_pt    text,
-          tags                  text[]        not null default '[]',
+          tags                  text[]        not null default '{}',
           kcal_per_serving      int           not null,
           protein_g_per_serving numeric(6, 2) not null,
           carbs_g_per_serving   numeric(6, 2) not null,
