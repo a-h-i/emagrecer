@@ -1,42 +1,12 @@
 {
   "name": "emagrecer",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
-    "start": "next start",
-    "lint": "eslint",
-    "format": "prettier . --write",
-    "format:check": "prettier . --check",
-    "typeorm": "typeorm-ts-node-commonjs"
+    "catalog": "codemod pnpm/catalog"
   },
-  "dependencies": {
-    "@auth/typeorm-adapter": "^2.10.0",
-    "clsx": "^2.1.1",
-    "lodash": "^4.17.21",
-    "next": "15.5.0",
-    "next-auth": "5.0.0-beta.29",
-    "next-intl": "^4.3.5",
-    "pg": "^8.16.3",
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
-    "reflect-metadata": "^0.2.2",
-    "typeorm": "^0.3.26"
-  },
-  "devDependencies": {
-    "@eslint/eslintrc": "^3",
-    "@tailwindcss/postcss": "^4",
-    "@types/lodash": "^4.17.20",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "15.5.0",
-    "prettier": "^3.6.2",
-    "prettier-plugin-tailwindcss": "^0.6.14",
-    "tailwindcss": "^4",
-    "ts-node": "^10.9.2",
-    "typescript": "^5"
-  }
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

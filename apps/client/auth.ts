@@ -1,7 +1,7 @@
 import NextAuth from 'next-auth';
 import Google from 'next-auth/providers/google';
 import { TypeORMAdapter } from '@auth/typeorm-adapter';
-import { getOrCreateProfile } from '@/lib/dal/profile/getOrCreateProfile';
+import { getOrCreateProfile } from '@emagrecer/control';
 import assert from 'assert';
 
 

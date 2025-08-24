@@ -1,9 +1,9 @@
 import 'reflect-metadata';
 import 'server-only';
 import { DataSource, DataSourceOptions } from 'typeorm';
-import { migrations } from '@/lib/db/migrations';
-import { entities } from '@/lib/db/entities';
 import assert from 'assert';
+import { entities } from './entities';
+import { migrations } from './migrations';
 
 export function getPgConfig(runMigrations = false): DataSourceOptions {
   const pgHost = process.env.PG_HOST;
@@ -43,15 +43,14 @@ export function getPgConfig(runMigrations = false): DataSourceOptions {
   };
 }
 
-function createPgDataSource(runMigrations: boolean): DataSource {
+export function createPgDataSource(runMigrations: boolean): DataSource {
   return new DataSource(getPgConfig(runMigrations));
 }
 
 type DSBag = { __ds?: DataSource; __dsInit?: Promise<DataSource> };
 const bag = globalThis as unknown as DSBag;
 
-export const dataSource =
-  bag.__ds ?? (bag.__ds = createPgDataSource(true));
+export const dataSource = bag.__ds ?? (bag.__ds = createPgDataSource(true));
 
 export async function getDS(): Promise<DataSource> {
   if (dataSource.isInitialized) {

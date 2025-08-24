@@ -1,0 +1,43 @@
+{
+  "name": "@emagrecer/client",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build --turbopack",
+    "start": "next start",
+    "lint": "eslint",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
+    "typeorm": "typeorm-ts-node-commonjs"
+  },
+  "dependencies": {
+    "@auth/typeorm-adapter": "^2.10.0",
+    "@emagrecer/control": "workspace:^",
+    "clsx": "^2.1.1",
+    "lodash": "^4.17.21",
+    "next": "15.5.0",
+    "next-auth": "5.0.0-beta.29",
+    "next-intl": "^4.3.5",
+    "pg": "catalog:",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "reflect-metadata": "^0.2.2",
+    "typeorm": "catalog:"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "catalog:",
+    "@tailwindcss/postcss": "^4",
+    "@types/lodash": "^4.17.20",
+    "@types/node": "catalog:",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "catalog:",
+    "eslint-config-next": "catalog:",
+    "prettier": "catalog:",
+    "prettier-plugin-tailwindcss": "^0.6.14",
+    "tailwindcss": "^4",
+    "ts-node": "catalog:",
+    "typescript": "catalog:"
+  }
+}

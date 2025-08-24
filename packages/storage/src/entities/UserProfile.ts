@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryColumn } from 'typeorm';
-import { DietPreference } from '@/lib/db/entities/DietPreference';
-import { Allergens } from '@/lib/db/entities/Allergens';
-import { MacroSplit } from '@/lib/db/entities/MacroSplit';
+import { DietPreference } from './DietPreference';
+import { Allergens } from './Allergens';
+import { MacroSplit } from './MacroSplit';
 
 @Entity({
   name: 'user_profile',

@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { MacroSplit } from '@/lib/db/entities/MacroSplit';
+import { MacroSplit } from './MacroSplit';
 
 @Entity()
 export class MealPlan {

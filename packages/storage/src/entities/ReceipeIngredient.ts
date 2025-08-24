@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
-import { UnitEnum } from '@/lib/db/entities/UnitEnum';
+import { UnitEnum } from './UnitEnum';
 
 @Entity()
 export class RecipeIngredient {

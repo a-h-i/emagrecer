@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
-import { MealType } from '@/lib/db/entities/MealType';
+import { MealType } from './MealType';
 
 @Entity({
   name: 'meal_slot',

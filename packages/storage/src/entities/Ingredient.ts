@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { UnitEnum } from '@/lib/db/entities/UnitEnum';
-import type { NurtitionInfo } from '@/lib/db/entities/NurtitionInfo';
-import { Allergens } from '@/lib/db/entities/Allergens';
+import { UnitEnum } from './UnitEnum';
+import type { NurtitionInfo } from './NurtitionInfo';
+import { Allergens } from './Allergens';
 
 @Entity({
   name: 'ingredient',

@@ -1,0 +1,4 @@
+node:
+  packageManager: 'pnpm'
+typescript:
+   syncProjectReferences: true

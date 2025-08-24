@@ -1,5 +1,4 @@
-import { DietPreference, UserProfile } from '@/lib/db/entities';
-import { getDS } from '@/lib/db/pg-data-source';
+import { getDS, DietPreference, UserProfile } from '@emagrecer/storage';
 
 export async function getOrCreateProfile(userId: string): Promise<UserProfile> {
   const source = await getDS();

@@ -1,0 +1,30 @@
+{
+  "name": "@emagrecer/control",
+  "version": "1.0.0",
+  "description": "",
+  "types": "./lib/src/index.d.ts",
+  "main": "./lib/src/index.js",
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint src eslint.config.mjs --cache",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@emagrecer/storage": "workspace:^"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "catalog:",
+    "@types/node": "catalog:",
+    "eslint": "catalog:",
+    "eslint-config-next": "catalog:",
+    "prettier": "catalog:",
+    "ts-node": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

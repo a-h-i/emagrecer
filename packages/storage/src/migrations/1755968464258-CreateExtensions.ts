@@ -8,5 +8,5 @@ export class CreateExtensions1755968464258 implements MigrationInterface {
         `);
   }
 
-  public async down(queryRunner: QueryRunner): Promise<void> {}
+  public async down(_: QueryRunner): Promise<void> {}
 }
