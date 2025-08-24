@@ -14,8 +14,12 @@ import { CreateUserPriceOverride1755994119078 } from './1755994119078-CreateUser
 import { CreateAllergenEnum1755968586517 } from './1755968586517-CreateAllergenEnum';
 import { CreateDietPreferenceEnum1755997125098 } from './1755997125098-CreateDietPreferenceEnum';
 import { CreateUserProfile1755997130659 } from './1755997130659-CreateUserProfile';
+import { CreateComputeRecipeTotalsFunc1756077439079 } from './1756077439079-CreateComputeRecipeTotalsFunc';
+import { CreateRecomputeRecipeTrigger1756077945878 } from './1756077945878-CreateRecomputeRecipeTrigger';
+import { CreateNextAuthTables1755968395801 } from './1755968395801-CreateNextAuthTables';
 
 export const migrations = [
+  CreateNextAuthTables1755968395801,
   CreateUpdatedAtFunc1755968395802,
   CreateExtensions1755968464258,
   CreateAllergenEnum1755968586517,
@@ -32,4 +36,6 @@ export const migrations = [
   CreateUserPriceOverride1755994119078,
   CreateDietPreferenceEnum1755997125098,
   CreateUserProfile1755997130659,
+  CreateComputeRecipeTotalsFunc1756077439079,
+  CreateRecomputeRecipeTrigger1756077945878
 ];

@@ -17,7 +17,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     username: process.env.PG_USER,
     password: process.env.PG_PASSWORD,
     database: process.env.PG_DB,
-    synchronize: true,
+    synchronize: false,
   }),
   session: {
     strategy: 'jwt',
