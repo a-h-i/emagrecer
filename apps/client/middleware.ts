@@ -3,7 +3,6 @@ import { DEFAULT_LOCALE, LOCALES, routing } from './i18n/routing';
 import { NextResponse } from 'next/server';
 import { auth } from '@/auth';
 
-
 const handleI18nRouting = createMiddleware(routing);
 
 const PUBLIC_PATHS = ['/', '/login', '/privacy'];

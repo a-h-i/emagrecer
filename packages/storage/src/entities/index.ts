@@ -15,8 +15,8 @@ export * from './UnitEnum';
 export * from './Allergens';
 export * from './DietPreference';
 
-export * from './Aisle'
-export * from './Ingredient'
+export * from './Aisle';
+export * from './Ingredient';
 export * from './MealPlan';
 export * from './MealSlot';
 export * from './Product';

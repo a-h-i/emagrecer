@@ -1,7 +1,10 @@
 import { DietPreference, UserProfile } from '@emagrecer/storage';
 import { DataSource } from 'typeorm';
 
-export async function getOrCreateProfile(source: DataSource, userId: string): Promise<UserProfile> {
+export async function getOrCreateProfile(
+  source: DataSource,
+  userId: string,
+): Promise<UserProfile> {
   return await source.manager.transaction(async (transaction) => {
     let profile = await transaction.findOneBy(UserProfile, {
       user_id: userId,
