@@ -1,3 +1,4 @@
+import 'server-only';
 import 'reflect-metadata';
 import { DataSource } from 'typeorm';
 import { createPgDataSource } from '@emagrecer/storage';
