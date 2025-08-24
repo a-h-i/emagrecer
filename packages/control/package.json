@@ -15,7 +15,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@emagrecer/storage": "workspace:^"
+    "@emagrecer/storage": "workspace:^",
+    "typeorm": "catalog:"
+  },
+  "peerDependencies": {
+    "typeorm": "catalog:"
   },
   "devDependencies": {
     "@eslint/eslintrc": "catalog:",

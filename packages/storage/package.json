@@ -28,5 +28,10 @@
     "ts-node": "catalog:",
     "typescript": "catalog:",
     "typescript-eslint": "catalog:"
+  },
+  "peerDependencies": {
+    "pg": "catalog:",
+    "reflect-metadata": "catalog:",
+    "typeorm": "catalog:"
   }
 }

@@ -15,18 +15,16 @@ export * from './UnitEnum';
 export * from './Allergens';
 export * from './DietPreference';
 
-export {
-  UserProfile,
-  UserPriceOverride,
-  Aisle,
-  Ingredient,
-  MealPlan,
-  MealSlot,
-  Product,
-  Recipe,
-  RecipeIngredient,
-  Store,
-};
+export * from './Aisle'
+export * from './Ingredient'
+export * from './MealPlan';
+export * from './MealSlot';
+export * from './Product';
+export * from './Receipe';
+export * from './ReceipeIngredient';
+export * from './Store';
+export * from './UserPriceOverride';
+export * from './UserProfile';
 
 export const entities = [
   Aisle,

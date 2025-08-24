@@ -28,11 +28,12 @@ services:
     depends_on:
       pg-db:
         condition: service_started
-      controls-image:
+      emagrecer-image:
         condition: service_completed_successfully
     volumes:
       - ../../:/app
-    command: moon migrator:migrate
+    working_dir: /app/apps/migrator
+    command: pnpm run migrate
     environment:
       - PG_HOST=pg-db
       - PG_PORT=5432
@@ -42,11 +43,22 @@ services:
 
   server:
     image: emagrecer-image
+    ports:
+      - '3000:3000'
     depends_on:
       pg-db:
         condition: service_started
-      controls-image:
+      emagrecer-image:
+        condition: service_completed_successfully
+      migrate:
         condition: service_completed_successfully
     volumes:
       - ../../:/app
-    command: moon client:dev
+    environment:
+      - PG_HOST=pg-db
+      - PG_PORT=5432
+      - PG_PASSWORD=password
+      - PG_USER=db_user
+      - PG_DB=emagrecer_db
+    working_dir: /app/apps/client
+    command: pnpm run dev

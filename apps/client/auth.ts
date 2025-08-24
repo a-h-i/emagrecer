@@ -3,6 +3,7 @@ import Google from 'next-auth/providers/google';
 import { TypeORMAdapter } from '@auth/typeorm-adapter';
 import { getOrCreateProfile } from '@emagrecer/control';
 import assert from 'assert';
+import { getDS } from '@/lib/getDS';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [Google],
@@ -25,7 +26,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   events: {
     signIn: async ({ user }) => {
       assert(user.id != null, 'user id must be provided');
-      await getOrCreateProfile(user.id);
+      const source = await getDS();
+      await getOrCreateProfile(source, user.id);
     },
   },
 });

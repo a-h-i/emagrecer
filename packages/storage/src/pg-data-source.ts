@@ -1,5 +1,4 @@
 import 'reflect-metadata';
-import 'server-only';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import assert from 'assert';
 import { entities } from './entities';

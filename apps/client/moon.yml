@@ -20,10 +20,11 @@ fileGroups:
     - 'env-config.ts'
 tasks:
   dev:
-    command: pnpm run dev
+    command: docker compose up --remove-orphans server
     local: true
     deps:
       - 'control:build'
+      - 'migrator:build'
   build:
     command: pnpm run build
     inputs:

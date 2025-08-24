@@ -23,7 +23,7 @@
     "pg": "catalog:",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "reflect-metadata": "^0.2.2",
+    "reflect-metadata": "catalog:",
     "typeorm": "catalog:"
   },
   "devDependencies": {

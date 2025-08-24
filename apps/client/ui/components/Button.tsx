@@ -42,7 +42,7 @@ export function Button({
   const baseClasses =
     'inline-flex items-center justify-center gap-2 rounded-xl font-medium transition ' +
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900/40 focus-visible:ring-offset-2 ' +
-    'disabled:opacity-50c disabled:cursor-not-allowed';
+    'disabled:opacity-50c disabled:cursor-not-allowed cursor-pointer';
 
   const sizes: Record<ButtonSize, string> = {
     sm: 'h-9 px-3 text-sm',
@@ -129,7 +129,7 @@ export function ButtonLink({
   const base =
     'inline-flex items-center justify-center gap-2 rounded-xl font-medium transition ' +
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900/40 focus-visible:ring-offset-2 ' +
-    'disabled:opacity-50';
+    'disabled:opacity-50 cursor-pointer';
   const sizes: Record<ButtonSize, string> = {
     sm: 'h-9 px-3 text-sm',
     md: 'h-10 px-4 text-sm',
