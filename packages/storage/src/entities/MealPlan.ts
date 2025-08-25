@@ -9,7 +9,7 @@ export class MealPlan {
   @Column({ type: 'uuid' })
   user_id!: string;
 
-  @Column({ type: 'date' })
+  @Column({ type: 'timestamp' })
   week_start!: Date;
 
   @Column({ type: 'int', nullable: true })
