@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import { NextIntlClientProvider, hasLocale } from 'next-intl';
 import React from 'react';
 import { getTranslations } from 'next-intl/server';
+import ConsentProvider from '@/ui/components/consent/ConsentProvider';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -51,7 +52,7 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <NextIntlClientProvider locale={locale}>
-          {children}
+          <ConsentProvider>{children}</ConsentProvider>
         </NextIntlClientProvider>
       </body>
     </html>
