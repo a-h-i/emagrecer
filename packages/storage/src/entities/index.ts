@@ -14,6 +14,7 @@ export * from './NurtitionInfo';
 export * from './UnitEnum';
 export * from './Allergens';
 export * from './DietPreference';
+export * from './MealType';
 
 export * from './Aisle';
 export * from './Ingredient';

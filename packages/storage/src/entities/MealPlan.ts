@@ -23,4 +23,17 @@ export class MealPlan {
 
   @Column({ type: 'timestamp', default: () => 'now()' })
   updated_at!: Date;
+
+
+  serialize() {
+    return {
+      id: this.id,
+      user_id: this.user_id,
+      week_start: this.week_start.toISOString(),
+      kcal_target: this.kcal_target,
+      macro_split: this.macro_split,
+      created_at: this.created_at.toISOString(),
+      updated_at: this.updated_at.toISOString(),
+    };
+  }
 }
