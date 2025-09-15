@@ -43,8 +43,6 @@ export default auth((req) => {
   // page protection
   if (!isApi) {
     const { locale, path: strippedPath } = stripLocale(pathname);
-    console.log(locale);
-    console.log(strippedPath);
     const isPublic = PUBLIC_PATHS.includes(strippedPath);
     if (!isPublic && !req.auth) {
       const url = new URL(`/${locale}/login`, req.nextUrl);
