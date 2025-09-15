@@ -30,7 +30,8 @@
     "react-dom": "19.1.0",
     "react-redux": "^9.2.0",
     "reflect-metadata": "catalog:",
-    "typeorm": "catalog:"
+    "typeorm": "catalog:",
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@eslint/eslintrc": "catalog:",
