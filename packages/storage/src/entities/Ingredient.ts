@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { UnitEnum } from './UnitEnum';
-import type { NurtitionInfo } from './NurtitionInfo';
+import type { NutritionInfo } from './NutritionInfo';
 import { Allergens } from './Allergens';
 
 @Entity({
@@ -37,7 +37,7 @@ export class Ingredient {
     type: 'jsonb',
     nullable: false,
   })
-  nutrition_per_100g!: NurtitionInfo;
+  nutrition_per_100g!: NutritionInfo;
 
   @Column({
     type: 'enum',

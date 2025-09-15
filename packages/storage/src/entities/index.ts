@@ -10,7 +10,7 @@ import { UserPriceOverride } from './UserPriceOverride';
 import { UserProfile } from './UserProfile';
 
 export * from './MacroSplit';
-export * from './NurtitionInfo';
+export * from './NutritionInfo';
 export * from './UnitEnum';
 export * from './Allergens';
 export * from './DietPreference';

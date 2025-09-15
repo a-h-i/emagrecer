@@ -1,9 +1,10 @@
 import { DietPreference, UserProfile } from '@emagrecer/storage';
 import { DataSource, EntityManager } from 'typeorm';
 
-
-
-export async function getOrCreateProfileTx(transaction: EntityManager, userId: string) {
+export async function getOrCreateProfileTx(
+  transaction: EntityManager,
+  userId: string,
+) {
   let profile = await transaction.findOneBy(UserProfile, {
     user_id: userId,
   });

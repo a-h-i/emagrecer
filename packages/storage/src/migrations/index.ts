@@ -37,5 +37,5 @@ export const migrations = [
   CreateDietPreferenceEnum1755997125098,
   CreateUserProfile1755997130659,
   CreateComputeRecipeTotalsFunc1756077439079,
-  CreateRecomputeRecipeTrigger1756077945878
+  CreateRecomputeRecipeTrigger1756077945878,
 ];

@@ -1,8 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-
 export class CreateNextAuthTables1755968395801 implements MigrationInterface {
-
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
 

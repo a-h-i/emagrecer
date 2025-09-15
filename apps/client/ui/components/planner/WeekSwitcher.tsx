@@ -12,11 +12,10 @@ interface WeekSwitcherProps {
   className?: string;
 }
 
-
 export default async function WeekSwitcher(props: WeekSwitcherProps) {
   const t = await getTranslations({
     locale: props.locale,
-    namespace: 'Planner'
+    namespace: 'Planner',
   });
   const prev = previousMonday(props.currentWeek);
   const next = nextMonday(props.currentWeek);
@@ -24,7 +23,7 @@ export default async function WeekSwitcher(props: WeekSwitcherProps) {
   const today = new Date();
 
   const labelDate = format(props.currentWeek, 'd LLLL yyyy', {
-    locale: props.locale == 'pt' ? ptLocale : enLocale
+    locale: props.locale == 'pt' ? ptLocale : enLocale,
   });
   const btnClass =
     'inline-flex items-center gap-2 rounded-xl border border-neutral-200 bg-white px-3 py-2 text-sm ' +
@@ -33,38 +32,37 @@ export default async function WeekSwitcher(props: WeekSwitcherProps) {
 
   return (
     <nav
-      aria-label={t('week.label', {date: labelDate})}
+      aria-label={t('week.label', { date: labelDate })}
       className={clsx('flex items-center gap-3', props.className)}
     >
       <Link
         className={btnClass}
         aria-label={t('week.prev')}
-        href={{pathname: '/plan', query: {week: prev.toISOString()}}}
+        href={{ pathname: '/plan', query: { week: prev.toISOString() } }}
       >
-        <ChevronLeft className="h-4 w-4" />
+        <ChevronLeft className='h-4 w-4' />
         <span>{t('week.prev')}</span>
       </Link>
 
-      <span className="select-none rounded-xl border border-neutral-200 px-3 py-2 text-sm text-neutral-700">
-        {t('week.label', {date: labelDate})}
+      <span className='rounded-xl border border-neutral-200 px-3 py-2 text-sm text-neutral-700 select-none'>
+        {t('week.label', { date: labelDate })}
       </span>
 
       <Link
-        href={{pathname: '/plan', query: {week: next.toISOString()}}}
+        href={{ pathname: '/plan', query: { week: next.toISOString() } }}
         className={btnClass}
         aria-label={t('week.next')}
       >
         <span>{t('week.next')}</span>
-        <ChevronRight className="h-4 w-4" />
+        <ChevronRight className='h-4 w-4' />
       </Link>
-
 
       {isCurrentWeek ? (
         <span
           aria-disabled
           className={clsx(
             'inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-neutral-500',
-            'cursor-not-allowed'
+            'cursor-not-allowed',
           )}
           title={t('week.today')}
         >
@@ -72,13 +70,12 @@ export default async function WeekSwitcher(props: WeekSwitcherProps) {
         </span>
       ) : (
         <Link
-          href={{pathname: '/plan', query: {week: today.toISOString()}}}
+          href={{ pathname: '/plan', query: { week: today.toISOString() } }}
           className={btnClass}
         >
           {t('week.today')}
         </Link>
       )}
-
     </nav>
-  )
+  );
 }

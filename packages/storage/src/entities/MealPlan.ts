@@ -24,7 +24,6 @@ export class MealPlan {
   @Column({ type: 'timestamp', default: () => 'now()' })
   updated_at!: Date;
 
-
   serialize() {
     return {
       id: this.id,

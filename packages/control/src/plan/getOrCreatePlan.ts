@@ -2,13 +2,13 @@ import { DataSource } from 'typeorm';
 import { MealPlan, UserProfile } from '@emagrecer/storage';
 import { getOrCreateProfileTx } from '../profile';
 
-
-
-
-export async function getOrCreatePlan(source: DataSource, userId: string, weekStart: Date) {
+export async function getOrCreatePlan(
+  source: DataSource,
+  userId: string,
+  weekStart: Date,
+) {
   const date = new Date(weekStart);
   date.setHours(0, 0, 0, 0);
-
 
   return source.manager.transaction(async (transaction) => {
     const existing = await transaction.findOneBy(MealPlan, {
@@ -28,13 +28,12 @@ export async function getOrCreatePlan(source: DataSource, userId: string, weekSt
       user_id: userId,
       week_start: date,
       kcal_target: profile.kcal_target ?? null,
-      macro_split: profile.macro_split ?? null
+      macro_split: profile.macro_split ?? null,
     });
     await transaction.save(plan);
     return {
       plan,
       created: true,
     };
-  })
-
+  });
 }

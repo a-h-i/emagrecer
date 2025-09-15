@@ -1,9 +1,10 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class CreateComputeRecipeTotalsFunc1756077439079 implements MigrationInterface {
-
-    public async up(queryRunner: QueryRunner): Promise<void> {
-      await queryRunner.query(`
+export class CreateComputeRecipeTotalsFunc1756077439079
+  implements MigrationInterface
+{
+  public async up(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`
       create or replace function compute_recipe_totals(recipe_id uuid) returns void as $$
       declare kcal int := 0; protein numeric := 0; carbs numeric := 0; fat numeric := 0;
       begin
@@ -30,12 +31,11 @@ export class CreateComputeRecipeTotalsFunc1756077439079 implements MigrationInte
       end $$ language plpgsql;
           
       `);
-    }
+  }
 
-    public async down(queryRunner: QueryRunner): Promise<void> {
-      await queryRunner.query(`
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`
       drop function compute_recipe_totals(uuid);
       `);
-    }
-
+  }
 }

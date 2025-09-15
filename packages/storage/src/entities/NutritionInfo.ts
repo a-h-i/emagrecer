@@ -1,4 +1,4 @@
-export interface NurtitionInfo {
+export interface NutritionInfo {
   kcal: number;
   protein_g: number;
   carbs_g: number;

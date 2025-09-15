@@ -26,8 +26,8 @@ function writeConsent(consent: Consent) {
 }
 
 export default function ConsentProvider({
-                                          children,
-                                        }: {
+  children,
+}: {
   children: React.ReactNode;
 }) {
   const [consent, setConsent] = useState<Consent | null>(null);
