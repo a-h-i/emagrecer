@@ -4,7 +4,12 @@ import {
   PayloadAction,
   createSelector,
 } from '@reduxjs/toolkit';
-import { MacroSplit, MealType } from '@emagrecer/storage';
+import {
+  MacroSplit,
+  MealType,
+  planSchema,
+} from '@emagrecer/storage';
+import { z } from 'zod';
 
 type SlotKey = `${number}:${MealType}`; // e.g. "2:dinner"
 
@@ -31,6 +36,7 @@ export interface PlanState {
   status: 'idle' | 'loading' | 'ready' | 'error';
   error?: string;
   selectedDay: number; // 0..6
+  isCreated?: boolean;
 }
 
 const initialState: PlanState = {
@@ -48,13 +54,12 @@ export const ensurePlan = createAsyncThunk(
       cache: 'no-store',
     });
     if (!res.ok) throw new Error('ensurePlan failed');
-    return (await res.json()) as {
-      id: string;
-      weekStart: string;
-      kcalTarget: number | null;
-      macroSplit: MacroSplit | null;
-      created: boolean;
-    };
+    const json = await res.json();
+    const dataSchema = z.object({
+      plan: planSchema,
+      created: z.boolean()
+    });
+    return dataSchema.parse(json);
   },
 );
 
@@ -111,12 +116,13 @@ const planSlice = createSlice({
       s.status = 'loading';
       s.error = undefined;
     });
-    b.addCase(ensurePlan.fulfilled, (s, a) => {
-      s.status = 'ready';
-      s.planId = a.payload.id;
-      s.weekStart = a.payload.weekStart;
-      s.kcalTarget = a.payload.kcalTarget;
-      s.macroSplit = a.payload.macroSplit;
+    b.addCase(ensurePlan.fulfilled, (state, action) => {
+      state.status = 'ready';
+      state.planId = action.payload.plan.id;
+      state.weekStart = action.payload.plan.week_start;
+      state.kcalTarget = action.payload.plan.kcal_target;
+      state.macroSplit = action.payload.plan.macro_split;
+      state.isCreated = action.payload.created;
     });
     b.addCase(ensurePlan.rejected, (s, a) => {
       s.status = 'error';

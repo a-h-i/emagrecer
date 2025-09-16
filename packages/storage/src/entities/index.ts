@@ -39,3 +39,5 @@ export const entities = [
   UserPriceOverride,
   UserProfile,
 ];
+
+export * from './schemas';
