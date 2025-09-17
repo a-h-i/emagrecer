@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { MacroSplit } from './MacroSplit';
-import { PlanSchemaType } from './schemas/Plan.schema';
+import { PlanSchemaType } from './schemas';
 
 @Entity()
 export class MealPlan {

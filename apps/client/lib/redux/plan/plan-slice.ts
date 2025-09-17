@@ -6,8 +6,10 @@ import {
 } from '@reduxjs/toolkit';
 import {
   MacroSplit,
+  mealSlotSchemaWithRecipe,
   MealType,
   planSchema,
+  RecipeSchemaType,
 } from '@emagrecer/storage';
 import { z } from 'zod';
 
@@ -16,15 +18,8 @@ type SlotKey = `${number}:${MealType}`; // e.g. "2:dinner"
 export interface Slot {
   day: number;
   meal: MealType;
-  recipe?: {
-    id: string;
-    title: string;
-    kcalPerServing: number;
-    protein: number;
-    carbs: number;
-    fat: number;
-  };
-  servings: number;
+  recipe: RecipeSchemaType;
+  servings: string;
 }
 
 export interface PlanState {
@@ -57,7 +52,7 @@ export const ensurePlan = createAsyncThunk(
     const json = await res.json();
     const dataSchema = z.object({
       plan: planSchema,
-      created: z.boolean()
+      created: z.boolean(),
     });
     return dataSchema.parse(json);
   },
@@ -66,11 +61,17 @@ export const ensurePlan = createAsyncThunk(
 export const loadSlots = createAsyncThunk(
   'plan/loadSlots',
   async (planId: string) => {
-    const res = await fetch(`/api/plan/slots?planId=${planId}`, {
+    const res = await fetch(`/api/plan/${planId}/slots`, {
       cache: 'no-store',
     });
     if (!res.ok) throw new Error('loadSlots failed');
-    return (await res.json()) as { slots: Slot[] };
+    const json = await res.json();
+    const dataSchema = z
+      .object({
+        slots: z.array(mealSlotSchemaWithRecipe),
+      })
+      .strict();
+    return dataSchema.parse(json);
   },
 );
 
@@ -129,20 +130,19 @@ const planSlice = createSlice({
       s.error = a.error.message;
     });
 
-    b.addCase(loadSlots.fulfilled, (s, a) => {
+    b.addCase(loadSlots.fulfilled, (state, action) => {
       const map: Record<SlotKey, Slot> = {};
-      for (const slot of a.payload.slots) {
+      for (const slot of action.payload.slots) {
         map[`${slot.day}:${slot.meal}`] = slot;
       }
-      s.slotsByKey = map;
+      state.slotsByKey = map;
     });
 
-    b.addCase(setSlot.fulfilled, (s, a) => {
-      const { day, meal, servings, recipeId } = a.payload;
+    b.addCase(setSlot.fulfilled, (state, action) => {
+      const { day, meal, servings, recipeId } = action.payload;
       const key = `${day}:${meal}` as SlotKey;
-      // optimistic: we don’t know full recipe macros here unless you return them; up to you.
-      const existing = s.slotsByKey[key];
-      s.slotsByKey[key] = {
+      const existing = state.slotsByKey[key];
+      state.slotsByKey[key] = {
         day,
         meal,
         servings,
@@ -162,36 +162,32 @@ const planSlice = createSlice({
 export const { setSelectedDay } = planSlice.actions;
 export default planSlice.reducer;
 
-// Selectors
-export const selectPlan = (s: { plan: PlanState }) => s.plan;
-export const selectDayTotals = (day: number) =>
-  createSelector(selectPlan, (p) => {
-    let kcal = 0,
-      protein = 0,
-      carbs = 0,
-      fat = 0;
-    for (const slot of Object.values(p.slotsByKey)) {
-      if (slot.day !== day || !slot.recipe) continue;
-      const servings = slot.servings ?? 1;
-      kcal += Math.round(slot.recipe.kcalPerServing * servings);
-      protein += slot.recipe.protein * servings;
-      carbs += slot.recipe.carbs * servings;
-      fat += slot.recipe.fat * servings;
-    }
-    return { kcal, protein, carbs, fat };
-  });
-export const selectWeekTotals = createSelector(selectPlan, (p) => {
+function macroTotalsFromSlots(slots: Slot[]) {
   let kcal = 0,
     protein = 0,
     carbs = 0,
     fat = 0;
-  for (const slot of Object.values(p.slotsByKey)) {
-    if (!slot.recipe) continue;
-    const servings = slot.servings ?? 1;
-    kcal += Math.round(slot.recipe.kcalPerServing * servings);
-    protein += slot.recipe.protein * servings;
-    carbs += slot.recipe.carbs * servings;
-    fat += slot.recipe.fat * servings;
+
+  for (const slot of slots) {
+    const servings = parseFloat(slot.servings);
+    kcal += Math.round(slot.recipe.kcal_per_serving * servings);
+    protein += slot.recipe.protein_g_per_serving * servings;
+    carbs += slot.recipe.carbs_g_per_serving * servings;
+    fat += slot.recipe.fat_g_per_serving * servings;
   }
   return { kcal, protein, carbs, fat };
+}
+
+// Selectors
+export const selectPlan = (s: { plan: PlanState }) => s.plan;
+export const selectDayTotals = (day: number) =>
+  createSelector(selectPlan, (state) => {
+    const slots = Object.values(state.slotsByKey).filter(
+      (slot) => slot.day == day,
+    );
+    return macroTotalsFromSlots(slots);
+  });
+export const selectWeekTotals = createSelector(selectPlan, (p) => {
+  const slots = Object.values(p.slotsByKey);
+  return macroTotalsFromSlots(slots);
 });

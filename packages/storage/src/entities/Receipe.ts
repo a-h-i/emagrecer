@@ -51,4 +51,26 @@ export class Recipe {
 
   @Column({ type: 'timestamp', default: () => 'now()' })
   updated_at!: Date;
+
+
+
+  serialize() {
+    return {
+      id: this.id,
+      title_en: this.title_en,
+      title_pt: this.title_pt,
+      slug: this.slug,
+      servings: this.servings,
+      instructions_md_en: this.instructions_md_en,
+      instructions_md_pt: this.instructions_md_pt,
+      tags: this.tags,
+      kcal_per_serving: this.kcal_per_serving,
+      protein_g_per_serving: this.protein_g_per_serving,
+      carbs_g_per_serving: this.carbs_g_per_serving,
+      fat_g_per_serving: this.fat_g_per_serving,
+      created_by_user_id: this.created_by_user_id,
+      created_at: this.created_at.toISOString(),
+      updated_at: this.updated_at.toISOString(),
+    }
+  }
 }

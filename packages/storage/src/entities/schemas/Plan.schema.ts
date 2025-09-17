@@ -9,6 +9,6 @@ export const planSchema = z.object({
   macro_split: macroSplitSchema.nullish(),
   created_at: z.iso.datetime(),
   updated_at: z.iso.datetime(),
-});
+}).strict();
 
 export type PlanSchemaType = z.infer<typeof planSchema>;

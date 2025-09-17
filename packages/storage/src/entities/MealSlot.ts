@@ -1,5 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
 import { MealType } from './MealType';
+import { Recipe } from './Receipe';
 
 @Entity({
   name: 'meal_slot',
@@ -31,4 +38,22 @@ export class MealSlot {
 
   @Column({ type: 'timestamp', default: () => 'now()' })
   updated_at!: Date;
+
+  @OneToOne("Recipe")
+  @JoinColumn('recipe_id')
+  recipe!: Promise<Recipe>;
+
+
+  serialize(): MealSlotSchemaType {
+    return {
+      id: this.id,
+      plan_id: this.plan_id,
+      day: this.day,
+      meal: this.meal,
+      recipe_id: this.recipe_id,
+      servings: this.servings,
+      created_at: this.created_at.toISOString(),
+      updated_at: this.updated_at.toISOString(),
+    }
+  }
 }

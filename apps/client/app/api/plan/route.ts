@@ -4,7 +4,9 @@ import { auth } from '@/auth';
 import { getDS } from '@/lib/getDS';
 import { getOrCreatePlan } from '@emagrecer/control';
 
-
+/**
+ * Gets or creates a plan for the requested week.
+ */
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
   const weekIso = z.iso.datetime().parse(searchParams.get('week'));
