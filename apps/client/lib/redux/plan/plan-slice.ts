@@ -6,6 +6,7 @@ import {
 } from '@reduxjs/toolkit';
 import {
   MacroSplit,
+  MealSlotSchemaType,
   mealSlotSchemaWithRecipe,
   MealType,
   planSchema,
@@ -77,30 +78,34 @@ export const loadSlots = createAsyncThunk(
 
 export const setSlot = createAsyncThunk(
   'plan/setSlot',
-  async (args: {
-    planId: string;
-    day: number;
-    meal: MealType;
-    recipeId: string;
-    servings: number;
-  }) => {
-    const res = await fetch(`/api/plan/slots`, {
+  async (slot: MealSlotSchemaType) => {
+    const res = await fetch(`/api/plan/${slot.plan_id}/slots`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify(args),
+      body: JSON.stringify(slot),
     });
-    if (!res.ok) throw new Error('setSlot failed');
-    return args;
+    if (!res.ok) {
+      throw new Error('setSlot failed');
+    }
+
+    const json = await res.json();
+    const dataSchema = z
+      .object({
+        slot: mealSlotSchemaWithRecipe,
+      })
+      .strict();
+    return dataSchema.parse(json);
   },
 );
 
 export const clearSlot = createAsyncThunk(
   'plan/clearSlot',
-  async (args: { planId: string; day: number; meal: MealType }) => {
-    const url = `/api/plan/slots?planId=${args.planId}&day=${args.day}&meal=${args.meal}`;
+  async (args: { planId: string; slotId: string }) => {
+    const url = `/api/plan/${args.planId}/slots/${args.slotId}`;
     const res = await fetch(url, { method: 'DELETE' });
-    if (!res.ok) throw new Error('clearSlot failed');
-    return args;
+    if (!res.ok) {
+      throw new Error('clearSlot failed');
+    }
   },
 );
 
