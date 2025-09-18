@@ -63,7 +63,7 @@ export async function POST(
     );
   }
 
-  const slot = await createSlot(source.manager, parseResult.data, plan);
+  const slot = await createSlot(source.manager, parseResult.data);
   const serializedSlot = slot.serialize();
   const recipe = await slot.recipe;
   const serializedData = {

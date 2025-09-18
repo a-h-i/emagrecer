@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import { getDS } from '@/lib/getDS';
 import { deleteSlot, ForbiddenError } from '@emagrecer/control';
+import { EntityNotFoundError } from 'typeorm';
 
 export async function DELETE(
   _req: NextRequest,
@@ -23,6 +24,9 @@ export async function DELETE(
   } catch (err) {
     if (err instanceof ForbiddenError) {
       return NextResponse.json({error: "forbidden"}, {status: 403});
+    }
+    if (err instanceof EntityNotFoundError) {
+      return NextResponse.json({error: 'not found'}, {status: 404});
     }
     return NextResponse.json({error: 'unknown error'}, {status: 500});
   }

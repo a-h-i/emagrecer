@@ -16,9 +16,9 @@ export default function PlanContent(props: PlanContentProps) {
 
   useEffect(() => {
     (async () => {
-      const res = await dispatch(ensurePlan(props.weekStart));
-      if (res.payload?.id) {
-        await dispatch(loadSlots(res.payload.id));
+      const action = await dispatch(ensurePlan(props.weekStart));
+      if (action.payload.plan.id) {
+        await dispatch(loadSlots(action.payload.plan.id));
       }
     })();
   }, [dispatch, props.weekStart]);
