@@ -29,9 +29,7 @@ export default function PlanContent(props: PlanContentProps) {
         <MacroSummary />
         {/*<PlanGrid />*/}
       </div>
-      <aside className='h-fit lg:sticky lg:top-6'>
-        {/*<RecipePanel />*/}
-      </aside>
+      <aside className='h-fit lg:sticky lg:top-6'>{/*<RecipePanel />*/}</aside>
     </div>
   );
 }

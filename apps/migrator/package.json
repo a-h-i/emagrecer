@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "dist/src/index.js",
-  "type": "module",
   "scripts": {
     "lint": "eslint .",
     "build": "tsc",
@@ -19,8 +18,14 @@
     "dotenv": "^16.4.7"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "catalog:",
+    "@next/eslint-plugin-next": "catalog:",
+    "@types/node": "catalog:",
+    "@typescript-eslint/eslint-plugin": "^8.44.0",
     "eslint": "catalog:",
+    "eslint-config-next": "catalog:",
     "prettier": "catalog:",
+    "ts-node": "catalog:",
     "typescript": "catalog:",
     "typescript-eslint": "catalog:"
   }

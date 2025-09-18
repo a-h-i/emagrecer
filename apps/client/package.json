@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "catalog:",
-    "@next/eslint-plugin-next": "^15.5.3",
+    "@next/eslint-plugin-next": "catalog:",
     "@tailwindcss/postcss": "^4",
     "@types/lodash": "^4.17.20",
     "@types/node": "catalog:",

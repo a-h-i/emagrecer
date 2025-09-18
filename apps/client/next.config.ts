@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
   serverExternalPackages: ['typeorm'],
   experimental: {
     authInterrupts: true,
-  }
+  },
 };
 
 const withNextIntl = createNextIntlPlugin();

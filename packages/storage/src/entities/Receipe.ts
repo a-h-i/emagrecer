@@ -52,8 +52,6 @@ export class Recipe {
   @Column({ type: 'timestamp', default: () => 'now()' })
   updated_at!: Date;
 
-
-
   serialize() {
     return {
       id: this.id,
@@ -71,6 +69,6 @@ export class Recipe {
       created_by_user_id: this.created_by_user_id,
       created_at: this.created_at.toISOString(),
       updated_at: this.updated_at.toISOString(),
-    }
+    };
   }
 }

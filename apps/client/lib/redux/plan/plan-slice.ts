@@ -16,8 +16,6 @@ import { z } from 'zod';
 
 type SlotKey = `${number}:${MealType}`; // e.g. "2:dinner"
 
-
-
 export interface PlanState {
   planId?: string;
   weekStart: string;

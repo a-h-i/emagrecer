@@ -13,7 +13,9 @@ export async function deleteSlot(
     user_id: userId,
   });
   if (plan == null) {
-    throw new ForbiddenError(`Plan#${planId} belonging to user#${userId} not found`);
+    throw new ForbiddenError(
+      `Plan#${planId} belonging to user#${userId} not found`,
+    );
   }
   const deleted = await manager.delete(MealSlot, slotId);
   if (deleted.affected === 0) {

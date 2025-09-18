@@ -20,14 +20,14 @@ export async function DELETE(
     await source.manager.transaction(async (transaction) => {
       await deleteSlot(transaction, slotId, userId, planId);
     });
-    return NextResponse.json({success: true});
+    return NextResponse.json({ success: true });
   } catch (err) {
     if (err instanceof ForbiddenError) {
-      return NextResponse.json({error: "forbidden"}, {status: 403});
+      return NextResponse.json({ error: 'forbidden' }, { status: 403 });
     }
     if (err instanceof EntityNotFoundError) {
-      return NextResponse.json({error: 'not found'}, {status: 404});
+      return NextResponse.json({ error: 'not found' }, { status: 404 });
     }
-    return NextResponse.json({error: 'unknown error'}, {status: 500});
+    return NextResponse.json({ error: 'unknown error' }, { status: 500 });
   }
 }

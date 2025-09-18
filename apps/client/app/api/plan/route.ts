@@ -13,11 +13,15 @@ export async function GET(req: NextRequest) {
   const week = new Date(weekIso);
   const session = await auth();
   if (session?.user?.id == null) {
-    return NextResponse.json({error: 'unauthorized'}, { status: 401 });
+    return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
   }
   const source = await getDS();
-  const {plan, created} = await getOrCreatePlan(source, session.user.id, week);
+  const { plan, created } = await getOrCreatePlan(
+    source,
+    session.user.id,
+    week,
+  );
 
   const serializedPln = plan.serialize();
-  return NextResponse.json({plan: serializedPln, created});
+  return NextResponse.json({ plan: serializedPln, created });
 }
