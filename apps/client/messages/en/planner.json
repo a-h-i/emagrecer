@@ -11,7 +11,8 @@
       "breakfast": "Breakfast",
       "lunch": "Lunch",
       "dinner": "Dinner",
-      "snack": "Snack"
+      "snack": "Snack",
+      "dessert": "Dessert"
     },
     "daysShort": {
       "0": "Mon",
@@ -40,7 +41,8 @@
       "carbs": "Carbs",
       "fat": "Fat",
       "target": "Target",
-      "remaining": "Remaining"
+      "remaining": "Remaining",
+      "serving": "serving"
     },
     "slot": {
       "empty": "Add a recipe",

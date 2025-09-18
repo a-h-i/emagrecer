@@ -14,7 +14,7 @@ import {
 } from '@emagrecer/storage';
 import { z } from 'zod';
 
-type SlotKey = `${number}:${MealType}`; // e.g. "2:dinner"
+export type SlotKey = `${number}:${MealType}`; // e.g. "2:dinner"
 
 export interface PlanState {
   planId?: string;

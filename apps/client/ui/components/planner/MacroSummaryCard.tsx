@@ -16,16 +16,16 @@ interface MacroSummaryCardProps {
 
 function MacroMetric(props: MacroMetric) {
   const format = useFormatter();
-  const value = format.number(props.value, { style: 'unit', unit: props.unit });
+  const value = format.number(props.value, { style: 'decimal' }) + ' ' + props.unit;
   const target = props.target
-    ? format.number(props.target, { style: 'unit', unit: props.unit })
+    ? format.number(props.target, { style: 'decimal' }) + ' ' + props.unit
     : null;
   const pct = props.target
     ? Math.max(0, Math.min(100, (props.value / props.target) * 100))
     : null;
   const remaining = props.target ? props.target - props.value : null;
   const formattedRemaining = remaining
-    ? format.number(Math.abs(remaining), { style: 'unit', unit: props.unit })
+    ? format.number(Math.abs(remaining), { style: 'decimal' }) + ' ' + props.unit
     : null;
 
   return (

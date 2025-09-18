@@ -1,4 +1,4 @@
-import { z } from 'zod/index';
+import { z } from 'zod';
 import { macroSplitSchema } from './MacroSplit.schema';
 
 export const planSchema = z

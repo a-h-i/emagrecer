@@ -45,19 +45,19 @@ export default function MacroSummary() {
             label: t('summary.protein'),
             value: dayTotals.protein,
             target: dailyTargets?.protein_g,
-            unit: 'g',
+            unit: 'grams',
           },
           {
             label: t('summary.carbs'),
             value: dayTotals.carbs,
             target: dailyTargets?.carbs_g,
-            unit: 'g',
+            unit: 'grams',
           },
           {
             label: t('summary.fat'),
             value: dayTotals.fat,
             target: dailyTargets?.fat_g,
-            unit: 'g',
+            unit: 'grams',
           },
         ]}
       />
@@ -75,19 +75,19 @@ export default function MacroSummary() {
             label: t('summary.protein'),
             value: weekTotals.protein,
             target: weekTargets?.protein_g,
-            unit: 'g',
+            unit: 'grams',
           },
           {
             label: t('summary.carbs'),
             value: weekTotals.carbs,
             target: weekTargets?.carbs_g,
-            unit: 'g',
+            unit: 'grams',
           },
           {
             label: t('summary.fat'),
             value: weekTotals.fat,
             target: weekTargets?.fat_g,
-            unit: 'g',
+            unit: 'grams',
           },
         ]}
       />
