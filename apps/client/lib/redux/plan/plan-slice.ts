@@ -7,28 +7,23 @@ import {
 import {
   MacroSplit,
   MealSlotSchemaType,
+  MealSlotSchemaTypeWithRecipe,
   mealSlotSchemaWithRecipe,
   MealType,
   planSchema,
-  RecipeSchemaType,
 } from '@emagrecer/storage';
 import { z } from 'zod';
 
 type SlotKey = `${number}:${MealType}`; // e.g. "2:dinner"
 
-export interface Slot {
-  day: number;
-  meal: MealType;
-  recipe: RecipeSchemaType;
-  servings: string;
-}
+
 
 export interface PlanState {
   planId?: string;
   weekStart: string;
   kcalTarget?: number | null;
   macroSplit?: MacroSplit | null;
-  slotsByKey: Record<SlotKey, Slot>;
+  slotsByKey: Record<SlotKey, MealSlotSchemaTypeWithRecipe>;
   status: 'idle' | 'loading' | 'ready' | 'error';
   error?: string;
   selectedDay: number; // 0..6
@@ -100,12 +95,13 @@ export const setSlot = createAsyncThunk(
 
 export const clearSlot = createAsyncThunk(
   'plan/clearSlot',
-  async (args: { planId: string; slotId: string }) => {
-    const url = `/api/plan/${args.planId}/slots/${args.slotId}`;
+  async (slot: MealSlotSchemaType) => {
+    const url = `/api/plan/${slot.plan_id}/slots/${slot.id}`;
     const res = await fetch(url, { method: 'DELETE' });
     if (!res.ok) {
       throw new Error('clearSlot failed');
     }
+    return slot;
   },
 );
 
@@ -136,7 +132,7 @@ const planSlice = createSlice({
     });
 
     b.addCase(loadSlots.fulfilled, (state, action) => {
-      const map: Record<SlotKey, Slot> = {};
+      const map: Record<SlotKey, MealSlotSchemaTypeWithRecipe> = {};
       for (const slot of action.payload.slots) {
         map[`${slot.day}:${slot.meal}`] = slot;
       }
@@ -144,18 +140,8 @@ const planSlice = createSlice({
     });
 
     b.addCase(setSlot.fulfilled, (state, action) => {
-      const { day, meal, servings, recipeId } = action.payload;
-      const key = `${day}:${meal}` as SlotKey;
-      const existing = state.slotsByKey[key];
-      state.slotsByKey[key] = {
-        day,
-        meal,
-        servings,
-        recipe:
-          existing?.recipe && existing.recipe.id === recipeId
-            ? existing.recipe
-            : existing?.recipe, // keep if unchanged
-      };
+      const key: SlotKey = `${action.payload.slot.day}:${action.payload.slot.meal}`;
+      state.slotsByKey[key] = action.payload.slot;
     });
 
     b.addCase(clearSlot.fulfilled, (s, a) => {
@@ -167,7 +153,7 @@ const planSlice = createSlice({
 export const { setSelectedDay } = planSlice.actions;
 export default planSlice.reducer;
 
-function macroTotalsFromSlots(slots: Slot[]) {
+function macroTotalsFromSlots(slots: MealSlotSchemaTypeWithRecipe[]) {
   let kcal = 0,
     protein = 0,
     carbs = 0,
