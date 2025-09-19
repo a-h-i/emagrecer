@@ -9,15 +9,15 @@ export class CreateRecipe1755993148327 implements MigrationInterface {
           title_en              text          NOT NULL,
           title_pt              text          NOT NULL,
           slug                  text          not null,
-          servings              int           not null default 2,
+          servings              double precision           not null default 1,
           instructions_md_en    text,
           instructions_md_pt    text,
-          tags                  text[]        not null default '{}',
           kcal_per_serving      int           not null,
           protein_g_per_serving numeric(6, 2) not null,
           carbs_g_per_serving   numeric(6, 2) not null,
           fat_g_per_serving     numeric(6, 2) not null,
           created_by_user_id    uuid references users (id) on delete set null on update cascade,
+          estimated_cook_time_s int not null,
           created_at            timestamptz   NOT NULL DEFAULT now(),
           updated_at            timestamptz   NOT NULL DEFAULT now()
         );

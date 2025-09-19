@@ -1,3 +1,4 @@
+'use client';
 import {
   createAsyncThunk,
   createSlice,
@@ -118,9 +119,7 @@ const planSlice = createSlice({
       const key: SlotKey = `${action.payload.day}:${action.payload.meal}`;
       if (key in state.slotsByKey && action.payload.increment >= 0) {
         const slot = state.slotsByKey[key];
-        const servings = parseFloat(slot.servings);
-        const newServings = servings + action.payload.increment;
-        slot.servings = newServings.toFixed(2);
+        slot.servings = slot.servings + action.payload.increment;
       }
     },
     decrementSlotServings(state, action: PayloadAction<{
@@ -131,9 +130,8 @@ const planSlice = createSlice({
       const key: SlotKey = `${action.payload.day}:${action.payload.meal}`;
       if (key in state.slotsByKey && action.payload.decrement >= 0) {
         const slot = state.slotsByKey[key];
-        const servings = parseFloat(slot.servings);
-        const newServings = Math.max(0, servings - action.payload.decrement);
-        slot.servings = newServings.toFixed(2);
+        const servings = slot.servings;
+        slot.servings = Math.max(0, servings - action.payload.decrement);
       }
     }
   },
@@ -184,7 +182,7 @@ function macroTotalsFromSlots(slots: MealSlotSchemaTypeWithRecipe[]) {
     fat = 0;
 
   for (const slot of slots) {
-    const servings = parseFloat(slot.servings);
+    const servings = slot.servings;
     kcal += Math.round(slot.recipe.kcal_per_serving * servings);
     protein += slot.recipe.protein_g_per_serving * servings;
     carbs += slot.recipe.carbs_g_per_serving * servings;

@@ -9,7 +9,7 @@ export const mealSlotSchema = z
     day: z.number().min(0).max(6),
     meal: z.enum(MealType),
     recipe_id: z.string(),
-    servings: z.string(),
+    servings: z.number().min(1),
     created_at: z.iso.datetime(),
     updated_at: z.iso.datetime(),
   })

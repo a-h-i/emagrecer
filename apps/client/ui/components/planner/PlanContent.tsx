@@ -5,6 +5,7 @@ import { ensurePlan, loadSlots } from '@/lib/redux/plan/plan-slice';
 import { useEffect } from 'react';
 import MacroSummary from '@/ui/components/planner/MacroSummary';
 import PlanGrid from '@/ui/components/planner/PlanGrid';
+import RecipePanel from '@/ui/components/planner/RecipePanel';
 
 interface PlanContentProps {
   weekStart: Date;
@@ -28,7 +29,7 @@ export default function PlanContent(props: PlanContentProps) {
         <MacroSummary />
         <PlanGrid onRecipeAdd={() => true}/>
       </div>
-      <aside className='h-fit lg:sticky lg:top-6'>{/*<RecipePanel />*/}</aside>
+      <aside className='h-fit lg:sticky lg:top-6'><RecipePanel /></aside>
     </div>
   );
 }

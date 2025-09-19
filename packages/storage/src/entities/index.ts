@@ -3,11 +3,13 @@ import { Ingredient } from './Ingredient';
 import { MealPlan } from './MealPlan';
 import { MealSlot } from './MealSlot';
 import { Product } from './Product';
-import { Recipe } from './Receipe';
+import { Recipe } from './Recipe';
 import { RecipeIngredient } from './ReceipeIngredient';
 import { Store } from './Store';
 import { UserPriceOverride } from './UserPriceOverride';
 import { UserProfile } from './UserProfile';
+import { RecipeTag } from './RecipeTag';
+import { RecipeTagsRelation } from './RecipeTagsRelation';
 
 export * from './MacroSplit';
 export * from './NutritionInfo';
@@ -21,11 +23,13 @@ export * from './Ingredient';
 export * from './MealPlan';
 export * from './MealSlot';
 export * from './Product';
-export * from './Receipe';
+export * from './Recipe';
 export * from './ReceipeIngredient';
 export * from './Store';
 export * from './UserPriceOverride';
 export * from './UserProfile';
+export * from './RecipeTag';
+export * from './RecipeTagsRelation';
 
 export const entities = [
   Aisle,
@@ -38,6 +42,8 @@ export const entities = [
   Store,
   UserPriceOverride,
   UserProfile,
+  RecipeTag,
+  RecipeTagsRelation
 ];
 
 export * from './schemas';

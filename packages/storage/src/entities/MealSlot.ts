@@ -6,7 +6,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { MealType } from './MealType';
-import { Recipe } from './Receipe';
+import { Recipe } from './Recipe';
 import { MealSlotSchemaType } from './schemas';
 
 @Entity({
@@ -31,8 +31,8 @@ export class MealSlot {
   @Column({ type: 'uuid' })
   recipe_id!: string;
 
-  @Column({ type: 'numeric', precision: 5, scale: 2, default: 1 })
-  servings!: string;
+  @Column({ type: 'double precision', default: 1 })
+  servings!: number;
 
   @Column({ type: 'timestamp', default: () => 'now()' })
   created_at!: Date;

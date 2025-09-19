@@ -193,16 +193,20 @@ function FilledCell(props: FilledCellProps) {
   const kcal = useMemo(() => {
     return format.number(props.slot.recipe.kcal_per_serving, {
       style: 'decimal',
+      maximumFractionDigits: 2,
     });
   }, [format, props.slot.recipe.kcal_per_serving]);
   const totalKCals = useMemo(() => {
     return format.number(
       Math.round(
-        props.slot.recipe.kcal_per_serving * parseFloat(props.slot.servings),
+        props.slot.recipe.kcal_per_serving * props.slot.servings,
       ),
-      { style: 'decimal' },
+      { style: 'decimal', maximumFractionDigits: 2 },
     );
   }, [format, props.slot.recipe.kcal_per_serving, props.slot.servings]);
+  const formattedServings = useMemo(() => {
+    return format.number(props.slot.servings, { style: 'decimal', maximumFractionDigits: 2 });
+  }, [format,props.slot.servings]);
   return (
     <div className='flex h-full flex-col rounded-xl border border-neutral-200 p-2'>
       <div className='flex items-start justify-between gap-2'>
@@ -242,7 +246,7 @@ function FilledCell(props: FilledCellProps) {
             –
           </button>
           <span className='px-2 text-sm tabular-nums'>
-            {props.slot.servings} {t('slot.servings')} ×
+            {formattedServings} {t('slot.servings')} ×
           </span>
           <button
             onClick={props.onInc}
