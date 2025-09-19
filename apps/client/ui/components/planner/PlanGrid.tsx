@@ -4,6 +4,9 @@ import { MealSlotSchemaTypeWithRecipe, MealType } from '@emagrecer/storage';
 import { useFormatter, useLocale, useTranslations } from 'next-intl';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import {
+  clearSlot,
+  decrementSlotServings,
+  incrementSlotServings,
   selectPlan,
   setSelectedDay,
   SlotKey,
@@ -60,11 +63,11 @@ export default function PlanGrid(props: PlanGridProps) {
         {/* Row for each meal type */}
         {MEALS.map((meal) => (
           <Row
-          key={meal}
-          meal={meal}
-          label={t(`meals.${meal}`)}
-          selectedDay={plan.selectedDay}
-          onRecipeAdd={props.onRecipeAdd}
+            key={meal}
+            meal={meal}
+            label={t(`meals.${meal}`)}
+            selectedDay={plan.selectedDay}
+            onRecipeAdd={props.onRecipeAdd}
           />
         ))}
       </div>
@@ -80,22 +83,22 @@ interface RowProps {
 }
 function Row(props: RowProps) {
   const slotsByKey = useAppSelector((state) => state.plan.slotsByKey);
+  const dispatch = useAppDispatch();
   return (
     <>
       {/* sticky meal label */}
-      <div className="sticky left-0 z-10 bg-white p-3 text-sm font-medium text-neutral-700">
+      <div className='sticky left-0 z-10 bg-white p-3 text-sm font-medium text-neutral-700'>
         {props.label}
       </div>
 
       {/* 7 day cells */}
       {Array.from({ length: 7 }, (_, dayIndex) => {
         const slotKey = `${dayIndex}:${props.meal}`;
-        const slot = slotKey in slotsByKey ? slotsByKey[slotKey as SlotKey] : null;
+        const slot =
+          slotKey in slotsByKey ? slotsByKey[slotKey as SlotKey] : null;
         const isSelectedDay = props.selectedDay === dayIndex;
         const baseCell =
           'min-h-24 border-t border-neutral-100 p-2 text-sm outline-none';
-
-
 
         return (
           <div
@@ -105,17 +108,39 @@ function Row(props: RowProps) {
               'bg-white': !isSelectedDay,
             })}
           >
-            {slot == null ? <EmptyCell onRecipeAdd={() => props.onRecipeAdd(dayIndex, props.meal)} />
-              : <FilledCell
-                  slot={slot}
-              />}
-
+            {slot == null ? (
+              <EmptyCell
+                onRecipeAdd={() => props.onRecipeAdd(dayIndex, props.meal)}
+              />
+            ) : (
+              <FilledCell
+                slot={slot}
+                onInc={() =>
+                  dispatch(
+                    incrementSlotServings({
+                      meal: slot.meal,
+                      day: slot.day,
+                      increment: 1,
+                    }),
+                  )
+                }
+                onDec={() =>
+                  dispatch(
+                    decrementSlotServings({
+                      meal: slot.meal,
+                      day: slot.day,
+                      decrement: 1,
+                    }),
+                  )
+                }
+                onClear={() => dispatch(clearSlot(slot))}
+              />
+            )}
           </div>
         );
-
       })}
     </>
-  )
+  );
 }
 
 interface EmptyCellProps {
@@ -129,80 +154,107 @@ function EmptyCell(props: EmptyCellProps) {
       onClick={props.onRecipeAdd}
       className={clsx(
         'flex w-full items-center justify-center rounded-xl border border-dashed border-neutral-300',
-        'px-3 py-6 text-neutral-500 hover:border-neutral-400 hover:bg-neutral-50'
+        'px-3 py-6 text-neutral-500 hover:border-neutral-400 hover:bg-neutral-50',
       )}
       title={t('slot.empty')}
     >
-      <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden className="mr-2">
-        <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <svg
+        width='16'
+        height='16'
+        viewBox='0 0 24 24'
+        aria-hidden
+        className='mr-2'
+      >
+        <path
+          d='M12 5v14M5 12h14'
+          stroke='currentColor'
+          strokeWidth='2'
+          strokeLinecap='round'
+        />
       </svg>
       {t('slot.empty')}
     </button>
   );
 }
 
-
 interface FilledCellProps {
-  slot: MealSlotSchemaTypeWithRecipe,
+  slot: MealSlotSchemaTypeWithRecipe;
   onClear: () => void;
   onDec: () => void;
   onInc: () => void;
 }
 
 function FilledCell(props: FilledCellProps) {
-  const locale = useLocale() as typeof LOCALES[number];
-  const title = locale === 'pt' ? props.slot.recipe.title_pt : props.slot.recipe.title_en;
+  const locale = useLocale() as (typeof LOCALES)[number];
+  const title =
+    locale === 'pt' ? props.slot.recipe.title_pt : props.slot.recipe.title_en;
   const format = useFormatter();
   const t = useTranslations('Planner');
   const kcal = useMemo(() => {
-    return format.number(props.slot.recipe.kcal_per_serving, { style: 'decimal' });
+    return format.number(props.slot.recipe.kcal_per_serving, {
+      style: 'decimal',
+    });
   }, [format, props.slot.recipe.kcal_per_serving]);
   const totalKCals = useMemo(() => {
-    return format.number(Math.round(props.slot.recipe.kcal_per_serving * parseFloat(props.slot.servings)), { style: 'decimal' })
+    return format.number(
+      Math.round(
+        props.slot.recipe.kcal_per_serving * parseFloat(props.slot.servings),
+      ),
+      { style: 'decimal' },
+    );
   }, [format, props.slot.recipe.kcal_per_serving, props.slot.servings]);
   return (
-    <div className="flex h-full flex-col rounded-xl border border-neutral-200 p-2">
-      <div className="flex items-start justify-between gap-2">
-        <div className="min-w-0">
-          <p className="truncate text-sm font-medium text-neutral-900">{title}</p>
-          <p className="mt-0.5 text-xs text-neutral-500">
+    <div className='flex h-full flex-col rounded-xl border border-neutral-200 p-2'>
+      <div className='flex items-start justify-between gap-2'>
+        <div className='min-w-0'>
+          <p className='truncate text-sm font-medium text-neutral-900'>
+            {title}
+          </p>
+          <p className='mt-0.5 text-xs text-neutral-500'>
             ≈{kcal} {t('summary.kcalUnit')} / {t('summary.serving')}
           </p>
         </div>
         <button
           onClick={props.onClear}
-          className="rounded-lg p-1 text-neutral-400 hover:bg-neutral-100 hover:text-neutral-700"
-          aria-label="Clear slot"
-          title="Clear"
+          className='rounded-lg p-1 text-neutral-400 hover:bg-neutral-100 hover:text-neutral-700'
+          aria-label='Clear slot'
+          title='Clear'
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden>
-            <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+          <svg width='16' height='16' viewBox='0 0 24 24' aria-hidden>
+            <path
+              d='M6 6l12 12M18 6L6 18'
+              stroke='currentColor'
+              strokeWidth='2'
+              strokeLinecap='round'
+            />
           </svg>
         </button>
       </div>
 
-      <div className="mt-2 flex items-center justify-between">
-        <div className="inline-flex items-center gap-1 rounded-lg border border-neutral-200">
+      <div className='mt-2 flex items-center justify-between'>
+        <div className='inline-flex items-center gap-1 rounded-lg border border-neutral-200'>
           <button
             onClick={props.onDec}
-            className="px-2 py-1 text-neutral-700 hover:bg-neutral-100"
-            aria-label="Decrease servings"
-            title="–"
+            className='px-2 py-1 text-neutral-700 hover:bg-neutral-100'
+            aria-label='Decrease servings'
+            title='–'
           >
             –
           </button>
-          <span className="px-2 text-sm tabular-nums">{props.slot.servings} {t('slot.servings')} ×</span>
+          <span className='px-2 text-sm tabular-nums'>
+            {props.slot.servings} {t('slot.servings')} ×
+          </span>
           <button
             onClick={props.onInc}
-            className="px-2 py-1 text-neutral-700 hover:bg-neutral-100"
-            aria-label="Increase servings"
-            title="+"
+            className='px-2 py-1 text-neutral-700 hover:bg-neutral-100'
+            aria-label='Increase servings'
+            title='+'
           >
             +
           </button>
         </div>
 
-        <span className="text-xs text-neutral-500">
+        <span className='text-xs text-neutral-500'>
           ≈ {totalKCals} {t('summary.kcalUnit')}
         </span>
       </div>
