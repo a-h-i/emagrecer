@@ -28,6 +28,7 @@ export async function DELETE(
     if (err instanceof EntityNotFoundError) {
       return NextResponse.json({ error: 'not found' }, { status: 404 });
     }
+    console.error(err);
     return NextResponse.json({ error: 'unknown error' }, { status: 500 });
   }
 }

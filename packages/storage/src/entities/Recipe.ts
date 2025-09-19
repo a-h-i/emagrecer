@@ -1,5 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm';
 import { RecipeSchemaType } from './schemas';
+import { RecipeTag } from './RecipeTag';
 
 @Entity({
   name: 'recipe',
@@ -44,7 +51,7 @@ export class Recipe {
   @Column({ type: 'uuid', nullable: true })
   created_by_user_id!: string | null;
 
-  @Column({type: 'int'})
+  @Column({ type: 'int' })
   estimated_cook_time_s!: number;
 
   @Column({ type: 'timestamp', default: () => 'now()' })
@@ -52,6 +59,21 @@ export class Recipe {
 
   @Column({ type: 'timestamp', default: () => 'now()' })
   updated_at!: Date;
+
+  @ManyToMany('RecipeTag')
+  @JoinTable({
+    name: 'recipe_tags_relation',
+    joinColumn: {
+      name: 'recipe_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'tag',
+      referencedColumnName: 'slug',
+    },
+    synchronize: false,
+  })
+  tags!: Promise<RecipeTag[]>;
 
   serialize(): RecipeSchemaType {
     return {
