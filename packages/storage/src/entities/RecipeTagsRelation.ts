@@ -1,7 +1,7 @@
 import { Column, Entity } from 'typeorm';
 import { RecipeTagsRelationSchemaType } from './schemas';
 
-@Entity('recipe_tags_relation')
+@Entity('recipe_tag_relation')
 export class RecipeTagsRelation {
   @Column({ type: 'text', primary: true })
   tag!: string;

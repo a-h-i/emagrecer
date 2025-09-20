@@ -4,12 +4,18 @@ import { MealPlan } from './MealPlan';
 import { MealSlot } from './MealSlot';
 import { Product } from './Product';
 import { Recipe } from './Recipe';
-import { RecipeIngredient } from './ReceipeIngredient';
+import { RecipeIngredient } from './RecipeIngredient';
 import { Store } from './Store';
 import { UserPriceOverride } from './UserPriceOverride';
 import { UserProfile } from './UserProfile';
 import { RecipeTag } from './RecipeTag';
 import { RecipeTagsRelation } from './RecipeTagsRelation';
+import {
+  UserEntity,
+  AccountEntity,
+  SessionEntity,
+  VerificationTokenEntity,
+} from './AuthEntities';
 
 export * from './MacroSplit';
 export * from './NutritionInfo';
@@ -24,12 +30,13 @@ export * from './MealPlan';
 export * from './MealSlot';
 export * from './Product';
 export * from './Recipe';
-export * from './ReceipeIngredient';
+export * from './RecipeIngredient';
 export * from './Store';
 export * from './UserPriceOverride';
 export * from './UserProfile';
 export * from './RecipeTag';
 export * from './RecipeTagsRelation';
+export * from './AuthEntities';
 
 export const entities = [
   Aisle,
@@ -43,7 +50,11 @@ export const entities = [
   UserPriceOverride,
   UserProfile,
   RecipeTag,
-  RecipeTagsRelation
+  RecipeTagsRelation,
+  UserEntity,
+  AccountEntity,
+  SessionEntity,
+  VerificationTokenEntity,
 ];
 
 export * from './schemas';

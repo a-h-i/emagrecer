@@ -4,3 +4,5 @@ export * from './MealSlot.schema';
 export * from './Recipe.schema';
 export * from './RecipeTag.schema';
 export * from './RecipeTagsRelation.schema';
+export * from './Ingredient.schema';
+export * from './NutritionInfo.schema';

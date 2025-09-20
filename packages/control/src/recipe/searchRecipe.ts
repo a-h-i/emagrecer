@@ -26,5 +26,5 @@ export async function searchRecipe(manager: EntityManager, filters: RecipeFilter
     .select('recipe')
     .from(Recipe, 'recipe')
   ;
-
+  throw new Error('Not implemented');
 }

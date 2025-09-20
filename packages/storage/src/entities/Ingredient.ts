@@ -2,6 +2,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { UnitEnum } from './UnitEnum';
 import type { NutritionInfo } from './NutritionInfo';
 import { Allergens } from './Allergens';
+import { IngredientSchemaType } from './schemas';
 
 @Entity({
   name: 'ingredient',
@@ -45,7 +46,7 @@ export class Ingredient {
     array: true,
     default: [],
   })
-  allergens!: string[];
+  allergens!: Allergens[];
 
   @Column({
     default: true,
@@ -58,4 +59,21 @@ export class Ingredient {
 
   @Column({ type: 'timestamp', default: () => 'now()' })
   updated_at!: Date;
+
+
+  serialize(): IngredientSchemaType {
+    return {
+      id: this.id,
+      name_en: this.name_en,
+      name_pt: this.name_pt,
+      aisle_slug: this.aisle_slug,
+      unit_base: this.unit_base,
+      density_g_per_ml: this.density_g_per_ml,
+      nutrition_per_100g: this.nutrition_per_100g,
+      allergens: this.allergens,
+      is_active: this.is_active,
+      created_at: this.created_at.toISOString(),
+      updated_at: this.updated_at.toISOString(),
+    }
+  }
 }

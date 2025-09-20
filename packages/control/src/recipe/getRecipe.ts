@@ -8,6 +8,7 @@ export async function getRecipe(manager: EntityManager, recipeId: string) {
     },
     relations: {
       tags: true,
+      ingredients: true,
     },
   });
 }

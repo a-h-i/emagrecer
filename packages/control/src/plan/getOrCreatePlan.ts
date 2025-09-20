@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm';
-import { MealPlan, UserProfile } from '@emagrecer/storage';
+import { MealPlan } from '@emagrecer/storage';
 import { getOrCreateProfileTx } from '../profile';
 
 export async function getOrCreatePlan(

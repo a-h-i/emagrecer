@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { UnitEnum } from './UnitEnum';
+import type { Recipe } from './Recipe';
 
 @Entity()
 export class RecipeIngredient {
@@ -32,4 +33,7 @@ export class RecipeIngredient {
 
   @Column({ type: 'timestamp', default: () => 'now()' })
   updated_at!: Date;
+
+  @ManyToOne("Recipe", (recipe: Recipe) => recipe.ingredients)
+  recipe!: Promise<Recipe>;
 }
