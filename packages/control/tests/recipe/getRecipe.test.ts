@@ -138,7 +138,6 @@ describe('getRecipe', () => {
     const ingredient2TotalCarbs = parseFloat(recipeIngredient2.quantity) * parseFloat(recipeIngredient2.unit_to_g) * ingredient2.nutrition_per_100g.carbs_g / 100;
     const ingredient2TotalFats = parseFloat(recipeIngredient2.quantity) * parseFloat(recipeIngredient2.unit_to_g) * ingredient2.nutrition_per_100g.fat_g / 100;
     const ingredient2TotalProtein = parseFloat(recipeIngredient2.quantity) * parseFloat(recipeIngredient2.unit_to_g) * ingredient2.nutrition_per_100g.protein_g / 100;
-    console.error(fetched);
     expect(fetched.kcal_per_serving).toBeCloseTo((ingredient1TotalKCal + ingredient2TotalKCal) / fetched.servings);
     expect(fetched.carbs_g_per_serving).toBeCloseTo((ingredient1TotalCarbs + ingredient2TotalCarbs) / fetched.servings);
     expect(fetched.fat_g_per_serving).toBeCloseTo((ingredient1TotalFats + ingredient2TotalFats) / fetched.servings);

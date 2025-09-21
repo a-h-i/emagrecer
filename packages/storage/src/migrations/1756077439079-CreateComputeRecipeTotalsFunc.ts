@@ -23,7 +23,7 @@ export class CreateComputeRecipeTotalsFunc1756077439079
         into kcal, protein, carbs, fat from items;
         
         update recipe set
-          kcal_per_serving = round(kcal / greatest(servings, 1)::numeric),
+          kcal_per_serving = round(kcal / greatest(servings, 1)::numeric, 2),
           protein_g_per_serving = round((protein / greatest(servings, 1))::numeric, 2),
           carbs_g_per_serving = round((carbs / greatest(servings, 1))::numeric, 2),
           fat_g_per_serving = round((fat / greatest(servings, 1)::numeric), 2)
