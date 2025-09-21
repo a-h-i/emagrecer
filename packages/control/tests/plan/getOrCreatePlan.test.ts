@@ -10,7 +10,6 @@ import {
 import { faker } from '@faker-js/faker';
 import { getOrCreatePlan } from '../../src';
 
-// Use the same helper that other tests rely on to get a ready DataSource and helpers
 
 describe('getOrCreatePlan', () => {
   let source: DataSource;
@@ -43,7 +42,7 @@ describe('getOrCreatePlan', () => {
     });
     await source.manager.save(user);
 
-    // Optionally create a profile with some defaults that should be copied to the plan
+    // create a profile with some defaults that should be copied to the plan
     const profileRepo = source.getRepository(UserProfile);
     await profileRepo.save(
       profileRepo.create({
