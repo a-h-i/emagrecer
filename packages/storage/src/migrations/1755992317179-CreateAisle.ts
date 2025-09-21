@@ -11,7 +11,6 @@ export class CreateAisle1755992317179 implements MigrationInterface {
         description_en text        not null,
         description_pt text        not null,
         icon_key       text        not null,
-        sort_order     int         not null,
         is_active      boolean     not null default true,
         created_at     timestamptz NOT NULL DEFAULT now(),
         updated_at     timestamptz NOT NULL DEFAULT now()

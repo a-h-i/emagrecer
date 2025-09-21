@@ -4,11 +4,10 @@ import {
   Column,
   ManyToMany,
   JoinTable,
-  OneToMany,
 } from 'typeorm';
 import { RecipeSchemaType } from './schemas';
 import { RecipeTag } from './RecipeTag';
-import type { RecipeIngredient } from '../../lib/src';
+import { Ingredient } from './Ingredient';
 
 @Entity({
   name: 'recipe',
@@ -21,6 +20,7 @@ export class Recipe {
     type: 'text',
   })
   title_en!: string;
+
   @Column({
     type: 'text',
   })
@@ -39,8 +39,8 @@ export class Recipe {
   @Column({ type: 'text', nullable: true })
   instructions_md_pt!: string | null;
 
-  @Column({ type: 'int' })
-  kcal_per_serving!: number;
+  @Column({ type: 'numeric', precision: 6, scale: 2 })
+  kcal_per_serving!: string;
 
   @Column({ type: 'numeric', precision: 6, scale: 2 })
   protein_g_per_serving!: string;
@@ -77,8 +77,21 @@ export class Recipe {
   })
   tags!: Promise<RecipeTag[]>;
 
-  @OneToMany('RecipeIngredient', (ingredient: RecipeIngredient) => ingredient.recipe)
-  ingredients!: Promise<RecipeIngredient[]>;
+  @ManyToMany('Ingredient')
+  @JoinTable({
+    name: 'recipe_ingredient',
+    joinColumn: {
+      name: 'recipe_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'ingredient_id',
+      referencedColumnName: 'id',
+    },
+
+    synchronize: false,
+  })
+  ingredients!: Promise<Ingredient[]>;
 
   serialize(): RecipeSchemaType {
     return {
@@ -89,7 +102,7 @@ export class Recipe {
       servings: this.servings,
       instructions_md_en: this.instructions_md_en,
       instructions_md_pt: this.instructions_md_pt,
-      kcal_per_serving: this.kcal_per_serving,
+      kcal_per_serving: parseFloat(this.kcal_per_serving),
       protein_g_per_serving: parseFloat(this.protein_g_per_serving),
       carbs_g_per_serving: parseFloat(this.carbs_g_per_serving),
       fat_g_per_serving: parseFloat(this.carbs_g_per_serving),

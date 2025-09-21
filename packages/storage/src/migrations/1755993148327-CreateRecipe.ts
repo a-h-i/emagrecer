@@ -12,7 +12,7 @@ export class CreateRecipe1755993148327 implements MigrationInterface {
           servings              double precision           not null default 1,
           instructions_md_en    text,
           instructions_md_pt    text,
-          kcal_per_serving      int           not null,
+          kcal_per_serving      numeric(6, 2)           not null,
           protein_g_per_serving numeric(6, 2) not null,
           carbs_g_per_serving   numeric(6, 2) not null,
           fat_g_per_serving     numeric(6, 2) not null,

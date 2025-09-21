@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { recipeTagSchema } from './RecipeTag.schema';
+import { ingredientSchema } from './Ingredient.schema';
 
 export const recipeSchema = z
   .object({
@@ -25,5 +26,10 @@ export const recipeSchemaWithTags = recipeSchema.extend({
   tags: z.array(recipeTagSchema),
 }).strict();
 
+export const recipeSchemaWithTagsAndIngredients = recipeSchemaWithTags.extend({
+  ingredients: z.array(ingredientSchema),
+}).strict();
+
 export type RecipeSchemaType = z.infer<typeof recipeSchema>;
 export type RecipeSchemaTypeWithTags = z.infer<typeof recipeSchemaWithTags>;
+export type RecipeSchemaTypeWithTagsAndIngredients = z.infer<typeof recipeSchemaWithTagsAndIngredients>;

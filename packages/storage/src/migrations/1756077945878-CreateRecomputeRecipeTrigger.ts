@@ -8,7 +8,7 @@ export class CreateRecomputeRecipeTrigger1756077945878
         create or replace function trg_recompute_recipe() returns trigger as $$
         declare rid uuid;
         begin
-          rid := coalesce(new.id, old.id);
+          rid := coalesce(new.recipe_id, old.recipe_id);
           perform compute_recipe_totals(rid);
           return coalesce(new, old);
         end $$ language plpgsql;

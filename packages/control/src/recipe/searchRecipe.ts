@@ -1,5 +1,8 @@
 import { EntityManager } from 'typeorm';
-import { Recipe, RecipeSchemaTypeWithTags } from '@emagrecer/storage';
+import {
+  Recipe,
+  RecipeSchemaTypeWithTagsAndIngredients,
+} from '@emagrecer/storage';
 
 export enum RecipeSort {
   RELEVANCE = 'relevance',
@@ -13,18 +16,21 @@ export type RecipeFilters = {
   tags?: string[];
   sort: RecipeSort;
   sort_direction: 'asc' | 'desc';
-}
+};
 
 interface RecipeSearchResults {
-  recipes: RecipeSchemaTypeWithTags[];
+  recipes: RecipeSchemaTypeWithTagsAndIngredients[];
   next_page_token?: string;
 }
 
-export async function searchRecipe(manager: EntityManager, filters: RecipeFilters, next_page_token?: string | null): Promise<RecipeSearchResults> {
-
-  let query = manager.createQueryBuilder()
+export async function searchRecipe(
+  manager: EntityManager,
+  filters: RecipeFilters,
+  next_page_token?: string | null,
+): Promise<RecipeSearchResults> {
+  let query = manager
+    .createQueryBuilder()
     .select('recipe')
-    .from(Recipe, 'recipe')
-  ;
+    .from(Recipe, 'recipe');
   throw new Error('Not implemented');
 }
