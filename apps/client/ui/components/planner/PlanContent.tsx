@@ -27,9 +27,11 @@ export default function PlanContent(props: PlanContentProps) {
     <div className='grid gap-6 lg:grid-cols-[1fr_340px]'>
       <div className='space-y-4'>
         <MacroSummary />
-        <PlanGrid onRecipeAdd={() => true}/>
+        <PlanGrid onRecipeAdd={() => true} />
       </div>
-      <aside className='h-fit lg:sticky lg:top-6'><RecipePanel /></aside>
+      <aside className='h-fit lg:sticky lg:top-6'>
+        <RecipePanel />
+      </aside>
     </div>
   );
 }

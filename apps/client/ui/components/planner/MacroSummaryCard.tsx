@@ -16,7 +16,8 @@ interface MacroSummaryCardProps {
 
 function MacroMetric(props: MacroMetric) {
   const format = useFormatter();
-  const value = format.number(props.value, { style: 'decimal' }) + ' ' + props.unit;
+  const value =
+    format.number(props.value, { style: 'decimal' }) + ' ' + props.unit;
   const target = props.target
     ? format.number(props.target, { style: 'decimal' }) + ' ' + props.unit
     : null;
@@ -25,7 +26,9 @@ function MacroMetric(props: MacroMetric) {
     : null;
   const remaining = props.target ? props.target - props.value : null;
   const formattedRemaining = remaining
-    ? format.number(Math.abs(remaining), { style: 'decimal' }) + ' ' + props.unit
+    ? format.number(Math.abs(remaining), { style: 'decimal' }) +
+      ' ' +
+      props.unit
     : null;
 
   return (

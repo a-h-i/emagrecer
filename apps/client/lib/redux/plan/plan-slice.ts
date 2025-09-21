@@ -111,29 +111,35 @@ const planSlice = createSlice({
     setSelectedDay(state, action: PayloadAction<number>) {
       state.selectedDay = action.payload;
     },
-    incrementSlotServings(state, action: PayloadAction<{
-      day: number;
-      meal: MealType;
-      increment: number;
-    }>) {
+    incrementSlotServings(
+      state,
+      action: PayloadAction<{
+        day: number;
+        meal: MealType;
+        increment: number;
+      }>,
+    ) {
       const key: SlotKey = `${action.payload.day}:${action.payload.meal}`;
       if (key in state.slotsByKey && action.payload.increment >= 0) {
         const slot = state.slotsByKey[key];
         slot.servings = slot.servings + action.payload.increment;
       }
     },
-    decrementSlotServings(state, action: PayloadAction<{
-      day: number;
-      meal: MealType;
-      decrement: number;
-    }>) {
+    decrementSlotServings(
+      state,
+      action: PayloadAction<{
+        day: number;
+        meal: MealType;
+        decrement: number;
+      }>,
+    ) {
       const key: SlotKey = `${action.payload.day}:${action.payload.meal}`;
       if (key in state.slotsByKey && action.payload.decrement >= 0) {
         const slot = state.slotsByKey[key];
         const servings = slot.servings;
         slot.servings = Math.max(0, servings - action.payload.decrement);
       }
-    }
+    },
   },
   extraReducers: (b) => {
     b.addCase(ensurePlan.pending, (s) => {
@@ -172,7 +178,8 @@ const planSlice = createSlice({
     });
   },
 });
-export const { setSelectedDay, incrementSlotServings, decrementSlotServings } = planSlice.actions;
+export const { setSelectedDay, incrementSlotServings, decrementSlotServings } =
+  planSlice.actions;
 export default planSlice.reducer;
 
 function macroTotalsFromSlots(slots: MealSlotSchemaTypeWithRecipe[]) {

@@ -90,7 +90,7 @@ describe('getRecipe', () => {
         carbs_g: 20,
         fat_g: 10,
         protein_g: 50,
-      }
+      },
     });
     const ingredient2 = source.manager.create(Ingredient, {
       name_en: 'Ingredient 2',
@@ -104,7 +104,7 @@ describe('getRecipe', () => {
         carbs_g: 20,
         fat_g: 10,
         protein_g: 50,
-      }
+      },
     });
 
     await source.manager.save([ingredient1, ingredient2]);
@@ -124,24 +124,61 @@ describe('getRecipe', () => {
     });
     await source.manager.save([recipeIngredient1, recipeIngredient2]);
 
-
-
     const fetched = await getRecipe(source.manager, recipe.id);
     await expect(fetched.tags).resolves.toStrictEqual([tag]);
     // Ensure recipe totals are calculated correctly by DB trigger  (trg_recompute_recipe)
-    const ingredient1TotalKCal = parseFloat(recipeIngredient1.quantity) * parseFloat(recipeIngredient1.unit_to_g) * ingredient1.nutrition_per_100g.kcal / 100;
-    const ingredient1TotalCarbs = parseFloat(recipeIngredient1.quantity) * parseFloat(recipeIngredient1.unit_to_g) * ingredient1.nutrition_per_100g.carbs_g / 100;
-    const ingredient1TotalFats = parseFloat(recipeIngredient1.quantity) * parseFloat(recipeIngredient1.unit_to_g) * ingredient1.nutrition_per_100g.fat_g / 100;
-    const ingredient1TotalProtein = parseFloat(recipeIngredient1.quantity) * parseFloat(recipeIngredient1.unit_to_g) * ingredient1.nutrition_per_100g.protein_g / 100;
+    const ingredient1TotalKCal =
+      (parseFloat(recipeIngredient1.quantity) *
+        parseFloat(recipeIngredient1.unit_to_g) *
+        ingredient1.nutrition_per_100g.kcal) /
+      100;
+    const ingredient1TotalCarbs =
+      (parseFloat(recipeIngredient1.quantity) *
+        parseFloat(recipeIngredient1.unit_to_g) *
+        ingredient1.nutrition_per_100g.carbs_g) /
+      100;
+    const ingredient1TotalFats =
+      (parseFloat(recipeIngredient1.quantity) *
+        parseFloat(recipeIngredient1.unit_to_g) *
+        ingredient1.nutrition_per_100g.fat_g) /
+      100;
+    const ingredient1TotalProtein =
+      (parseFloat(recipeIngredient1.quantity) *
+        parseFloat(recipeIngredient1.unit_to_g) *
+        ingredient1.nutrition_per_100g.protein_g) /
+      100;
 
-    const ingredient2TotalKCal = parseFloat(recipeIngredient2.quantity) * parseFloat(recipeIngredient2.unit_to_g) * ingredient2.nutrition_per_100g.kcal / 100;
-    const ingredient2TotalCarbs = parseFloat(recipeIngredient2.quantity) * parseFloat(recipeIngredient2.unit_to_g) * ingredient2.nutrition_per_100g.carbs_g / 100;
-    const ingredient2TotalFats = parseFloat(recipeIngredient2.quantity) * parseFloat(recipeIngredient2.unit_to_g) * ingredient2.nutrition_per_100g.fat_g / 100;
-    const ingredient2TotalProtein = parseFloat(recipeIngredient2.quantity) * parseFloat(recipeIngredient2.unit_to_g) * ingredient2.nutrition_per_100g.protein_g / 100;
-    expect(fetched.kcal_per_serving).toBeCloseTo((ingredient1TotalKCal + ingredient2TotalKCal) / fetched.servings);
-    expect(fetched.carbs_g_per_serving).toBeCloseTo((ingredient1TotalCarbs + ingredient2TotalCarbs) / fetched.servings);
-    expect(fetched.fat_g_per_serving).toBeCloseTo((ingredient1TotalFats + ingredient2TotalFats) / fetched.servings);
-    expect(fetched.protein_g_per_serving).toBeCloseTo((ingredient1TotalProtein + ingredient2TotalProtein) / fetched.servings);
-
+    const ingredient2TotalKCal =
+      (parseFloat(recipeIngredient2.quantity) *
+        parseFloat(recipeIngredient2.unit_to_g) *
+        ingredient2.nutrition_per_100g.kcal) /
+      100;
+    const ingredient2TotalCarbs =
+      (parseFloat(recipeIngredient2.quantity) *
+        parseFloat(recipeIngredient2.unit_to_g) *
+        ingredient2.nutrition_per_100g.carbs_g) /
+      100;
+    const ingredient2TotalFats =
+      (parseFloat(recipeIngredient2.quantity) *
+        parseFloat(recipeIngredient2.unit_to_g) *
+        ingredient2.nutrition_per_100g.fat_g) /
+      100;
+    const ingredient2TotalProtein =
+      (parseFloat(recipeIngredient2.quantity) *
+        parseFloat(recipeIngredient2.unit_to_g) *
+        ingredient2.nutrition_per_100g.protein_g) /
+      100;
+    expect(fetched.kcal_per_serving).toBeCloseTo(
+      (ingredient1TotalKCal + ingredient2TotalKCal) / fetched.servings,
+    );
+    expect(fetched.carbs_g_per_serving).toBeCloseTo(
+      (ingredient1TotalCarbs + ingredient2TotalCarbs) / fetched.servings,
+    );
+    expect(fetched.fat_g_per_serving).toBeCloseTo(
+      (ingredient1TotalFats + ingredient2TotalFats) / fetched.servings,
+    );
+    expect(fetched.protein_g_per_serving).toBeCloseTo(
+      (ingredient1TotalProtein + ingredient2TotalProtein) / fetched.servings,
+    );
   });
 });

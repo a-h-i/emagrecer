@@ -41,5 +41,5 @@ export const migrations = [
   CreateComputeRecipeTotalsFunc1756077439079,
   CreateRecomputeRecipeTrigger1756077945878,
   CreateRecipeTag1758304646433,
-  CreateRecipeTagsRelation1758304991483
+  CreateRecipeTagsRelation1758304991483,
 ];

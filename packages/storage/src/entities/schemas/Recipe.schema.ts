@@ -22,14 +22,20 @@ export const recipeSchema = z
   })
   .strict();
 
-export const recipeSchemaWithTags = recipeSchema.extend({
-  tags: z.array(recipeTagSchema),
-}).strict();
+export const recipeSchemaWithTags = recipeSchema
+  .extend({
+    tags: z.array(recipeTagSchema),
+  })
+  .strict();
 
-export const recipeSchemaWithTagsAndIngredients = recipeSchemaWithTags.extend({
-  ingredients: z.array(ingredientSchema),
-}).strict();
+export const recipeSchemaWithTagsAndIngredients = recipeSchemaWithTags
+  .extend({
+    ingredients: z.array(ingredientSchema),
+  })
+  .strict();
 
 export type RecipeSchemaType = z.infer<typeof recipeSchema>;
 export type RecipeSchemaTypeWithTags = z.infer<typeof recipeSchemaWithTags>;
-export type RecipeSchemaTypeWithTagsAndIngredients = z.infer<typeof recipeSchemaWithTagsAndIngredients>;
+export type RecipeSchemaTypeWithTagsAndIngredients = z.infer<
+  typeof recipeSchemaWithTagsAndIngredients
+>;

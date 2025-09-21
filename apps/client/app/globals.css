@@ -17,6 +17,10 @@ body {
 }
 
 @keyframes shimmer {
-    from { background-position-x: 200%; }
-    to   { background-position-x: -200%; }
+  from {
+    background-position-x: 200%;
+  }
+  to {
+    background-position-x: -200%;
+  }
 }

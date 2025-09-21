@@ -60,7 +60,6 @@ export class Ingredient {
   @Column({ type: 'timestamp', default: () => 'now()' })
   updated_at!: Date;
 
-
   serialize(): IngredientSchemaType {
     return {
       id: this.id,
@@ -74,6 +73,6 @@ export class Ingredient {
       is_active: this.is_active,
       created_at: this.created_at.toISOString(),
       updated_at: this.updated_at.toISOString(),
-    }
+    };
   }
 }

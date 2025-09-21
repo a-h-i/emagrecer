@@ -3,7 +3,7 @@ import { auth } from '@/auth';
 import { getDS } from '@/lib/getDS';
 import { getRecipe } from '@emagrecer/control';
 import { EntityNotFoundError } from 'typeorm';
-import { RecipeSchemaTypeWithTags } from '@emagrecer/storage';
+import { RecipeSchemaTypeWithTagsAndIngredients } from '@emagrecer/storage';
 
 export async function GET(
   _req: NextRequest,
@@ -17,20 +17,23 @@ export async function GET(
   const source = await getDS();
   try {
     const recipe = await getRecipe(source.manager, recipeId);
+    // Relations are preloaded.
     const tags = await recipe.tags;
-    const serializedRecipe: RecipeSchemaTypeWithTags = {
+    const ingredients = await recipe.ingredients;
+    const serializedRecipe: RecipeSchemaTypeWithTagsAndIngredients = {
       ...recipe.serialize(),
       tags: tags.map((tag) => tag.serialize()),
-    }
+      ingredients: ingredients.map((ingredient) => ingredient.serialize()),
+    };
     return NextResponse.json({
       recipe: serializedRecipe,
     });
   } catch (err) {
-    if (err instanceof  EntityNotFoundError) {
-      return NextResponse.json({error: 'not found'}, {status: 404})
+    if (err instanceof EntityNotFoundError) {
+      return NextResponse.json({ error: 'not found' }, { status: 404 });
     } else {
       console.error(err);
-      return NextResponse.json({error: 'unknown error'}, {status: 500});
+      return NextResponse.json({ error: 'unknown error' }, { status: 500 });
     }
   }
 }

@@ -1,10 +1,8 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class CreateRecipeTag1758304646433 implements MigrationInterface {
-
-    public async up(queryRunner: QueryRunner): Promise<void> {
-
-      await queryRunner.query(`
+  public async up(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`
         CREATE TABLE recipe_tag
         (
           slug text PRIMARY KEY,
@@ -12,14 +10,11 @@ export class CreateRecipeTag1758304646433 implements MigrationInterface {
           slug_pt text not null
         );
       `);
+  }
 
-    }
-
-    public async down(queryRunner: QueryRunner): Promise<void> {
-
-      await queryRunner.query(`
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`
         drop table recipe_tag cascade;
-      `)
-    }
-
+      `);
+  }
 }

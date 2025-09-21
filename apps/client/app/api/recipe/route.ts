@@ -4,7 +4,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import { getDS } from '@/lib/getDS';
 
-
 const querySchema = z.object({
   query: z.string().min(1),
   tags: z.array(z.string()).optional(),
@@ -30,11 +29,17 @@ export async function GET(req: NextRequest) {
     next_page_token: req.nextUrl.searchParams.get('next_page_token'),
   });
   if (!filters.success) {
-    return NextResponse.json({ error: z.treeifyError(filters.error) }, { status: 400 });
+    return NextResponse.json(
+      { error: z.treeifyError(filters.error) },
+      { status: 400 },
+    );
   }
   const source = await getDS();
-  const searchResult = await searchRecipe(source.manager, filters.data, filters.data.next_page_token);
+  const searchResult = await searchRecipe(
+    source.manager,
+    filters.data,
+    filters.data.next_page_token,
+  );
 
   return NextResponse.json(searchResult);
-
 }
