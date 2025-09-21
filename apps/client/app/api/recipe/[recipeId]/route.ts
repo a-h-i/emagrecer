@@ -20,10 +20,14 @@ export async function GET(
     // Relations are preloaded.
     const tags = await recipe.tags;
     const ingredients = await recipe.ingredients;
+    const recipeIngredients = await recipe.recipe_ingredients;
     const serializedRecipe: RecipeSchemaTypeWithTagsAndIngredients = {
       ...recipe.serialize(),
       tags: tags.map((tag) => tag.serialize()),
       ingredients: ingredients.map((ingredient) => ingredient.serialize()),
+      recipe_ingredients: recipeIngredients.map((recipeIngredient) =>
+        recipeIngredient.serialize(),
+      ),
     };
     return NextResponse.json({
       recipe: serializedRecipe,

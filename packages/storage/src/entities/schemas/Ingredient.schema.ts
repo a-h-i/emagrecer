@@ -19,4 +19,19 @@ export const ingredientSchema = z
   })
   .strict();
 
+export const recipeIngredientSchema = z
+  .object({
+    id: z.string(),
+    recipe_id: z.string(),
+    ingredient_id: z.string(),
+    quantity: z.number(),
+    unit: z.enum(UnitEnum),
+    unit_to_g: z.number(),
+    note: z.string().optional().nullish(),
+    created_at: z.iso.datetime(),
+    updated_at: z.iso.datetime(),
+  })
+  .strict();
+
 export type IngredientSchemaType = z.infer<typeof ingredientSchema>;
+export type RecipeIngredientSchemaType = z.infer<typeof recipeIngredientSchema>;

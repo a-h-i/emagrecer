@@ -1,13 +1,14 @@
 import { DataSource } from 'typeorm';
 import { MealPlan } from '@emagrecer/storage';
 import { getOrCreateProfileTx } from '../profile';
+import { getMonday } from '../util';
 
 export async function getOrCreatePlan(
   source: DataSource,
   userId: string,
-  weekStart: Date,
+  week: Date,
 ) {
-  const date = new Date(weekStart);
+  const date = new Date(getMonday(week));
   date.setHours(0, 0, 0, 0);
 
   return source.manager.transaction(async (transaction) => {

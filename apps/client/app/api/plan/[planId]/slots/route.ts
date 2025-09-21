@@ -1,9 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import { getDS } from '@/lib/getDS';
-import { MealPlan, MealSlot, mealSlotSchema } from '@emagrecer/storage';
+import {
+  MealPlan,
+  mealSlotCreateSchema,
+  MealSlotSchemaTypeWithRecipe,
+  Recipe,
+} from '@emagrecer/storage';
 import { z } from 'zod';
-import { createSlot } from '@emagrecer/control';
+import { createSlot, getPlanSlots } from '@emagrecer/control';
 import { loadPlanAndVerifyAccess } from '@/lib/plan/api/loadPlanAndVerifyAccess';
 
 export async function GET(
@@ -18,26 +23,10 @@ export async function GET(
     return plan;
   }
 
-  const slots = await source.manager.find(MealSlot, {
-    where: {
-      plan_id: plan.id,
-    },
-    relations: {
-      recipe: true,
-    },
-  });
-
-  const serializedSlotsPromises = slots.map(async (slot) => {
-    const serializedSlot = slot.serialize();
-    const recipe = await slot.recipe;
-    return {
-      ...serializedSlot,
-      recipe: recipe.serialize(),
-    };
-  });
+  const slots = await getPlanSlots(source.manager, plan.id);
 
   return NextResponse.json({
-    slots: await Promise.all(serializedSlotsPromises),
+    slots,
   });
 }
 
@@ -53,7 +42,7 @@ export async function POST(
     return plan;
   }
   const json = await req.json();
-  const parseResult = mealSlotSchema.safeParse(json);
+  const parseResult = mealSlotCreateSchema.safeParse(json);
   if (!parseResult.success) {
     return NextResponse.json(
       {
@@ -65,10 +54,25 @@ export async function POST(
 
   const slot = await createSlot(source.manager, parseResult.data);
   const serializedSlot = slot.serialize();
-  const recipe = await slot.recipe;
-  const serializedData = {
+  const recipe = await source.manager.findOneOrFail(Recipe, {
+    where: {
+      id: slot.recipe_id,
+    },
+    relations: {
+      tags: true,
+      ingredients: true,
+    },
+  });
+  const serializedRecipe = {
+    ...recipe.serialize(),
+    ingredients: (await recipe.ingredients).map((ingredient) =>
+      ingredient.serialize(),
+    ),
+    tags: (await recipe.tags).map((tag) => tag.serialize()),
+  };
+  const serializedData: MealSlotSchemaTypeWithRecipe = {
     ...serializedSlot,
-    recipe: recipe.serialize(),
+    recipe: serializedRecipe,
   };
   return NextResponse.json(
     {

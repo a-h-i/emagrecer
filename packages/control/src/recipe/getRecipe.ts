@@ -19,6 +19,7 @@ export async function getRecipe(
     relations: {
       tags: true,
       ingredients: true,
+      recipe_ingredients: true,
     },
   });
 }

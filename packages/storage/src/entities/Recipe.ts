@@ -4,10 +4,13 @@ import {
   Column,
   ManyToMany,
   JoinTable,
+  OneToMany,
+  JoinColumn,
 } from 'typeorm';
 import { RecipeSchemaType } from './schemas';
-import { RecipeTag } from './RecipeTag';
-import { Ingredient } from './Ingredient';
+import type { RecipeTag } from './RecipeTag';
+import type { Ingredient } from './Ingredient';
+import type { RecipeIngredient } from './RecipeIngredient';
 
 @Entity({
   name: 'recipe',
@@ -92,6 +95,16 @@ export class Recipe {
     synchronize: false,
   })
   ingredients!: Promise<Ingredient[]>;
+
+  @OneToMany(
+    'RecipeIngredient',
+    (recipeIngredient: RecipeIngredient) => recipeIngredient.recipe,
+  )
+  @JoinColumn({
+    name: 'recipe_id',
+    referencedColumnName: 'id',
+  })
+  recipe_ingredients!: Promise<RecipeIngredient[]>;
 
   serialize(): RecipeSchemaType {
     return {

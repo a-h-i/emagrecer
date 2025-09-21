@@ -10,7 +10,6 @@ import {
 import { faker } from '@faker-js/faker';
 import { getOrCreatePlan } from '../../src';
 
-
 describe('getOrCreatePlan', () => {
   let source: DataSource;
 

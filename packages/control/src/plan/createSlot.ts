@@ -1,9 +1,9 @@
 import { EntityManager } from 'typeorm';
-import { MealSlot, MealSlotSchemaType } from '@emagrecer/storage';
+import { MealSlot, MealSlotCreateSchemaType } from '@emagrecer/storage';
 
 export async function createSlot(
   manager: EntityManager,
-  slot: MealSlotSchemaType,
+  slot: MealSlotCreateSchemaType,
 ): Promise<MealSlot> {
   const newSlot = manager.create(MealSlot, slot);
   await manager.save(newSlot);

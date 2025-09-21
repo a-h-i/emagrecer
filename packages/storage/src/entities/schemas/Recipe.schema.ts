@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { recipeTagSchema } from './RecipeTag.schema';
-import { ingredientSchema } from './Ingredient.schema';
+import { ingredientSchema, recipeIngredientSchema } from './Ingredient.schema';
 
 export const recipeSchema = z
   .object({
@@ -31,6 +31,7 @@ export const recipeSchemaWithTags = recipeSchema
 export const recipeSchemaWithTagsAndIngredients = recipeSchemaWithTags
   .extend({
     ingredients: z.array(ingredientSchema),
+    recipe_ingredients: z.array(recipeIngredientSchema),
   })
   .strict();
 
