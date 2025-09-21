@@ -23,7 +23,10 @@ export async function GET(
     return plan;
   }
 
-  const slots: MealSlotSchemaTypeWithRecipe[] = await getPlanSlots(source.manager, plan.id);
+  const slots: MealSlotSchemaTypeWithRecipe[] = await getPlanSlots(
+    source.manager,
+    plan.id,
+  );
 
   return NextResponse.json({
     slots,
@@ -69,8 +72,8 @@ export async function POST(
       ingredient.serialize(),
     ),
     tags: (await recipe.tags).map((tag) => tag.serialize()),
-    recipe_ingredients: (await recipe.recipe_ingredients).map((recipeIngredient) =>
-      recipeIngredient.serialize(),
+    recipe_ingredients: (await recipe.recipe_ingredients).map(
+      (recipeIngredient) => recipeIngredient.serialize(),
     ),
   };
   const serializedData: MealSlotSchemaTypeWithRecipe = {
