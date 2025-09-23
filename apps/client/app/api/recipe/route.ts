@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import { getDS } from '@/lib/getDS';
 
-const querySchema = z.object({
+export const recipeSearchQuerySchema = z.object({
   query: z.string().min(4),
   tags: z.array(z.string()).optional(),
   sort: z.enum(RecipeSort),
@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
   if (session?.user?.id == null) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
   }
-  const filters = querySchema.safeParse({
+  const filters = recipeSearchQuerySchema.safeParse({
     query: req.nextUrl.searchParams.get('query'),
     tags: req.nextUrl.searchParams.getAll('tags'),
     sort: req.nextUrl.searchParams.get('sort'),

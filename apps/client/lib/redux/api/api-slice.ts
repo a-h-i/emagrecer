@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { RecipeSchemaTypeWithTags } from '@emagrecer/storage';
-import { RecipeFilters } from '@emagrecer/control';
+import { RecipeFilters, recipeSearchResultsSchema } from '@emagrecer/control';
 
 type RecipePage = {
   recipes: RecipeSchemaTypeWithTags[];
@@ -45,6 +45,7 @@ export const apiSlice = createApi({
         }
         return `/recipe?${params.toString()}`;
       },
+      rawResponseSchema: recipeSearchResultsSchema,
     }),
   }),
 });

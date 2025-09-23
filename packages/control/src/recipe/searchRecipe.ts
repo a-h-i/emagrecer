@@ -2,6 +2,7 @@ import { EntityManager } from 'typeorm';
 import {
   Recipe,
   RecipeSchemaTypeWithTagsAndIngredients,
+  recipeSchemaWithTagsAndIngredients,
 } from '@emagrecer/storage';
 import { z } from 'zod';
 import { InvalidPageTokenError } from '../errors';
@@ -23,10 +24,14 @@ export type RecipeFilters = {
   locale: 'en' | 'pt';
 };
 
-interface RecipeSearchResults {
-  recipes: RecipeSchemaTypeWithTagsAndIngredients[];
-  next_page_token?: string;
-}
+export const recipeSearchResultsSchema = z
+  .object({
+    recipes: z.array(recipeSchemaWithTagsAndIngredients),
+    next_page_token: z.string().optional(),
+  })
+  .strict();
+
+export type RecipeSearchResults = z.infer<typeof recipeSearchResultsSchema>;
 
 const nextPageTokenSchema = z
   .object({
