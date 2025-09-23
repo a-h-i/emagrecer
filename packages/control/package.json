@@ -6,7 +6,7 @@
   "main": "./lib/src/index.js",
   "scripts": {
     "build": "tsc",
-    "lint": "eslint src eslint.config.mjs --cache",
+    "lint": "eslint",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "vitest"
