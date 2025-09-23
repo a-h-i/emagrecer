@@ -33,7 +33,15 @@ export const apiSlice = createApi({
         }
         for (const key in queryArg) {
           const value = queryArg[key as keyof typeof queryArg];
-          params.set(key, value.toString());
+          if (value != null) {
+            if (Array.isArray(value)) {
+              for (const item of value) {
+                params.append(key, item);
+              }
+            } else {
+              params.set(key, value);
+            }
+          }
         }
         return `/recipe?${params.toString()}`;
       },
