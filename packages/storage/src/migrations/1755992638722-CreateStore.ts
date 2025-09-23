@@ -9,7 +9,7 @@ export class CreateStore1755992638722 implements MigrationInterface {
           name_en     text        NOT NULL,
           name_pt     text        NOT NULL,
           website_url text        not null,
-          logo_url    text        not null,
+          logo_url    text        null,
           is_active   boolean     not null default true,
           created_at  timestamptz NOT NULL DEFAULT now(),
           updated_at  timestamptz NOT NULL DEFAULT now()

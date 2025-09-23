@@ -3,19 +3,24 @@ import {
   Recipe,
   RecipeSchemaTypeWithTagsAndIngredients,
 } from '@emagrecer/storage';
+import { z } from 'zod';
+import { InvalidPageTokenError } from '../errors';
 
 export enum RecipeSort {
-  RELEVANCE = 'relevance',
   PROTEIN = 'protein',
   CALORIES = 'calories',
+  FAT = 'fat',
+  CARBS = 'carbs',
   TIME = 'time',
+  RELEVANCE = 'relevance',
 }
 
 export type RecipeFilters = {
   query: string;
   tags?: string[];
   sort: RecipeSort;
-  sort_direction: 'asc' | 'desc';
+  sort_direction: 'ASC' | 'DESC';
+  locale: 'en' | 'pt';
 };
 
 interface RecipeSearchResults {
@@ -23,14 +28,142 @@ interface RecipeSearchResults {
   next_page_token?: string;
 }
 
+const nextPageTokenSchema = z
+  .object({
+    sort: z.enum(RecipeSort),
+    sort_direction: z.enum(['ASC', 'DESC']),
+    last_value: z.string(),
+  })
+  .strict();
+
+type NextPageToken = z.infer<typeof nextPageTokenSchema>;
+
+function serializeNextPageToken(token: NextPageToken): string {
+  const json = JSON.stringify(token);
+  const buffer = Buffer.from(json, 'utf-8');
+  return buffer.toString('base64url');
+}
+
+function deserializeNextPageToken(token: string): NextPageToken {
+  const buffer = Buffer.from(token, 'base64url');
+  const json = buffer.toString('utf-8');
+  const parsed = JSON.parse(json);
+  const validated = nextPageTokenSchema.safeParse(parsed);
+  if (!validated.success) {
+    throw new InvalidPageTokenError(
+      JSON.stringify(z.treeifyError(validated.error)),
+    );
+  }
+  return validated.data;
+}
+
 export async function searchRecipe(
   manager: EntityManager,
   filters: RecipeFilters,
+  pageSize: number,
   next_page_token?: string | null,
 ): Promise<RecipeSearchResults> {
   let query = manager
     .createQueryBuilder()
     .select('recipe')
-    .from(Recipe, 'recipe');
-  throw new Error('Not implemented');
+    .from(Recipe, 'recipe')
+    .leftJoinAndSelect('recipe.tags', 'tags')
+    .leftJoinAndSelect('recipe.recipe_ingredients', 'recipe_ingredients')
+    .leftJoinAndSelect('recipe_ingredients.ingredient', 'ingredient');
+
+  if (filters.tags) {
+    query = query.andWhere('tags.slug IN (:...tags)', { tags: filters.tags });
+  }
+  const parsedToken =
+    next_page_token != null
+      ? deserializeNextPageToken(next_page_token)
+      : undefined;
+  if (parsedToken != null && parsedToken.sort != filters.sort) {
+    throw new InvalidPageTokenError('Invalid sort');
+  }
+  let lastValueColumn: string;
+  switch (filters.sort) {
+    case RecipeSort.PROTEIN:
+      lastValueColumn = 'protein_g_per_serving';
+      query = query.orderBy(
+        'recipe.protein_g_per_serving',
+        filters.sort_direction,
+      );
+      break;
+    case RecipeSort.CALORIES:
+      lastValueColumn = 'kcal_per_serving';
+      query = query.orderBy('recipe.kcal_per_serving', filters.sort_direction);
+      break;
+    case RecipeSort.FAT:
+      lastValueColumn = 'fat_g_per_serving';
+      query = query.orderBy('recipe.fat_g_per_serving', filters.sort_direction);
+      break;
+    case RecipeSort.CARBS:
+      lastValueColumn = 'carbs_g_per_serving';
+      query = query.orderBy(
+        'recipe.carbs_g_per_serving',
+        filters.sort_direction,
+      );
+      break;
+    case RecipeSort.TIME:
+      lastValueColumn = 'estimated_cook_time_s';
+      query = query.orderBy(
+        'recipe.estimated_cook_time_s',
+        filters.sort_direction,
+      );
+      break;
+    case RecipeSort.RELEVANCE:
+      const languageConfig = filters.locale === 'en' ? 'english' : 'portuguese';
+      const searchColumn =
+        filters.locale === 'en' ? 'text_searchable_en' : 'text_searchable_pt';
+      lastValueColumn = 'rank';
+      query.addSelect(`ts_rank(${searchColumn}, plainto_tsquery(:language_config, :query), 8) as rank`);
+      if (filters.locale === 'en') {
+        query = query.andWhere(`${searchColumn} @@ plainto_tsquery(:language_config, :query)`);
+      } else if (filters.locale === 'pt') {
+        query = query.andWhere(`${searchColumn} @@ plainto_tsquery(:language_config, :query)`);
+      }
+      query = query
+        .setParameter('language_config', languageConfig)
+        .setParameter('query', filters.query);
+      query = query.orderBy(`rank`, filters.sort_direction);
+      break;
+  }
+  if (parsedToken != null) {
+    const operator = parsedToken.sort_direction === 'ASC' ? '>' : '<';
+    query = query.andWhere(`${lastValueColumn} ${operator} :last_value`, {
+      last_value: parsedToken.last_value,
+    });
+  }
+  query = query.limit(pageSize + 1);
+  const queryResults = await query.getRawAndEntities();
+  const recipesPage = queryResults.entities.slice(0, pageSize);
+  let nextPageToken: NextPageToken | null = null;
+  if (queryResults.entities.length > pageSize) {
+    nextPageToken = {
+      sort: filters.sort,
+      sort_direction: filters.sort_direction,
+      last_value: queryResults.raw[pageSize - 1][lastValueColumn] as string,
+    };
+  }
+  // all subpromises are already resolved due to prefetching in the query builder
+  const serializedRecipesPromises = recipesPage.map(async (recipe) => {
+    const serializedRecipe = (recipe as Recipe).serialize();
+    const tags = await recipe.tags;
+    const recipe_ingredients = await recipe.recipe_ingredients;
+    const ingredients = await recipe.ingredients;
+    return {
+      ...serializedRecipe,
+      tags: tags.map((tag) => tag.serialize()),
+      ingredients: ingredients.map((ingredient) => ingredient.serialize()),
+      recipe_ingredients: recipe_ingredients.map((recipe_ingredient) =>
+        recipe_ingredient.serialize(),
+      ),
+    };
+  });
+  return {
+    recipes: await Promise.all(serializedRecipesPromises),
+    next_page_token:
+      nextPageToken != null ? serializeNextPageToken(nextPageToken) : undefined,
+  };
 }

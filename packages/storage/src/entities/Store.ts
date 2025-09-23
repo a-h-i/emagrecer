@@ -20,9 +20,8 @@ export class Store {
 
   @Column({
     type: 'text',
-    nullable: true,
   })
-  website_url!: string | null;
+  website_url!: string;
 
   @Column({
     type: 'text',

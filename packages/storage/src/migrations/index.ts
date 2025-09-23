@@ -19,6 +19,7 @@ import { CreateRecomputeRecipeTrigger1756077945878 } from './1756077945878-Creat
 import { CreateNextAuthTables1755968395801 } from './1755968395801-CreateNextAuthTables';
 import { CreateRecipeTag1758304646433 } from './1758304646433-CreateRecipeTag';
 import { CreateRecipeTagsRelation1758304991483 } from './1758304991483-CreateRecipeTagsRelation';
+import { CreateRecipeFTSIndexes1758648414472 } from './1758648414472-CreateRecipeFTSIndexes';
 
 export const migrations = [
   CreateNextAuthTables1755968395801,
@@ -42,4 +43,5 @@ export const migrations = [
   CreateRecomputeRecipeTrigger1756077945878,
   CreateRecipeTag1758304646433,
   CreateRecipeTagsRelation1758304991483,
+  CreateRecipeFTSIndexes1758648414472,
 ];

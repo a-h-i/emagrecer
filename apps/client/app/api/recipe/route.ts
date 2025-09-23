@@ -5,10 +5,11 @@ import { auth } from '@/auth';
 import { getDS } from '@/lib/getDS';
 
 const querySchema = z.object({
-  query: z.string().min(1),
+  query: z.string().min(4),
   tags: z.array(z.string()).optional(),
   sort: z.enum(RecipeSort),
-  sort_direction: z.enum(['asc', 'desc']),
+  sort_direction: z.enum(['ASC', 'DESC']),
+  locale: z.enum(['en', 'pt']),
   next_page_token: z.string().optional().nullish(),
 });
 
@@ -27,10 +28,22 @@ export async function GET(req: NextRequest) {
     sort: req.nextUrl.searchParams.get('sort'),
     sort_direction: req.nextUrl.searchParams.get('sort_direction'),
     next_page_token: req.nextUrl.searchParams.get('next_page_token'),
+    locale: req.nextUrl.searchParams.get('locale'),
   });
+  const pageSize = z.coerce
+    .number()
+    .min(10)
+    .max(100)
+    .safeParse(req.nextUrl.searchParams.get('page_size'));
   if (!filters.success) {
     return NextResponse.json(
       { error: z.treeifyError(filters.error) },
+      { status: 400 },
+    );
+  }
+  if (!pageSize.success) {
+    return NextResponse.json(
+      { error: z.treeifyError(pageSize.error) },
       { status: 400 },
     );
   }
@@ -38,6 +51,7 @@ export async function GET(req: NextRequest) {
   const searchResult = await searchRecipe(
     source.manager,
     filters.data,
+    pageSize.data,
     filters.data.next_page_token,
   );
 

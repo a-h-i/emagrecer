@@ -19,7 +19,8 @@
     "date-fns": "^4.1.0",
     "dotenv": "^16.4.7",
     "reflect-metadata": "catalog:",
-    "typeorm": "catalog:"
+    "typeorm": "catalog:",
+    "zod": "catalog:"
   },
   "peerDependencies": {
     "typeorm": "catalog:"

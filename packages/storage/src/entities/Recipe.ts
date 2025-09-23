@@ -37,10 +37,22 @@ export class Recipe {
   @Column({ type: 'double precision', default: 1 })
   servings!: number;
 
-  @Column({ type: 'text', nullable: true })
-  instructions_md_en!: string | null;
-  @Column({ type: 'text', nullable: true })
-  instructions_md_pt!: string | null;
+  @Column({ type: 'tsvector' })
+  instructions_md_en!: string;
+  @Column({ type: 'text' })
+  instructions_md_pt!: string;
+
+  @Column({
+    type: 'tsvector',
+    generatedType: 'STORED',
+  })
+  text_searchable_en!: string;
+
+  @Column({
+    type: 'tsvector',
+    generatedType: 'STORED',
+  })
+  text_searchable_pt!: string;
 
   @Column({ type: 'numeric', precision: 6, scale: 2 })
   kcal_per_serving!: string;
