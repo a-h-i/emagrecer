@@ -29,11 +29,6 @@ export class Recipe {
   })
   title_pt!: string;
 
-  @Column({
-    type: 'text',
-  })
-  slug!: string;
-
   @Column({ type: 'double precision', default: 1 })
   servings!: number;
 
@@ -123,7 +118,6 @@ export class Recipe {
       id: this.id,
       title_en: this.title_en,
       title_pt: this.title_pt,
-      slug: this.slug,
       servings: this.servings,
       instructions_md_en: this.instructions_md_en,
       instructions_md_pt: this.instructions_md_pt,

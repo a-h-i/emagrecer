@@ -8,7 +8,6 @@ export class CreateRecipe1755993148327 implements MigrationInterface {
           id                    uuid PRIMARY KEY       DEFAULT gen_random_uuid(),
           title_en              text          NOT NULL,
           title_pt              text          NOT NULL,
-          slug                  text          not null,
           servings              double precision           not null default 1,
           instructions_md_en    text not null,
           instructions_md_pt    text not null,

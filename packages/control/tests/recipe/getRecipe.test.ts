@@ -50,7 +50,6 @@ describe('getRecipe', () => {
     const recipe = source.manager.create(Recipe, {
       title_en: faker.lorem.sentence(),
       title_pt: faker.lorem.sentence(),
-      slug: faker.lorem.slug(),
       servings: 2,
       instructions_md_en: faker.lorem.paragraph(),
       instructions_md_pt: faker.lorem.paragraph(),

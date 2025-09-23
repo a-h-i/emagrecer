@@ -1,4 +1,4 @@
-import { afterAll, beforeAll, describe, expect, it } from 'vitest';
+import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import { DataSource } from 'typeorm';
 import {
   Aisle,
@@ -8,10 +8,8 @@ import {
   RecipeIngredient,
   RecipeTag,
   UnitEnum,
-  UserEntity,
 } from '@emagrecer/storage';
-import { faker } from '@faker-js/faker';
-import { searchRecipe, RecipeSort } from '../../src';
+import { RecipeSort, searchRecipe } from '../../src';
 
 describe('searchRecipe', () => {
   let source: DataSource;
@@ -19,6 +17,17 @@ describe('searchRecipe', () => {
   beforeAll(async () => {
     source = createPgDataSource(true);
     await source.initialize();
+  });
+
+  beforeEach(async () => {
+    await source.manager.query(`
+      truncate recipe_tag_relation cascade;
+      truncate recipe_tag cascade;
+      truncate recipe_ingredient cascade;
+      truncate ingredient cascade;
+      truncate recipe cascade;
+      truncate aisle cascade;
+    `);
   });
 
   afterAll(async () => {
@@ -34,7 +43,6 @@ describe('searchRecipe', () => {
   });
 
   async function seedBase() {
-
     const aisle = source.manager.create(Aisle, {
       slug: 'aisle-1',
       name_en: 'Aisle 1',
@@ -46,7 +54,7 @@ describe('searchRecipe', () => {
     });
     await source.manager.save(aisle);
 
-    const ingredient = source.manager.create(Ingredient, {
+    const r1Ingredient = source.manager.create(Ingredient, {
       name_en: 'Chicken Breast',
       name_pt: 'Peito de Frango',
       aisle_slug: aisle.slug,
@@ -56,13 +64,45 @@ describe('searchRecipe', () => {
       fat_g_per_100g: 2,
       unit_base: UnitEnum.GRAM,
       nutrition_per_100g: {
-        kcal: 120,
-        carbs_g: 0,
-        fat_g: 2,
-        protein_g: 23,
+        kcal: 350,
+        carbs_g: 20,
+        fat_g: 8,
+        protein_g: 35,
       },
     });
-    await source.manager.save(ingredient);
+    const r2Ingredient = source.manager.create(Ingredient, {
+      name_en: 'Chicken Breast',
+      name_pt: 'Peito de Frango',
+      aisle_slug: aisle.slug,
+      kcal_per_100g: 120,
+      protein_g_per_100g: 23,
+      carbs_g_per_100g: 0,
+      fat_g_per_100g: 2,
+      unit_base: UnitEnum.GRAM,
+      nutrition_per_100g: {
+        kcal: 200,
+        carbs_g: 15,
+        fat_g: 5,
+        protein_g: 8,
+      },
+    });
+    const r3Ingredient = source.manager.create(Ingredient, {
+      name_en: 'Chicken Breast',
+      name_pt: 'Peito de Frango',
+      aisle_slug: aisle.slug,
+      kcal_per_100g: 120,
+      protein_g_per_100g: 23,
+      carbs_g_per_100g: 0,
+      fat_g_per_100g: 2,
+      unit_base: UnitEnum.GRAM,
+      nutrition_per_100g: {
+        kcal: 500,
+        carbs_g: 80,
+        fat_g: 10,
+        protein_g: 12,
+      },
+    });
+    await source.manager.save([r1Ingredient, r2Ingredient, r3Ingredient]);
 
     const tagHighProtein = source.manager.create(RecipeTag, {
       name_en: 'High Protein',
@@ -84,7 +124,6 @@ describe('searchRecipe', () => {
     const r1 = source.manager.create(Recipe, {
       title_en: 'Protein Bowl',
       title_pt: 'Tigela de Proteína',
-      slug: 'protein-bowl',
       servings: 2,
       instructions_md_en: 'Mix and serve',
       instructions_md_pt: 'Misture e sirva',
@@ -97,7 +136,6 @@ describe('searchRecipe', () => {
     const r2 = source.manager.create(Recipe, {
       title_en: 'Light Salad',
       title_pt: 'Salada Leve',
-      slug: 'light-salad',
       servings: 2,
       instructions_md_en: 'Chop and toss',
       instructions_md_pt: 'Picar e misturar',
@@ -110,7 +148,6 @@ describe('searchRecipe', () => {
     const r3 = source.manager.create(Recipe, {
       title_en: 'Carb Pasta',
       title_pt: 'Massa de Carbo',
-      slug: 'carb-pasta',
       servings: 2,
       instructions_md_en: 'Boil and mix',
       instructions_md_pt: 'Ferver e misturar',
@@ -123,27 +160,52 @@ describe('searchRecipe', () => {
     await source.manager.save([r1, r2, r3]);
 
     // attach tags
-    await source.manager.createQueryBuilder().relation(Recipe, 'tags').of(r1).add(tagHighProtein);
-    await source.manager.createQueryBuilder().relation(Recipe, 'tags').of(r2).add(tagQuick);
-    await source.manager.createQueryBuilder().relation(Recipe, 'tags').of(r3).add(tagQuick);
+    await source.manager
+      .createQueryBuilder()
+      .relation(Recipe, 'tags')
+      .of(r1)
+      .add(tagHighProtein);
+    await source.manager
+      .createQueryBuilder()
+      .relation(Recipe, 'tags')
+      .of(r2)
+      .add(tagQuick);
+    await source.manager
+      .createQueryBuilder()
+      .relation(Recipe, 'tags')
+      .of(r3)
+      .add(tagQuick);
 
     // attach ingredients (one shared base ingredient for simplicity)
-    const ris = [r1, r2, r3].map((r) =>
-      source.manager.create(RecipeIngredient, {
-        recipe_id: r.id,
-        ingredient_id: ingredient.id,
-        quantity: 100,
-        unit: UnitEnum.GRAM,
-        unit_to_g: 1,
-      }),
-    );
-    await source.manager.save(ris);
+    const r1Ingredients = source.manager.create(RecipeIngredient, {
+      recipe_id: r1.id,
+      ingredient_id: r1Ingredient.id,
+      quantity: 100,
+      unit: UnitEnum.GRAM,
+      unit_to_g: 1,
+    });
+    const r2Ingredients = source.manager.create(RecipeIngredient, {
+      recipe_id: r2.id,
+      ingredient_id: r2Ingredient.id,
+      quantity: 100,
+      unit: UnitEnum.GRAM,
+      unit_to_g: 1,
+    });
+    const r3Ingredients = source.manager.create(RecipeIngredient, {
+      recipe_id: r3.id,
+      ingredient_id: r3Ingredient.id,
+      quantity: 100,
+      unit: UnitEnum.GRAM,
+      unit_to_g: 1,
+    });
+
+    await source.manager.save([r1Ingredients, r2Ingredients, r3Ingredients]);
 
     return { r1, r2, r3, tagHighProtein, tagQuick };
   }
 
   it('paginates by protein DESC and returns next_page_token', async () => {
-    await seedBase();
+    const { r1, r2, r3 } = await seedBase();
 
     // protein per serving: r1=35, r3=12, r2=8 -> DESC => r1, r3, r2
     const page1 = await searchRecipe(
@@ -156,7 +218,7 @@ describe('searchRecipe', () => {
       },
       2,
     );
-    expect(page1.recipes.map((r) => r.slug)).toEqual(['protein-bowl', 'carb-pasta']);
+    expect(page1.recipes.map((r) => r.id)).toEqual([r1.id, r3.id]);
     expect(page1.next_page_token).toBeDefined();
 
     const page2 = await searchRecipe(
@@ -170,12 +232,12 @@ describe('searchRecipe', () => {
       2,
       page1.next_page_token,
     );
-    expect(page2.recipes.map((r) => r.slug)).toEqual(['light-salad']);
+    expect(page2.recipes.map((r) => r.id)).toEqual([r2.id]);
     expect(page2.next_page_token).toBeUndefined();
   });
 
   it('filters by tags', async () => {
-    await seedBase();
+    const { r2, r3 } = await seedBase();
 
     const res = await searchRecipe(
       source.manager,
@@ -188,12 +250,12 @@ describe('searchRecipe', () => {
       },
       10,
     );
-    const slugs = res.recipes.map((r) => r.slug).sort();
-    expect(slugs).toEqual(['carb-pasta', 'light-salad']);
+    const ids = res.recipes.map((r) => r.id);
+    expect(ids).toEqual([r2.id, r3.id]);
   });
 
   it('sorts by cook time ASC', async () => {
-    await seedBase();
+    const { r1, r2, r3 } = await seedBase();
 
     const res = await searchRecipe(
       source.manager,
@@ -206,11 +268,11 @@ describe('searchRecipe', () => {
       10,
     );
     // cook time: r2=5m, r1=10m, r3=20m
-    expect(res.recipes.map((r) => r.slug)).toEqual(['light-salad', 'protein-bowl', 'carb-pasta']);
+    expect(res.recipes.map((r) => r.id)).toEqual([r2.id, r1.id, r3.id]);
   });
 
   it('relevance search uses text_search and returns results ordered by rank', async () => {
-    await seedBase();
+    const { r1 } = await seedBase();
 
     const res = await searchRecipe(
       source.manager,
@@ -224,7 +286,7 @@ describe('searchRecipe', () => {
     );
     // Expect 'Protein Bowl' to rank highly
     expect(res.recipes.length).toBeGreaterThan(0);
-    expect(res.recipes[0].slug).toBe('protein-bowl');
+    expect(res.recipes[0].id).toBe(r1.id);
   });
 
   it('throws on invalid next_page_token sort mismatch', async () => {

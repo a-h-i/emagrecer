@@ -7,7 +7,6 @@ export const recipeSchema = z
     id: z.string(),
     title_en: z.string(),
     title_pt: z.string(),
-    slug: z.string(),
     servings: z.number().min(1),
     instructions_md_en: z.string().optional().nullish(),
     instructions_md_pt: z.string().optional().nullish(),

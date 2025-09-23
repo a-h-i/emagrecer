@@ -33,6 +33,7 @@ const nextPageTokenSchema = z
     sort: z.enum(RecipeSort),
     sort_direction: z.enum(['ASC', 'DESC']),
     last_value: z.string(),
+    last_id: z.string(),
   })
   .strict();
 
@@ -85,68 +86,93 @@ export async function searchRecipe(
   switch (filters.sort) {
     case RecipeSort.PROTEIN:
       lastValueColumn = 'protein_g_per_serving';
-      query = query.orderBy(
-        'recipe.protein_g_per_serving',
-        filters.sort_direction,
-      );
+      query = query
+        .orderBy('recipe.protein_g_per_serving', filters.sort_direction)
+        .addOrderBy('recipe.id', filters.sort_direction);
       break;
     case RecipeSort.CALORIES:
       lastValueColumn = 'kcal_per_serving';
-      query = query.orderBy('recipe.kcal_per_serving', filters.sort_direction);
+      query = query
+        .orderBy('recipe.kcal_per_serving', filters.sort_direction)
+        .addOrderBy('recipe.id', filters.sort_direction);
       break;
     case RecipeSort.FAT:
       lastValueColumn = 'fat_g_per_serving';
-      query = query.orderBy('recipe.fat_g_per_serving', filters.sort_direction);
+      query = query
+        .orderBy('recipe.fat_g_per_serving', filters.sort_direction)
+        .addOrderBy('recipe.id', filters.sort_direction);
       break;
     case RecipeSort.CARBS:
       lastValueColumn = 'carbs_g_per_serving';
-      query = query.orderBy(
-        'recipe.carbs_g_per_serving',
-        filters.sort_direction,
-      );
+      query = query
+        .orderBy('recipe.carbs_g_per_serving', filters.sort_direction)
+        .addOrderBy('recipe.id', filters.sort_direction);
       break;
     case RecipeSort.TIME:
       lastValueColumn = 'estimated_cook_time_s';
-      query = query.orderBy(
-        'recipe.estimated_cook_time_s',
-        filters.sort_direction,
-      );
+      query = query
+        .orderBy('recipe.estimated_cook_time_s', filters.sort_direction)
+        .addOrderBy('recipe.id', filters.sort_direction);
       break;
     case RecipeSort.RELEVANCE:
       const languageConfig = filters.locale === 'en' ? 'english' : 'portuguese';
       const searchColumn =
         filters.locale === 'en' ? 'text_searchable_en' : 'text_searchable_pt';
       lastValueColumn = 'rank';
-      query.addSelect(`ts_rank(${searchColumn}, plainto_tsquery(:language_config, :query), 8) as rank`);
+      query.addSelect(
+        `ts_rank(${searchColumn}, plainto_tsquery(:language_config, :query), 8) as rank`,
+      );
       if (filters.locale === 'en') {
-        query = query.andWhere(`${searchColumn} @@ plainto_tsquery(:language_config, :query)`);
+        query = query.andWhere(
+          `${searchColumn} @@ plainto_tsquery(:language_config, :query)`,
+        );
       } else if (filters.locale === 'pt') {
-        query = query.andWhere(`${searchColumn} @@ plainto_tsquery(:language_config, :query)`);
+        query = query.andWhere(
+          `${searchColumn} @@ plainto_tsquery(:language_config, :query)`,
+        );
       }
       query = query
         .setParameter('language_config', languageConfig)
         .setParameter('query', filters.query);
-      query = query.orderBy(`rank`, filters.sort_direction);
+      query = query
+        .orderBy(`rank`, filters.sort_direction)
+        .addOrderBy('recipe.id', filters.sort_direction);
       break;
   }
   if (parsedToken != null) {
     const operator = parsedToken.sort_direction === 'ASC' ? '>' : '<';
-    query = query.andWhere(`${lastValueColumn} ${operator} :last_value`, {
-      last_value: parsedToken.last_value,
-    });
+    query = query.andWhere(
+      `(${lastValueColumn}, recipe.id) ${operator} (:last_value, :last_id)`,
+      {
+        last_value: parsedToken.last_value,
+        last_id: parsedToken.last_id,
+      },
+    );
   }
   query = query.limit(pageSize + 1);
   const queryResults = await query.getRawAndEntities();
   const recipesPage = queryResults.entities.slice(0, pageSize);
   let nextPageToken: NextPageToken | null = null;
   if (queryResults.entities.length > pageSize) {
-    nextPageToken = {
-      sort: filters.sort,
-      sort_direction: filters.sort_direction,
-      last_value: queryResults.raw[pageSize - 1][lastValueColumn] as string,
-    };
+    const lastValueColumnNameMapped =
+      lastValueColumn === 'rank' ? 'rank' : `recipe_${lastValueColumn}`;
+    const lastEntity = queryResults.raw[pageSize - 1];
+    if (lastValueColumnNameMapped in lastEntity) {
+      nextPageToken = {
+        sort: filters.sort,
+        sort_direction: filters.sort_direction,
+        last_value: queryResults.raw[pageSize - 1][
+          lastValueColumnNameMapped
+        ] as string,
+        last_id: queryResults.entities[pageSize - 1].id,
+      };
+    } else {
+      throw new InvalidPageTokenError(
+        `Invalid last_value: unable to map ${lastValueColumn}`,
+      );
+    }
   }
-  // all subpromises are already resolved due to prefetching in the query builder
+  // all sub-promises are already resolved due to prefetching in the query builder
   const serializedRecipesPromises = recipesPage.map(async (recipe) => {
     const serializedRecipe = (recipe as Recipe).serialize();
     const tags = await recipe.tags;
