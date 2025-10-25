@@ -54,7 +54,14 @@
       "addTo": "Add to {day} {meal}",
       "filters": "Filters",
       "resetFilters": "Reset",
-      "applyFilters": "Apply"
+      "applyFilters": "Apply",
+      "sorts": {
+        "high_protein": "High Protein",
+        "low_carbs": "Low Carbs",
+        "low_fat": "Low Fat",
+        "preparation_time": "Preparation Time"
+      },
+      "sort_label": "Order results by"
     },
     "actions": {
       "clearDay": "Clear day",

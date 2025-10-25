@@ -54,7 +54,14 @@
       "addTo": "Adicionar a {day} {meal}",
       "filters": "Filtros",
       "resetFilters": "Repor",
-      "applyFilters": "Aplicar"
+      "applyFilters": "Aplicar",
+      "sorts": {
+        "high_protein": "Rico em proteína",
+        "low_carbs": "Baixo em hidratos",
+        "low_fat": "Baixo em gordura",
+        "preparation_time": "Tempo de preparação"
+      },
+      "sort_label": "Ordenar resultados por"
     },
     "actions": {
       "clearDay": "Limpar dia",
