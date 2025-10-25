@@ -14,7 +14,7 @@ export enum RecipeSort {
 
 export type RecipeFilters = {
   query: string;
-  tags?: string[];
+  tags?: string[] | null;
   sort: RecipeSort;
   sort_direction: 'ASC' | 'DESC';
   locale: 'en' | 'pt';

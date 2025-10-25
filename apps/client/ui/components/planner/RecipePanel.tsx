@@ -1,8 +1,6 @@
 'use client';
 
 import { useLocale, useTranslations } from 'next-intl';
-import { useAppSelector } from '@/lib/redux/hooks';
-import { selectPlan } from '@/lib/redux/plan/plan-slice';
 import { RecipeFilters, RecipeSort } from '@emagrecer/control';
 import { useMemo, useState } from 'react';
 import { debounce } from 'lodash';
@@ -12,7 +10,6 @@ import RecipeList from '@/ui/components/planner/recipe/list/RecipeList';
 export default function RecipePanel() {
   const t = useTranslations('Planner');
   const locale = useLocale();
-  const plan = useAppSelector(selectPlan);
   const [searchFilters, setSearchFilters] = useState<RecipeFilters>({
     locale: locale as RecipeFilters['locale'],
     query: '',
