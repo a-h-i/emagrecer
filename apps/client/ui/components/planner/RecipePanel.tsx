@@ -7,6 +7,7 @@ import { RecipeFilters, RecipeSort } from '@emagrecer/control';
 import { useMemo, useState } from 'react';
 import { debounce } from 'lodash';
 import Chip from '@/ui/components/common/Chip';
+import RecipeList from '@/ui/components/planner/recipe/list/RecipeList';
 
 export default function RecipePanel() {
   const t = useTranslations('Planner');
@@ -105,9 +106,11 @@ export default function RecipePanel() {
                 });
               }}
             />
-
           </div>
         </div>
+      </div>
+      <div className='mt-4'>
+        <RecipeList filters={searchFilters} />
       </div>
     </aside>
   );

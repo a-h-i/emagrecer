@@ -49,9 +49,9 @@ export const ensurePlan = createAsyncThunk(
       plan: planSchema,
       created: z.boolean(),
     });
-    const parsedData =  dataSchema.parse(json);
-  thunkAPI.dispatch(loadSlots(parsedData.plan.id));
-  return parsedData;
+    const parsedData = dataSchema.parse(json);
+    thunkAPI.dispatch(loadSlots(parsedData.plan.id));
+    return parsedData;
   },
 );
 

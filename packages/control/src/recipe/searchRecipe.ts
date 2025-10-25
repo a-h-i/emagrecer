@@ -73,7 +73,7 @@ export async function searchRecipe(
     .leftJoinAndSelect('recipe.recipe_ingredients', 'recipe_ingredients')
     .leftJoinAndSelect('recipe_ingredients.ingredient', 'ingredient');
 
-  if (filters.tags) {
+  if (filters.tags && filters.tags.length > 0) {
     query = query.andWhere('tags.slug IN (:...tags)', { tags: filters.tags });
   }
   const parsedToken =

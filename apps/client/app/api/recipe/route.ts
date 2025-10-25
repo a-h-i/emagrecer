@@ -5,8 +5,8 @@ import { auth } from '@/auth';
 import { getDS } from '@/lib/getDS';
 
 export const recipeSearchQuerySchema = z.object({
-  query: z.string().min(4),
-  tags: z.array(z.string()).optional(),
+  query: z.string(),
+  tags: z.array(z.string()).optional().nullish(),
   sort: z.enum(RecipeSort),
   sort_direction: z.enum(['ASC', 'DESC']),
   locale: z.enum(['en', 'pt']),
@@ -34,7 +34,7 @@ export async function GET(req: NextRequest) {
     .number()
     .min(10)
     .max(100)
-    .safeParse(req.nextUrl.searchParams.get('page_size'));
+    .safeParse(req.nextUrl.searchParams.get('page_size') ?? 10);
   if (!filters.success) {
     return NextResponse.json(
       { error: z.treeifyError(filters.error) },

@@ -23,7 +23,7 @@ export default function PlanContent(props: PlanContentProps) {
     if (dayOfWeek < 0) {
       dayOfWeek = 6;
     }
-    dispatch(setSelectedDay(dayOfWeek))
+    dispatch(setSelectedDay(dayOfWeek));
   }, [dispatch, props.weekStart]);
 
   return (

@@ -39,8 +39,8 @@ export default function RecipeList(props: RecipeListProps) {
 
   const onAdd = (recipe: RecipeSchemaTypeWithTagsAndIngredients) => {
     console.log('Recipe added:', recipe);
-  }
-
+  };
+  console.log('data', data);
   const lastPage = useMemo(() => {
     if (!data) {
       return null;
@@ -57,13 +57,10 @@ export default function RecipeList(props: RecipeListProps) {
     content = <RecipeListSkeleton />;
   } else if (isError) {
     content = <div className='text-red-400'>Error loading recipes</div>;
-  } else if (lastPage == null) {
+  } else if (lastPage == null || lastPage.recipes.length === 0) {
     content = <RecipeListEmptyState />;
   } else {
-    content = <RecipeListItems
-      recipes={lastPage.recipes}
-      onAdd={onAdd}
-    />;
+    content = <RecipeListItems recipes={lastPage.recipes} onAdd={onAdd} />;
   }
 
   return <div className='mt-4'>{content}</div>;
