@@ -61,7 +61,8 @@
         "low_fat": "Low Fat",
         "preparation_time": "Preparation Time"
       },
-      "sort_label": "Order results by"
+      "sort_label": "Order results by",
+      "no_recipe_search_matches": "No recipes found matching your search."
     },
     "actions": {
       "clearDay": "Clear day",

@@ -61,7 +61,8 @@
         "low_fat": "Baixo em gordura",
         "preparation_time": "Tempo de preparação"
       },
-      "sort_label": "Ordenar resultados por"
+      "sort_label": "Ordenar resultados por",
+      "no_recipe_search_matches": "Nenhuma receita encontrada que corresponda à tua pesquisa."
     },
     "actions": {
       "clearDay": "Limpar dia",
