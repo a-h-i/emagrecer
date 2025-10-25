@@ -1,9 +1,5 @@
 import { EntityManager } from 'typeorm';
-import {
-  Recipe,
-  RecipeSchemaTypeWithTagsAndIngredients,
-  recipeSchemaWithTagsAndIngredients,
-} from '@emagrecer/storage';
+import { Recipe, recipeSchemaWithTagsAndIngredients } from '@emagrecer/storage';
 import { z } from 'zod';
 import { InvalidPageTokenError } from '../errors';
 
@@ -88,6 +84,9 @@ export async function searchRecipe(
     throw new InvalidPageTokenError('Invalid sort');
   }
   let lastValueColumn: string;
+  const languageConfig = filters.locale === 'en' ? 'english' : 'portuguese';
+  const textSearchColumn =
+    filters.locale === 'en' ? 'text_searchable_en' : 'text_searchable_pt';
   switch (filters.sort) {
     case RecipeSort.PROTEIN:
       lastValueColumn = 'protein_g_per_serving';
@@ -120,29 +119,25 @@ export async function searchRecipe(
         .addOrderBy('recipe.id', filters.sort_direction);
       break;
     case RecipeSort.RELEVANCE:
-      const languageConfig = filters.locale === 'en' ? 'english' : 'portuguese';
-      const searchColumn =
-        filters.locale === 'en' ? 'text_searchable_en' : 'text_searchable_pt';
+      if (filters.query.trim().length === 0) {
+        throw new Error('Query must not be empty when sorting by relevance');
+      }
       lastValueColumn = 'rank';
       query.addSelect(
-        `ts_rank(${searchColumn}, plainto_tsquery(:language_config, :query), 8) as rank`,
+        `ts_rank(${textSearchColumn}, plainto_tsquery(:language_config, :query), 8) as rank`,
       );
-      if (filters.locale === 'en') {
-        query = query.andWhere(
-          `${searchColumn} @@ plainto_tsquery(:language_config, :query)`,
-        );
-      } else if (filters.locale === 'pt') {
-        query = query.andWhere(
-          `${searchColumn} @@ plainto_tsquery(:language_config, :query)`,
-        );
-      }
-      query = query
-        .setParameter('language_config', languageConfig)
-        .setParameter('query', filters.query);
       query = query
         .orderBy(`rank`, filters.sort_direction)
         .addOrderBy('recipe.id', filters.sort_direction);
       break;
+  }
+  if (filters.query.trim().length > 0) {
+    query = query.andWhere(
+      `${textSearchColumn} @@ plainto_tsquery(:language_config, :query)`,
+    );
+    query = query
+      .setParameter('language_config', languageConfig)
+      .setParameter('query', filters.query);
   }
   if (parsedToken != null) {
     const operator = parsedToken.sort_direction === 'ASC' ? '>' : '<';

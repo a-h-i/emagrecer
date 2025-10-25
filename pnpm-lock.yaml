@@ -15,6 +15,9 @@ catalogs:
     '@next/eslint-plugin-next':
       specifier: ^15.5
       version: 15.5.3
+    '@types/lodash':
+      specifier: ^4.17.20
+      version: 4.17.20
     '@types/node':
       specifier: ^20
       version: 20.19.11
@@ -24,6 +27,9 @@ catalogs:
     eslint-config-next:
       specifier: ^15
       version: 15.5.0
+    lodash:
+      specifier: ^4.17.21
+      version: 4.17.21
     next-auth:
       specifier: 5.0.0-beta.29
       version: 5.0.0-beta.29
@@ -80,7 +86,7 @@ importers:
         specifier: ^4.1.0
         version: 4.1.0
       lodash:
-        specifier: ^4.17.21
+        specifier: 'catalog:'
         version: 4.17.21
       lucide-react:
         specifier: ^0.541.0
@@ -132,7 +138,7 @@ importers:
         specifier: ^4
         version: 4.1.12
       '@types/lodash':
-        specifier: ^4.17.20
+        specifier: 'catalog:'
         version: 4.17.20
       '@types/node':
         specifier: 'catalog:'

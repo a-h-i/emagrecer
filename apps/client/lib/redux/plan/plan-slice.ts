@@ -39,7 +39,7 @@ const initialState: PlanState = {
 // Async thunks
 export const ensurePlan = createAsyncThunk(
   'plan/ensurePlan',
-  async (weekStart: Date) => {
+  async (weekStart: Date, thunkAPI) => {
     const res = await fetch(`/api/plan?week=${weekStart.toISOString()}`, {
       cache: 'no-store',
     });
@@ -49,7 +49,9 @@ export const ensurePlan = createAsyncThunk(
       plan: planSchema,
       created: z.boolean(),
     });
-    return dataSchema.parse(json);
+    const parsedData =  dataSchema.parse(json);
+  thunkAPI.dispatch(loadSlots(parsedData.plan.id));
+  return parsedData;
   },
 );
 

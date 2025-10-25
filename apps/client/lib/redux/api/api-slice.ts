@@ -1,15 +1,16 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { RecipeSchemaTypeWithTags } from '@emagrecer/storage';
+import { RecipeSchemaTypeWithTagsAndIngredients } from '@emagrecer/storage';
 import { RecipeFilters, recipeSearchResultsSchema } from '@emagrecer/control';
 
 type RecipePage = {
-  recipes: RecipeSchemaTypeWithTags[];
+  recipes: RecipeSchemaTypeWithTagsAndIngredients[];
   next_page_token?: string | null;
 };
 
 export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
+  tagTypes: ['Recipe'],
   endpoints: (builder) => ({
     getInfiniteRecipes: builder.infiniteQuery<
       RecipePage,
@@ -46,6 +47,16 @@ export const apiSlice = createApi({
         return `/recipe?${params.toString()}`;
       },
       rawResponseSchema: recipeSearchResultsSchema,
+      providesTags: (data) => {
+        if (data == null) {
+          return [];
+        }
+        return data.pages.flatMap((page) =>
+          page.recipes.map((recipe) => ({ type: 'Recipe', id: recipe.id })),
+        );
+      },
     }),
   }),
 });
+
+export const { useGetInfiniteRecipesInfiniteQuery } = apiSlice;

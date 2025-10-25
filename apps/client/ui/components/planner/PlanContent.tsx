@@ -1,7 +1,7 @@
 'use client';
 
 import { useAppDispatch } from '@/lib/redux/hooks';
-import { ensurePlan, loadSlots } from '@/lib/redux/plan/plan-slice';
+import { ensurePlan, setSelectedDay } from '@/lib/redux/plan/plan-slice';
 import { useEffect } from 'react';
 import MacroSummary from '@/ui/components/planner/MacroSummary';
 import PlanGrid from '@/ui/components/planner/PlanGrid';
@@ -15,12 +15,15 @@ export default function PlanContent(props: PlanContentProps) {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    (async () => {
-      const action = await dispatch(ensurePlan(props.weekStart));
-      if (action.payload.plan.id) {
-        await dispatch(loadSlots(action.payload.plan.id));
-      }
-    })();
+    dispatch(ensurePlan(props.weekStart));
+    const now = new Date();
+    let dayOfWeek = now.getDay();
+    // Our week starts on monday, so we need to subtract 1 to get the correct day of the week
+    dayOfWeek = dayOfWeek - 1;
+    if (dayOfWeek < 0) {
+      dayOfWeek = 6;
+    }
+    dispatch(setSelectedDay(dayOfWeek))
   }, [dispatch, props.weekStart]);
 
   return (

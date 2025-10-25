@@ -54,9 +54,9 @@ export default function PlanGrid(props: PlanGridProps) {
                 plan.selectedDay !== dayIndex,
             })}
             aria-pressed={plan.selectedDay === dayIndex}
-            aria-label={t(`dayShort.${dayIndex}`)}
+            aria-label={t(`daysShort.${dayIndex}`)}
           >
-            {t(`dayShort.${dayIndex}`)}
+            {t(`daysShort.${dayIndex}`)}
           </button>
         ))}
 
@@ -87,7 +87,7 @@ function Row(props: RowProps) {
   return (
     <>
       {/* sticky meal label */}
-      <div className='sticky left-0 z-10 bg-white p-3 text-sm font-medium text-neutral-700'>
+      <div className='sticky left-0 z-10 bg-white p-3 text-sm font-medium text-neutral-700 self-center'>
         {props.label}
       </div>
 
@@ -154,7 +154,7 @@ function EmptyCell(props: EmptyCellProps) {
       onClick={props.onRecipeAdd}
       className={clsx(
         'flex w-full items-center justify-center rounded-xl border border-dashed border-neutral-300',
-        'px-3 py-6 text-neutral-500 hover:border-neutral-400 hover:bg-neutral-50',
+        'px-3 py-6 text-neutral-500 hover:border-neutral-400 hover:bg-neutral-50 cursor-pointer',
       )}
       title={t('slot.empty')}
     >

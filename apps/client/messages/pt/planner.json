@@ -60,7 +60,8 @@
       "clearDay": "Limpar dia",
       "clearWeek": "Limpar semana",
       "generateWeek": "Gerar semana",
-      "copyPrevWeek": "Copiar semana anterior"
+      "copyPrevWeek": "Copiar semana anterior",
+      "add": "Adicionar"
     },
     "toasts": {
       "created": "Novo plano criado para {week}",
