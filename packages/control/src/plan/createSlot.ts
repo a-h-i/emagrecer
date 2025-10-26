@@ -20,8 +20,11 @@ export async function createSlot(
       `Plan#${slot.plan_id} belonging to user#${userId} not found`,
     );
   }
-  // TODO: upsert slot conflicting with (plan_id, day,  meal)
-  const newSlot = manager.create(MealSlot, slot);
-  await manager.save(newSlot);
-  return newSlot;
+
+  await manager.upsert(MealSlot, slot, ['plan_id', 'day', 'meal']);
+  return await manager.findOneByOrFail(MealSlot, {
+    plan_id: slot.plan_id,
+    day: slot.day,
+    meal: slot.meal,
+  });
 }

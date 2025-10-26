@@ -18,7 +18,7 @@ export default function PlanContent(props: PlanContentProps) {
     dispatch(ensurePlan(props.weekStart));
     const now = new Date();
     let dayOfWeek = now.getDay();
-    // Our week starts on monday, so we need to subtract 1 to get the correct day of the week
+    // Our week starts on Monday, so we need to subtract 1 to get the correct day of the week
     dayOfWeek = dayOfWeek - 1;
     if (dayOfWeek < 0) {
       dayOfWeek = 6;
