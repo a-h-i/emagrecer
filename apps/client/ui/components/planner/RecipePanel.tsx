@@ -123,6 +123,7 @@ export default function RecipePanel() {
                   <Chip
                     key={tag.slug}
                     label={localizedTag}
+                    togglable={true}
                     active={searchFilters.tags?.includes(tag.slug) ?? false}
                     onClick={() => {
                       let newTags = searchFilters.tags ?? [];
