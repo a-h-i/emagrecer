@@ -2,7 +2,7 @@
 
 import { useLocale, useTranslations } from 'next-intl';
 import { RecipeFilters, RecipeSort } from '@emagrecer/control';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { debounce } from 'lodash';
 import Chip from '@/ui/components/common/Chip';
 import RecipeList from '@/ui/components/planner/recipe/list/RecipeList';
@@ -18,6 +18,7 @@ export default function RecipePanel() {
     sort: RecipeSort.TIME,
     sort_direction: 'ASC',
   });
+  const [localQuery, setLocalQuery] = useState<string>('');
   const debouncedQuery = useMemo(() => {
     return debounce((query: string) => {
       setSearchFilters((prev) => {
@@ -26,8 +27,14 @@ export default function RecipePanel() {
           query,
         };
       });
-    }, 300);
+    }, 300, {
+      trailing: true,
+    });
   }, [setSearchFilters]);
+
+  useEffect(() => {
+    debouncedQuery(localQuery);
+  }, [localQuery, debouncedQuery])
 
   return (
     <aside className='rounded-2xl border border-neutral-200 p-4'>
@@ -41,9 +48,9 @@ export default function RecipePanel() {
           placeholder={t('panel.searchPlaceholder')}
           className='w-full rounded-xl border border-neutral-200 bg-white px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-neutral-900/40'
           aria-label={t('panel.searchPlaceholder')}
-          value={searchFilters.query}
+          value={localQuery}
           onChange={(e) => {
-            debouncedQuery(e.target.value);
+            setLocalQuery(e.target.value);
           }}
         />
         <div className='mt-3 flex flex-col gap-2 p-1'>
