@@ -7,6 +7,7 @@ import {
 } from '@reduxjs/toolkit';
 import {
   MacroSplit,
+  MealSlotCreateSchemaType,
   MealSlotSchemaType,
   MealSlotSchemaTypeWithRecipe,
   mealSlotSchemaWithRecipe,
@@ -74,7 +75,7 @@ export const loadSlots = createAsyncThunk(
 
 export const setSlot = createAsyncThunk(
   'plan/setSlot',
-  async (slot: MealSlotSchemaType) => {
+  async (slot: MealSlotCreateSchemaType) => {
     const res = await fetch(`/api/plan/${slot.plan_id}/slots`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },

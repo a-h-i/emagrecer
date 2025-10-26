@@ -8,8 +8,9 @@ import {
   Recipe,
 } from '@emagrecer/storage';
 import { z } from 'zod';
-import { createSlot, getPlanSlots } from '@emagrecer/control';
+import { createSlot, ForbiddenError, getPlanSlots } from '@emagrecer/control';
 import { loadPlanAndVerifyAccess } from '@/lib/plan/api/loadPlanAndVerifyAccess';
+import { EntityNotFoundError } from 'typeorm';
 
 export async function GET(
   _req: NextRequest,
@@ -33,19 +34,15 @@ export async function GET(
   });
 }
 
-export async function POST(
-  req: NextRequest,
-  ctx: RouteContext<'/api/plan/[planId]/slots'>,
-) {
+export async function POST(req: NextRequest) {
   const session = await auth();
-  const { planId } = await ctx.params;
-  const source = await getDS();
-  const plan = await loadPlanAndVerifyAccess(session, planId, source);
-  if (!(plan instanceof MealPlan)) {
-    return plan;
+  const userId = session?.user?.id;
+  if (userId == null) {
+    return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
   }
-  const json = await req.json();
-  const parseResult = mealSlotCreateSchema.safeParse(json);
+  const source = await getDS();
+  const data = await req.json();
+  const parseResult = mealSlotCreateSchema.safeParse(data);
   if (!parseResult.success) {
     return NextResponse.json(
       {
@@ -54,36 +51,51 @@ export async function POST(
       { status: 400 },
     );
   }
-
-  const slot = await createSlot(source.manager, parseResult.data);
-  const serializedSlot = slot.serialize();
-  const recipe = await source.manager.findOneOrFail(Recipe, {
-    where: {
-      id: slot.recipe_id,
-    },
-    relations: {
-      tags: true,
-      ingredients: true,
-    },
-  });
-  const serializedRecipe = {
-    ...recipe.serialize(),
-    ingredients: (await recipe.ingredients).map((ingredient) =>
-      ingredient.serialize(),
-    ),
-    tags: (await recipe.tags).map((tag) => tag.serialize()),
-    recipe_ingredients: (await recipe.recipe_ingredients).map(
-      (recipeIngredient) => recipeIngredient.serialize(),
-    ),
-  };
-  const serializedData: MealSlotSchemaTypeWithRecipe = {
-    ...serializedSlot,
-    recipe: serializedRecipe,
-  };
-  return NextResponse.json(
-    {
-      slot: serializedData,
-    },
-    { status: 201 },
-  );
+  try {
+    const slot = await source.manager.transaction(async (transaction) => {
+      const slot = await createSlot(transaction, parseResult.data, userId);
+      const serializedSlot = slot.serialize();
+      const recipe = await transaction.findOneOrFail(Recipe, {
+        where: {
+          id: slot.recipe_id,
+        },
+        relations: {
+          tags: true,
+          ingredients: true,
+        },
+      });
+      const serializedRecipe = {
+        ...recipe.serialize(),
+        ingredients: (await recipe.ingredients).map((ingredient) =>
+          ingredient.serialize(),
+        ),
+        tags: (await recipe.tags).map((tag) => tag.serialize()),
+        recipe_ingredients: (await recipe.recipe_ingredients).map(
+          (recipeIngredient) => recipeIngredient.serialize(),
+        ),
+      };
+      const serializedData: MealSlotSchemaTypeWithRecipe = {
+        ...serializedSlot,
+        recipe: serializedRecipe,
+      };
+      return serializedData;
+    });
+    return NextResponse.json(
+      {
+        slot,
+      },
+      {
+        status: 201,
+      },
+    );
+  } catch (err) {
+    if (err instanceof ForbiddenError) {
+      return NextResponse.json({ error: 'forbidden' }, { status: 403 });
+    }
+    if (err instanceof EntityNotFoundError) {
+      return NextResponse.json({ error: 'not found' }, { status: 404 });
+    }
+    console.error(err);
+    return NextResponse.json({ error: 'unknown error' }, { status: 500 });
+  }
 }

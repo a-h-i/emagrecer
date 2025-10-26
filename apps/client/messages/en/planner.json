@@ -75,6 +75,12 @@
       "created": "New plan created for {week}",
       "saved": "Plan saved",
       "error": "Something went wrong"
+    },
+    "addRecipePopover": {
+      "title": "Add to plan",
+      "day": "Day",
+      "mealType": "Meal",
+      "servings": "Servings"
     }
   }
 }

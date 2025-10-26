@@ -2,10 +2,11 @@
 import { useGetInfiniteRecipesInfiniteQuery } from '@/lib/redux/api/api-slice';
 import { RecipeFilters } from '@emagrecer/control';
 import RecipeListSkeleton from '@/ui/components/planner/recipe/list/RecipeListSkeleton';
-import { ReactNode, useMemo } from 'react';
+import { ReactNode, useMemo, useState } from 'react';
 import RecipeListEmptyState from '@/ui/components/planner/recipe/list/RecipeListEmptyState';
 import { RecipeSchemaTypeWithTagsAndIngredients } from '@emagrecer/storage';
 import RecipeRow from '@/ui/components/planner/recipe/list/RecipeRow';
+import AddRecipePopover from '@/ui/components/planner/recipe/list/AddRecipePopover';
 
 interface RecipeListProps {
   filters: RecipeFilters;
@@ -36,9 +37,17 @@ function RecipeListItems(props: RecipeListItemsProps) {
 export default function RecipeList(props: RecipeListProps) {
   const { data, isError, isLoading, fetchNextPage, hasNextPage, isFetching } =
     useGetInfiniteRecipesInfiniteQuery(props.filters);
+  const [recipeBeingAdded, setRecipeBeingAdded] = useState<
+    RecipeSchemaTypeWithTagsAndIngredients | undefined
+  >();
 
   const onAdd = (recipe: RecipeSchemaTypeWithTagsAndIngredients) => {
-    console.log('Recipe added:', recipe);
+    setRecipeBeingAdded(recipe);
+  };
+  const onConfirm = () => {
+    if (!recipeBeingAdded) {
+      return;
+    }
   };
   const lastPage = useMemo(() => {
     if (!data) {
@@ -62,5 +71,14 @@ export default function RecipeList(props: RecipeListProps) {
     content = <RecipeListItems recipes={lastPage.recipes} onAdd={onAdd} />;
   }
 
-  return <div className='mt-4'>{content}</div>;
+  return (
+    <div className='mt-4'>
+      {content}
+      <AddRecipePopover
+        open={recipeBeingAdded != null}
+        onClose={() => true}
+        onConfirm={onConfirm}
+      />
+    </div>
+  );
 }

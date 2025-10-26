@@ -20,6 +20,7 @@
     "dotenv": "^16.4.7",
     "reflect-metadata": "catalog:",
     "typeorm": "catalog:",
+    "uuid": "^13.0.0",
     "zod": "catalog:"
   },
   "peerDependencies": {

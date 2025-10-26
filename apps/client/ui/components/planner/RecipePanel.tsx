@@ -20,21 +20,25 @@ export default function RecipePanel() {
   });
   const [localQuery, setLocalQuery] = useState<string>('');
   const debouncedQuery = useMemo(() => {
-    return debounce((query: string) => {
-      setSearchFilters((prev) => {
-        return {
-          ...prev,
-          query,
-        };
-      });
-    }, 300, {
-      trailing: true,
-    });
+    return debounce(
+      (query: string) => {
+        setSearchFilters((prev) => {
+          return {
+            ...prev,
+            query,
+          };
+        });
+      },
+      300,
+      {
+        trailing: true,
+      },
+    );
   }, [setSearchFilters]);
 
   useEffect(() => {
     debouncedQuery(localQuery);
-  }, [localQuery, debouncedQuery])
+  }, [localQuery, debouncedQuery]);
 
   return (
     <aside className='rounded-2xl border border-neutral-200 p-4'>
