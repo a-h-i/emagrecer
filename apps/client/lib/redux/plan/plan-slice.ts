@@ -24,6 +24,7 @@ export interface PlanState {
   kcalTarget?: number | null;
   macroSplit?: MacroSplit | null;
   slotsByKey: Record<SlotKey, MealSlotSchemaTypeWithRecipe>;
+  slotIsLoading: Record<SlotKey, boolean | undefined>;
   status: 'idle' | 'loading' | 'ready' | 'error';
   error?: string;
   selectedDay: number; // 0..6
@@ -35,6 +36,7 @@ const initialState: PlanState = {
   slotsByKey: {},
   status: 'idle',
   selectedDay: 0,
+  slotIsLoading: {},
 };
 
 // Async thunks
@@ -170,9 +172,20 @@ const planSlice = createSlice({
       state.slotsByKey = map;
     });
 
+    b.addCase(setSlot.pending, (state, action) => {
+      const key: SlotKey = `${action.meta.arg.day}:${action.meta.arg.meal}`;
+      state.slotIsLoading[key] = true;
+    });
+
     b.addCase(setSlot.fulfilled, (state, action) => {
       const key: SlotKey = `${action.payload.slot.day}:${action.payload.slot.meal}`;
       state.slotsByKey[key] = action.payload.slot;
+      state.slotIsLoading[key] = false;
+    });
+
+    b.addCase(setSlot.rejected, (state, action) => {
+      const key: SlotKey = `${action.meta.arg.day}:${action.meta.arg.meal}`;
+      state.slotIsLoading[key] = false;
     });
 
     b.addCase(clearSlot.fulfilled, (s, a) => {

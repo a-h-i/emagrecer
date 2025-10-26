@@ -4,9 +4,16 @@ import { RecipeFilters } from '@emagrecer/control';
 import RecipeListSkeleton from '@/ui/components/planner/recipe/list/RecipeListSkeleton';
 import { ReactNode, useMemo, useState } from 'react';
 import RecipeListEmptyState from '@/ui/components/planner/recipe/list/RecipeListEmptyState';
-import { RecipeSchemaTypeWithTagsAndIngredients } from '@emagrecer/storage';
+import {
+  MealSlotCreateSchemaType,
+  RecipeSchemaTypeWithTagsAndIngredients,
+} from '@emagrecer/storage';
 import RecipeRow from '@/ui/components/planner/recipe/list/RecipeRow';
-import AddRecipePopover from '@/ui/components/planner/recipe/list/AddRecipePopover';
+import AddRecipePopover, {
+  AddRecipeFormData,
+} from '@/ui/components/planner/recipe/list/AddRecipePopover';
+import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
+import { selectPlan, setSlot } from '@/lib/redux/plan/plan-slice';
 
 interface RecipeListProps {
   filters: RecipeFilters;
@@ -35,19 +42,34 @@ function RecipeListItems(props: RecipeListItemsProps) {
 }
 
 export default function RecipeList(props: RecipeListProps) {
+  // TODO: Handle multiple pages
   const { data, isError, isLoading, fetchNextPage, hasNextPage, isFetching } =
     useGetInfiniteRecipesInfiniteQuery(props.filters);
   const [recipeBeingAdded, setRecipeBeingAdded] = useState<
     RecipeSchemaTypeWithTagsAndIngredients | undefined
   >();
+  const dispatch = useAppDispatch();
+  const plan = useAppSelector(selectPlan);
 
   const onAdd = (recipe: RecipeSchemaTypeWithTagsAndIngredients) => {
     setRecipeBeingAdded(recipe);
   };
-  const onConfirm = () => {
-    if (!recipeBeingAdded) {
+  const onConfirm = (data: AddRecipeFormData) => {
+    if (!recipeBeingAdded || plan.planId == null) {
       return;
     }
+    const slotData: MealSlotCreateSchemaType = {
+      recipe_id: recipeBeingAdded.id,
+      plan_id: plan.planId,
+      day: data.day,
+      meal: data.mealType,
+      servings: data.servings,
+    };
+    dispatch(setSlot(slotData));
+    setRecipeBeingAdded(undefined);
+  };
+  const onCancel = () => {
+    setRecipeBeingAdded(undefined);
   };
   const lastPage = useMemo(() => {
     if (!data) {
@@ -76,7 +98,7 @@ export default function RecipeList(props: RecipeListProps) {
       {content}
       <AddRecipePopover
         open={recipeBeingAdded != null}
-        onClose={() => true}
+        onClose={onCancel}
         onConfirm={onConfirm}
       />
     </div>
