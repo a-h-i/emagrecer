@@ -40,7 +40,6 @@ export default function RecipeList(props: RecipeListProps) {
   const onAdd = (recipe: RecipeSchemaTypeWithTagsAndIngredients) => {
     console.log('Recipe added:', recipe);
   };
-  console.log('data', data);
   const lastPage = useMemo(() => {
     if (!data) {
       return null;

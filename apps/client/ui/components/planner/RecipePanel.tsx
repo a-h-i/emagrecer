@@ -6,10 +6,12 @@ import { useMemo, useState } from 'react';
 import { debounce } from 'lodash';
 import Chip from '@/ui/components/common/Chip';
 import RecipeList from '@/ui/components/planner/recipe/list/RecipeList';
+import { useGetRecipeTagsQuery } from '@/lib/redux/api/api-slice';
 
 export default function RecipePanel() {
   const t = useTranslations('Planner');
   const locale = useLocale();
+  const { data: tags, isLoading: areTagsLoading } = useGetRecipeTagsQuery();
   const [searchFilters, setSearchFilters] = useState<RecipeFilters>({
     locale: locale as RecipeFilters['locale'],
     query: '',
@@ -48,7 +50,7 @@ export default function RecipePanel() {
           <label className='text-sm font-medium text-neutral-900'>
             {t('panel.sort_label')}
           </label>
-          <div className='flex items-center gap-2'>
+          <div className='flex flex-wrap items-center gap-2'>
             <Chip
               label={t('panel.sorts.preparation_time')}
               active={searchFilters.sort === RecipeSort.TIME}
@@ -105,6 +107,43 @@ export default function RecipePanel() {
             />
           </div>
         </div>
+        {areTagsLoading && (
+          <div className='mt-3 h-12 w-full animate-pulse rounded bg-neutral-200 p-1' />
+        )}
+        {tags && (
+          <div className='mt-3 flex flex-col gap-2 p-1'>
+            <label className='text-sm font-medium text-neutral-900'>
+              {t('panel.filters')}
+            </label>
+            <div className='flex flex-wrap items-center gap-2'>
+              {tags.map((tag) => {
+                const localizedTag = locale == 'en' ? tag.slug_en : tag.slug_pt;
+
+                return (
+                  <Chip
+                    key={tag.slug}
+                    label={localizedTag}
+                    active={searchFilters.tags?.includes(tag.slug) ?? false}
+                    onClick={() => {
+                      let newTags = searchFilters.tags ?? [];
+                      if (newTags.includes(tag.slug)) {
+                        newTags = newTags.filter((t) => t !== tag.slug);
+                      } else {
+                        newTags.push(tag.slug);
+                      }
+                      setSearchFilters((prev) => {
+                        return {
+                          ...prev,
+                          tags: newTags,
+                        };
+                      });
+                    }}
+                  />
+                );
+              })}
+            </div>
+          </div>
+        )}
       </div>
       <div className='mt-4'>
         <RecipeList filters={searchFilters} />
