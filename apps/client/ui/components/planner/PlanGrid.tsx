@@ -31,9 +31,9 @@ export default function PlanGrid(props: PlanGridProps) {
 
   return (
     <div className='overflow-x-auto rounded-2xl border border-neutral-200'>
-      <div className='grid min-w-[760px] grid-cols-[140px_repeat(7,1fr)]'>
+      <div className='relative grid min-w-[760px] grid-cols-[140px_repeat(7,1fr)]'>
         {/* Header Row */}
-        <div className='sticky left-0 z-10 bg-neutral-50/70 p-3 text-sm font-medium text-neutral-700'>
+        <div className='sticky left-0 bg-neutral-50/70 p-3 text-sm font-medium text-neutral-700'>
           {/* empty corner cell */}
         </div>
         {Array.from({ length: 7 }, (_, dayIndex) => (

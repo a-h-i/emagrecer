@@ -80,7 +80,8 @@
       "title": "Add to plan",
       "day": "Day",
       "mealType": "Meal",
-      "servings": "Servings"
+      "servings": "Servings",
+      "submit": "Add Recipe"
     }
   }
 }

@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import clsx from 'clsx';
+import { Button } from '@/ui/components/Button';
 
 interface AddRecipePopoverProps {
   open: boolean;
@@ -14,17 +15,23 @@ interface AddRecipePopoverProps {
 
 const addRecipeSchema = z
   .object({
-    day: z.number().min(0).max(6),
+    day: z.coerce.number().min(0).max(6),
     mealType: z.enum(MealType),
-    servings: z.number().min(1).max(100),
+    servings: z.coerce.number().min(1).max(100),
   })
   .strict();
 
 export type AddRecipeFormData = z.infer<typeof addRecipeSchema>;
 export default function AddRecipePopover(props: AddRecipePopoverProps) {
   const t = useTranslations('Planner');
-  const { register, handleSubmit } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     resolver: zodResolver(addRecipeSchema),
+    mode: 'all',
+    reValidateMode: 'onChange',
   });
 
   return (
@@ -33,7 +40,7 @@ export default function AddRecipePopover(props: AddRecipePopoverProps) {
       aria-modal='true'
       aria-labelledby='add-recipe-popover-title'
       className={clsx(
-        'fixed inset-0 z-50 flex items-end bg-black/20 transition-all ease-in sm:items-center',
+        'fixed inset-0 z-50 flex items-end bg-black/35 transition-all ease-in sm:items-center',
         {
           'pointer-events-none opacity-0': !props.open,
         },
@@ -53,7 +60,7 @@ export default function AddRecipePopover(props: AddRecipePopoverProps) {
           </h4>
           <button
             onClick={props.onClose}
-            className='rounded-lg p-2 text-neutral-500 hover:bg-neutral-100'
+            className='cursor-pointer rounded-lg p-2 text-neutral-500 hover:bg-neutral-100'
             aria-label='Close'
           >
             <X width={16} height={16} />
@@ -76,26 +83,26 @@ export default function AddRecipePopover(props: AddRecipePopoverProps) {
               {...register('day')}
               className='w-full rounded-lg border border-neutral-200 px-2 py-2 text-sm'
             >
-              <option aria-label={t('daysFull.Monday')} value={0}>
-                {t('daysFull.Monday')}
+              <option aria-label={t('daysFull.0')} value={0}>
+                {t('daysFull.0')}
               </option>
-              <option aria-label={t('daysFull.Tuesday')} value={1}>
-                {t('daysFull.Tuesday')}
+              <option aria-label={t('daysFull.1')} value={1}>
+                {t('daysFull.1')}
               </option>
-              <option aria-label={t('daysFull.Wednesday')} value={2}>
-                {t('daysFull.Wednesday')}
+              <option aria-label={t('daysFull.2')} value={2}>
+                {t('daysFull.2')}
               </option>
-              <option aria-label={t('daysFull.Thursday')} value={3}>
-                {t('daysFull.Thursday')}
+              <option aria-label={t('daysFull.3')} value={3}>
+                {t('daysFull.3')}
               </option>
-              <option aria-label={t('daysFull.Friday')} value={4}>
-                {t('daysFull.Friday')}
+              <option aria-label={t('daysFull.4')} value={4}>
+                {t('daysFull.4')}
               </option>
-              <option aria-label={t('daysFull.Saturday')} value={5}>
-                {t('daysFull.Saturday')}
+              <option aria-label={t('daysFull.5')} value={5}>
+                {t('daysFull.5')}
               </option>
-              <option aria-label={t('daysFull.Sunday')} value={6}>
-                {t('daysFull.Sunday')}
+              <option aria-label={t('daysFull.6')} value={6}>
+                {t('daysFull.6')}
               </option>
             </select>
           </div>
@@ -140,8 +147,22 @@ export default function AddRecipePopover(props: AddRecipePopoverProps) {
             >
               {t('addRecipePopover.servings')}
             </label>
-            <input id='numServings' {...register('servings')} />
+            <input
+              id='numServings'
+              {...register('servings')}
+              className='w-full rounded-lg border border-neutral-200 px-2 py-2 text-sm'
+              placeholder={t('addRecipePopover.servings')}
+            />
+            {errors.servings && (
+              <div className='text-danger mt-1 text-xs'>
+                {errors.servings.message}
+              </div>
+            )}
           </div>
+
+          <Button variant={'primary'} type='submit' className='col-span-2'>
+            {t('addRecipePopover.submit')}
+          </Button>
         </form>
       </div>
     </div>

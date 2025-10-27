@@ -188,9 +188,15 @@ const planSlice = createSlice({
       state.slotIsLoading[key] = false;
     });
 
+    b.addCase(clearSlot.pending, (state, action) => {
+      const key = `${action.meta.arg.day}:${action.meta.arg.meal}` as SlotKey;
+      state.slotIsLoading[key] = true;
+    });
+
     b.addCase(clearSlot.fulfilled, (s, a) => {
       const key = `${a.payload.day}:${a.payload.meal}` as SlotKey;
       delete s.slotsByKey[key];
+      s.slotIsLoading[key] = false;
     });
   },
 });

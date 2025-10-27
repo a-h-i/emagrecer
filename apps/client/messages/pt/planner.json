@@ -75,6 +75,13 @@
       "created": "Novo plano criado para {week}",
       "saved": "Plano guardado",
       "error": "Ocorreu um erro"
+    },
+    "addRecipePopover": {
+      "title": "Adicionar ao plano",
+      "day": "Dia",
+      "mealType": "Refeição",
+      "servings": "Doses",
+      "submit": "Adicionar receita"
     }
   }
 }

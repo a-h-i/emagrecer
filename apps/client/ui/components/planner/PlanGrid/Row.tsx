@@ -26,7 +26,7 @@ export function Row(props: RowProps) {
   return (
     <>
       {/* sticky meal label */}
-      <div className='sticky left-0 z-10 self-center bg-white p-3 text-sm font-medium text-neutral-700'>
+      <div className='sticky left-0 self-center bg-white p-3 text-sm font-medium text-neutral-700'>
         {props.label}
       </div>
 
