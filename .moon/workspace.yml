@@ -10,4 +10,4 @@ projects:
 vcs:
   manager: 'git'
   provider: github
-  defaultBranch: develop
+  defaultBranch: main
