@@ -7,7 +7,7 @@ export class CreateMealPlan1755993015113 implements MigrationInterface {
         (
           id          uuid PRIMARY KEY     DEFAULT gen_random_uuid(),
           user_id     uuid        not null references users (id) on delete cascade on update cascade,
-          week_start  date        not null,
+          week_start  timestamptz        not null,
           kcal_target int,
           macro_split jsonb,
           created_at  timestamptz NOT NULL DEFAULT now(),

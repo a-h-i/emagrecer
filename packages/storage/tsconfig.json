@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "ESNext"],
+    "target": "ES2023",
+    "lib": ["ESNext"],
     "allowJs": true,
     "outDir": "lib",
     "strict": true,
@@ -17,5 +17,5 @@
     "composite": true
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "lib"]
 }

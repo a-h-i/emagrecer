@@ -17,7 +17,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     username: process.env.PG_USER,
     password: process.env.PG_PASSWORD,
     database: process.env.PG_DB,
-    synchronize: true,
+    synchronize: false,
   }),
   session: {
     strategy: 'jwt',
@@ -28,6 +28,20 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       assert(user.id != null, 'user id must be provided');
       const source = await getDS();
       await getOrCreateProfile(source, user.id);
+    },
+  },
+  callbacks: {
+    jwt: async ({ token, user }) => {
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    },
+    session: ({ session, token }) => {
+      if (session.user) {
+        session.user.id = token.id as string;
+      }
+      return session;
     },
   },
 });

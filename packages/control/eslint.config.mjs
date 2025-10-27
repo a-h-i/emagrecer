@@ -31,5 +31,8 @@ const eslintConfig = [
       ],
     },
   }),
+  {
+    ignores: ['lib/**'],
+  },
 ];
 export default eslintConfig;

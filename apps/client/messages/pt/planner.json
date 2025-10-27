@@ -1,0 +1,80 @@
+{
+  "Planner": {
+    "title": "O seu plano semanal",
+    "week": {
+      "label": "Semana de {date}",
+      "prev": "Anterior",
+      "next": "Seguinte",
+      "today": "Esta semana"
+    },
+    "meals": {
+      "breakfast": "Pequeno-almoço",
+      "lunch": "Almoço",
+      "dinner": "Jantar",
+      "snack": "Lanche",
+      "desert": "Sobremesa"
+    },
+    "daysShort": {
+      "0": "Seg",
+      "1": "Ter",
+      "2": "Qua",
+      "3": "Qui",
+      "4": "Sex",
+      "5": "Sáb",
+      "6": "Dom"
+    },
+    "daysFull": {
+      "0": "Segunda-feira",
+      "1": "Terça-feira",
+      "2": "Quarta-feira",
+      "3": "Quinta-feira",
+      "4": "Sexta-feira",
+      "5": "Sábado",
+      "6": "Domingo"
+    },
+    "summary": {
+      "titleDay": "Totais do dia",
+      "titleWeek": "Totais da semana",
+      "kcal": "Calorias",
+      "kcalUnit": "kcal",
+      "protein": "Proteína",
+      "carbs": "Hidratos",
+      "fat": "Gordura",
+      "target": "Meta",
+      "remaining": "Em falta",
+      "serving": "Dose"
+    },
+    "slot": {
+      "empty": "Adicionar receita",
+      "servings": "Doses"
+    },
+    "panel": {
+      "title": "Receitas",
+      "searchPlaceholder": "Procurar receitas…",
+      "addTo": "Adicionar a {day} {meal}",
+      "filters": "Filtros",
+      "resetFilters": "Repor",
+      "applyFilters": "Aplicar",
+      "sorts": {
+        "high_protein": "Rico em proteína",
+        "low_carbs": "Baixo em hidratos",
+        "low_fat": "Baixo em gordura",
+        "preparation_time": "Tempo de preparação"
+      },
+      "sort_label": "Ordenar resultados por",
+      "no_recipe_search_matches": "Nenhuma receita encontrada que corresponda à tua pesquisa."
+    },
+    "actions": {
+      "clearDay": "Limpar dia",
+      "clearWeek": "Limpar semana",
+      "generateWeek": "Gerar semana",
+      "copyPrevWeek": "Copiar semana anterior",
+      "add": "Adicionar"
+    },
+    "toasts": {
+      "created": "Novo plano criado para {week}",
+      "saved": "Plano guardado",
+      "error": "Ocorreu um erro"
+    }
+  }
+}

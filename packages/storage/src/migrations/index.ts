@@ -14,8 +14,16 @@ import { CreateUserPriceOverride1755994119078 } from './1755994119078-CreateUser
 import { CreateAllergenEnum1755968586517 } from './1755968586517-CreateAllergenEnum';
 import { CreateDietPreferenceEnum1755997125098 } from './1755997125098-CreateDietPreferenceEnum';
 import { CreateUserProfile1755997130659 } from './1755997130659-CreateUserProfile';
+import { CreateComputeRecipeTotalsFunc1756077439079 } from './1756077439079-CreateComputeRecipeTotalsFunc';
+import { CreateRecomputeRecipeTrigger1756077945878 } from './1756077945878-CreateRecomputeRecipeTrigger';
+import { CreateNextAuthTables1755968395801 } from './1755968395801-CreateNextAuthTables';
+import { CreateRecipeTag1758304646433 } from './1758304646433-CreateRecipeTag';
+import { CreateRecipeTagsRelation1758304991483 } from './1758304991483-CreateRecipeTagsRelation';
+import { CreateRecipeFTSIndexes1758648414472 } from './1758648414472-CreateRecipeFTSIndexes';
+import { SeedDatabase1761478545489 } from './1761478545489-SeedDatabase';
 
 export const migrations = [
+  CreateNextAuthTables1755968395801,
   CreateUpdatedAtFunc1755968395802,
   CreateExtensions1755968464258,
   CreateAllergenEnum1755968586517,
@@ -32,4 +40,10 @@ export const migrations = [
   CreateUserPriceOverride1755994119078,
   CreateDietPreferenceEnum1755997125098,
   CreateUserProfile1755997130659,
+  CreateComputeRecipeTotalsFunc1756077439079,
+  CreateRecomputeRecipeTrigger1756077945878,
+  CreateRecipeTag1758304646433,
+  CreateRecipeTagsRelation1758304991483,
+  CreateRecipeFTSIndexes1758648414472,
+  SeedDatabase1761478545489,
 ];

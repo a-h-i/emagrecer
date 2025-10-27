@@ -25,6 +25,8 @@ lib
 .DS_Store
 *.pem
 
+.eslintcache
+
 # debug
 npm-debug.log*
 yarn-debug.log*
@@ -44,3 +46,5 @@ next-env.d.ts
 # moon
 .moon/cache
 .moon/docker
+docker-cache/
+

@@ -1,0 +1,39 @@
+services:
+  pg-db:
+    command: postgres -c work_mem=8000
+    restart: always
+    environment:
+      - POSTGRES_USER=db_user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=emagrecer_db
+    healthcheck:
+      interval: 10s
+      retries: 5
+      test:
+        - CMD-SHELL
+        - pg_isready
+      timeout: 5s
+    image: postgres:17
+    shm_size: 1gb
+  emagrecer-image:
+    build:
+      context: ../..
+      dockerfile: Dockerfile.testing
+    image: emagrecer-image
+  tests:
+    image: emagrecer-image
+    depends_on:
+      pg-db:
+        condition: service_started
+      emagrecer-image:
+        condition: service_completed_successfully
+    volumes:
+      - ../../:/app
+    working_dir: /app/packages/control
+    command: pnpm run test
+    environment:
+      - PG_HOST=pg-db
+      - PG_PORT=5432
+      - PG_PASSWORD=password
+      - PG_USER=db_user
+      - PG_DB=emagrecer_db

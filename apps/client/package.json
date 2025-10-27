@@ -9,36 +9,49 @@
     "lint": "eslint",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
-    "typeorm": "typeorm-ts-node-commonjs"
+    "typeorm": "typeorm-ts-node-commonjs",
+    "typegen": "next typegen"
   },
   "dependencies": {
-    "@auth/typeorm-adapter": "^2.10.0",
+    "@auth/typeorm-adapter": "catalog:",
     "@emagrecer/control": "workspace:^",
     "@emagrecer/storage": "workspace:^",
+    "@hookform/resolvers": "^5.2.2",
+    "@reduxjs/toolkit": "^2.9.0",
     "clsx": "^2.1.1",
-    "lodash": "^4.17.21",
+    "date-fns": "^4.1.0",
+    "lodash": "catalog:",
+    "lucide-react": "^0.541.0",
     "next": "15.5.0",
-    "next-auth": "5.0.0-beta.29",
+    "next-auth": "catalog:",
     "next-intl": "^4.3.5",
     "pg": "catalog:",
+    "posthog-js": "^1.260.2",
+    "posthog-node": "^5.7.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",
+    "react-hook-form": "^7.65.0",
+    "react-redux": "^9.2.0",
     "reflect-metadata": "catalog:",
-    "typeorm": "catalog:"
+    "typeorm": "catalog:",
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@eslint/eslintrc": "catalog:",
+    "@next/eslint-plugin-next": "catalog:",
     "@tailwindcss/postcss": "^4",
-    "@types/lodash": "^4.17.20",
+    "@types/lodash": "catalog:",
     "@types/node": "catalog:",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "catalog:",
     "eslint-config-next": "catalog:",
+    "eslint-plugin-react-hooks": "^5.2.0",
     "prettier": "catalog:",
     "prettier-plugin-tailwindcss": "^0.6.14",
     "tailwindcss": "^4",
     "ts-node": "catalog:",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "typescript-eslint": "catalog:"
   }
 }

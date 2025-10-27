@@ -1,0 +1,86 @@
+{
+  "Planner": {
+    "title": "Your weekly plan",
+    "week": {
+      "label": "Week of {date}",
+      "prev": "Previous",
+      "next": "Next",
+      "today": "This week"
+    },
+    "meals": {
+      "breakfast": "Breakfast",
+      "lunch": "Lunch",
+      "dinner": "Dinner",
+      "snack": "Snack",
+      "dessert": "Dessert"
+    },
+    "daysShort": {
+      "0": "Mon",
+      "1": "Tue",
+      "2": "Wed",
+      "3": "Thu",
+      "4": "Fri",
+      "5": "Sat",
+      "6": "Sun"
+    },
+    "daysFull": {
+      "0": "Monday",
+      "1": "Tuesday",
+      "2": "Wednesday",
+      "3": "Thursday",
+      "4": "Friday",
+      "5": "Saturday",
+      "6": "Sunday"
+    },
+    "summary": {
+      "titleDay": "Today’s totals",
+      "titleWeek": "Week totals",
+      "kcal": "Calories",
+      "kcalUnit": "kcal",
+      "protein": "Protein",
+      "carbs": "Carbs",
+      "fat": "Fat",
+      "target": "Target",
+      "remaining": "Remaining",
+      "serving": "serving"
+    },
+    "slot": {
+      "empty": "Add a recipe",
+      "servings": "Servings"
+    },
+    "panel": {
+      "title": "Recipes",
+      "searchPlaceholder": "Search recipes…",
+      "addTo": "Add to {day} {meal}",
+      "filters": "Filters",
+      "resetFilters": "Reset",
+      "applyFilters": "Apply",
+      "sorts": {
+        "high_protein": "High Protein",
+        "low_carbs": "Low Carbs",
+        "low_fat": "Low Fat",
+        "preparation_time": "Preparation Time"
+      },
+      "sort_label": "Order results by",
+      "no_recipe_search_matches": "No recipes found matching your search."
+    },
+    "actions": {
+      "clearDay": "Clear day",
+      "clearWeek": "Clear week",
+      "generateWeek": "Generate week",
+      "copyPrevWeek": "Copy previous week",
+      "add": "Add"
+    },
+    "toasts": {
+      "created": "New plan created for {week}",
+      "saved": "Plan saved",
+      "error": "Something went wrong"
+    },
+    "addRecipePopover": {
+      "title": "Add to plan",
+      "day": "Day",
+      "mealType": "Meal",
+      "servings": "Servings"
+    }
+  }
+}

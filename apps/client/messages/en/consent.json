@@ -1,0 +1,11 @@
+{
+  "Consent": {
+    "title": "Privacy & cookies",
+    "body": "We use essential cookies to run the site and optional analytics (PostHog) to understand visits, referrers, and interactions. No ads and no cross-site tracking.",
+    "learnMore": "Learn more",
+    "note": "You can change this anytime in Settings or the Privacy page.",
+    "accept": "Accept analytics",
+    "reject": "Only necessary",
+    "close": "Close"
+  }
+}

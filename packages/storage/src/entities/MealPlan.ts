@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { MacroSplit } from './MacroSplit';
+import { PlanSchemaType } from './schemas';
 
 @Entity()
 export class MealPlan {
@@ -9,7 +10,7 @@ export class MealPlan {
   @Column({ type: 'uuid' })
   user_id!: string;
 
-  @Column({ type: 'date' })
+  @Column({ type: 'timestamp' })
   week_start!: Date;
 
   @Column({ type: 'int', nullable: true })
@@ -23,4 +24,16 @@ export class MealPlan {
 
   @Column({ type: 'timestamp', default: () => 'now()' })
   updated_at!: Date;
+
+  serialize(): PlanSchemaType {
+    return {
+      id: this.id,
+      user_id: this.user_id,
+      week_start: this.week_start.toISOString(),
+      kcal_target: this.kcal_target,
+      macro_split: this.macro_split,
+      created_at: this.created_at.toISOString(),
+      updated_at: this.updated_at.toISOString(),
+    };
+  }
 }

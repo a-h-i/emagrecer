@@ -1,0 +1,11 @@
+{
+  "Consent": {
+    "title": "Privacidade e cookies",
+    "body": "Usamos cookies essenciais para o funcionamento do site e análises opcionais (PostHog) para perceber visitas, origens e interações. Sem anúncios e sem rastreio entre sites.",
+    "learnMore": "Saber mais",
+    "note": "Pode alterar esta escolha a qualquer momento nas Definições ou na página de Privacidade.",
+    "accept": "Aceitar análises",
+    "reject": "Apenas essenciais",
+    "close": "Fechar"
+  }
+}

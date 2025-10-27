@@ -51,9 +51,10 @@ services:
       emagrecer-image:
         condition: service_completed_successfully
       migrate:
-        condition: service_completed_successfully
+        condition: service_started
     volumes:
       - ../../:/app
+      - ../../docker-cache/client/.next:/app/apps/client/.next
     environment:
       - PG_HOST=pg-db
       - PG_PORT=5432

@@ -6,7 +6,7 @@
   "main": "./lib/src/index.js",
   "scripts": {
     "build": "tsc",
-    "lint": "eslint src eslint.config.mjs --cache",
+    "lint": "eslint",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "vitest"
@@ -16,14 +16,21 @@
   "license": "ISC",
   "dependencies": {
     "@emagrecer/storage": "workspace:^",
-    "typeorm": "catalog:"
+    "date-fns": "^4.1.0",
+    "dotenv": "^16.4.7",
+    "reflect-metadata": "catalog:",
+    "typeorm": "catalog:",
+    "uuid": "^13.0.0",
+    "zod": "catalog:"
   },
   "peerDependencies": {
     "typeorm": "catalog:"
   },
   "devDependencies": {
     "@eslint/eslintrc": "catalog:",
+    "@faker-js/faker": "^10.0.0",
     "@types/node": "catalog:",
+    "@typescript-eslint/eslint-plugin": "^8.44.0",
     "eslint": "catalog:",
     "eslint-config-next": "catalog:",
     "prettier": "catalog:",

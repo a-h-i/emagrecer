@@ -17,11 +17,7 @@ export class Aisle {
     nullable: false,
   })
   name_pt!: string;
-  @Column({
-    type: 'int',
-    nullable: false,
-  })
-  sort_order!: number;
+
   @Column({
     type: 'text',
     nullable: false,
