@@ -10,7 +10,10 @@ const PUBLIC_PATHS = ['/', '/login', '/privacy'];
 function stripLocale(pathname: string): { locale: string; path: string } {
   const segments = pathname.split('/', 3);
 
-  if (segments.length >= 2 && LOCALES.includes(segments[1])) {
+  if (
+    segments.length >= 2 &&
+    LOCALES.includes(segments[1] as (typeof LOCALES)[number])
+  ) {
     const rest = pathname.slice(segments[1].length + 1) || '/';
     return {
       locale: segments[1],

@@ -37,7 +37,7 @@ export function FilledCell(props: FilledCellProps) {
     });
   }, [format, props.slot.servings]);
   if (props.isLoading) {
-    return <CellSkeleton />
+    return <CellSkeleton />;
   }
   return (
     <div className='flex h-full flex-col rounded-xl border border-neutral-200 p-2'>

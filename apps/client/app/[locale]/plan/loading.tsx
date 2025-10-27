@@ -1,4 +1,4 @@
-import PlanGridSkeleton from '@/ui/components/planner/PlanGridSkeleton';
+import PlanGridSkeleton from '@/ui/components/planner/PlanGrid/PlanGridSkeleton';
 
 export default function Loading() {
   return (

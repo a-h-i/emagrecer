@@ -11,8 +11,8 @@ interface ConsentBannerProps {
 }
 
 export default function ConsentBanner(props: ConsentBannerProps) {
-  if (!props.open) return null;
   const t = useTranslations('Consent');
+  if (!props.open) return null;
   return (
     <div
       role='dialog'
