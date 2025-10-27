@@ -31,6 +31,11 @@ export const apiSlice = createApi({
             return lastPage.next_page_token;
           }
         },
+        getPreviousPageParam: (firstPage, allPages) => {
+          return allPages.length <= 1
+            ? undefined
+            : allPages[allPages.length - 2].next_page_token;
+        },
       },
       query({ queryArg, pageParam }) {
         const params = new URLSearchParams();

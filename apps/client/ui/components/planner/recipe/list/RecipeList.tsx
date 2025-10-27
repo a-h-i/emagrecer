@@ -42,7 +42,6 @@ function RecipeListItems(props: RecipeListItemsProps) {
 }
 
 export default function RecipeList(props: RecipeListProps) {
-  // TODO: Handle multiple pages
   const { data, isError, isLoading, fetchNextPage, hasNextPage, isFetching } =
     useGetInfiniteRecipesInfiniteQuery(props.filters);
   const [recipeBeingAdded, setRecipeBeingAdded] = useState<
@@ -96,6 +95,23 @@ export default function RecipeList(props: RecipeListProps) {
   return (
     <div className='mt-4'>
       {content}
+      {/* Pagination controls */}
+      {!isLoading && !isError && (
+        <div className='mt-4 flex items-center justify-center'>
+          <button
+            type='button'
+            onClick={() => fetchNextPage()}
+            disabled={!hasNextPage || isFetching}
+            className='inline-flex items-center rounded-md bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 disabled:cursor-not-allowed disabled:opacity-50'
+          >
+            {isFetching
+              ? 'Loading…'
+              : hasNextPage
+                ? 'Load more'
+                : 'No more results'}
+          </button>
+        </div>
+      )}
       <AddRecipePopover
         open={recipeBeingAdded != null}
         onClose={onCancel}
