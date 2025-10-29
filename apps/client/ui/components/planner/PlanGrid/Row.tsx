@@ -35,13 +35,11 @@ export function Row(props: RowProps) {
         const slotKey: SlotKey = `${dayIndex}:${props.meal}`;
         const slot = slotKey in slotsByKey ? slotsByKey[slotKey] : null;
         const isSelectedDay = props.selectedDay === dayIndex;
-        const baseCell =
-          'min-h-24 border-t border-neutral-100 p-2 text-sm outline-none';
 
         return (
           <div
             key={slotKey}
-            className={clsx(baseCell, {
+            className={clsx('min-h-24 border-t border-neutral-100 p-2 text-sm outline-none min-w-40', {
               'bg-neutral-50': isSelectedDay,
               'bg-white': !isSelectedDay,
             })}

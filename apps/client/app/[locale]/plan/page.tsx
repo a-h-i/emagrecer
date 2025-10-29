@@ -44,7 +44,7 @@ export default async function Plan(props: {
   const t = await getTranslations('Planner');
 
   return (
-    <main className='mx-auto max-w-6xl px-4 py-6 md:py-10'>
+    <main className='mx-auto max-w-[90dvw] px-4 py-6 md:py-10'>
       <header className='mb-4 flex items-center justify-between'>
         <h1 className='text-xl font-semibold md:text-2xl'>{t('title')}</h1>
         <WeekSwitcher locale={locale} currentWeek={plan.week_start} />

@@ -24,7 +24,6 @@ export default function PlanGrid(props: PlanGridProps) {
   const t = useTranslations('Planner');
   const dispatch = useAppDispatch();
   const plan = useAppSelector(selectPlan);
-
   if (plan.status === 'loading') {
     return <PlanGridSkeleton />;
   }

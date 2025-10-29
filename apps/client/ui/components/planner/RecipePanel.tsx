@@ -41,7 +41,7 @@ export default function RecipePanel() {
   }, [localQuery, debouncedQuery]);
 
   return (
-    <aside className='rounded-2xl border border-neutral-200 p-4'>
+    <div className='rounded-2xl border border-neutral-200 p-4'>
       <h3 className='text-sm font-medium text-neutral-900'>
         {t('panel.title')}
       </h3>
@@ -160,6 +160,6 @@ export default function RecipePanel() {
       <div className='mt-4'>
         <RecipeList filters={searchFilters} />
       </div>
-    </aside>
+    </div>
   );
 }
