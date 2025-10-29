@@ -69,6 +69,7 @@ export default function MacroSummaryCard(props: MacroSummaryCardProps) {
         props.className,
       )}
     >
+      <h3 className='text-sm font-medium text-neutral-900'>{props.title}</h3>
       <div className='mt-3 space-y-2'>
         {props.metrics.map((metric, index) => (
           <MacroMetric key={index} {...metric} />
