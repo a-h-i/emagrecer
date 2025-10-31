@@ -2,13 +2,16 @@
 
 import { useLocale, useTranslations } from 'next-intl';
 import { RecipeFilters, RecipeSort } from '@emagrecer/control';
-import { useEffect, useMemo, useState } from 'react';
+import { JSX, useEffect, useMemo, useState } from 'react';
 import { debounce } from 'lodash';
 import Chip from '@/ui/components/common/Chip';
-import RecipeList from '@/ui/components/planner/recipe/list/RecipeList';
 import { useGetRecipeTagsQuery } from '@/lib/redux/api/api-slice';
 
-export default function RecipePanel() {
+interface RecipeListFiltersProps {
+  ListElement: (props: { filters: RecipeFilters }) => JSX.Element;
+}
+
+export default function RecipeListFilters(props: RecipeListFiltersProps) {
   const t = useTranslations('Planner');
   const locale = useLocale();
   const { data: tags, isLoading: areTagsLoading } = useGetRecipeTagsQuery();
@@ -158,7 +161,7 @@ export default function RecipePanel() {
         )}
       </div>
       <div className='mt-4'>
-        <RecipeList filters={searchFilters} />
+        <props.ListElement filters={searchFilters} />
       </div>
     </div>
   );

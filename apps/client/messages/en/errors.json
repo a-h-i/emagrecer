@@ -1,0 +1,7 @@
+{
+  "Errors": {
+    "recipe": {
+      "list_loading_error": "Error loading recipes"
+    }
+  }
+}

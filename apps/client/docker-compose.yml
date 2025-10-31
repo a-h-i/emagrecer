@@ -40,7 +40,20 @@ services:
       - PG_PASSWORD=password
       - PG_USER=db_user
       - PG_DB=emagrecer_db
-
+  localstack:
+    container_name: localstack-main
+    image: localstack/localstack
+    ports:
+      - "127.0.0.1:4566:4566"            # LocalStack Gateway
+      - "127.0.0.1:4510-4559:4510-4559"  # external services port range
+    environment:
+      # LocalStack configuration: https://docs.localstack.cloud/references/configuration/
+      - DEBUG=0
+      - AWS_ACCESS_KEY_ID=xyz
+      - AWS_SECRET_ACCESS_KEY=secret
+    volumes:
+      - "../../docker-cache/localstack/volume:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
   server:
     image: emagrecer-image
     ports:
@@ -52,6 +65,8 @@ services:
         condition: service_completed_successfully
       migrate:
         condition: service_started
+      localstack:
+        condition: service_started
     volumes:
       - ../../:/app
       - ../../docker-cache/client/.next:/app/apps/client/.next
@@ -61,5 +76,7 @@ services:
       - PG_PASSWORD=password
       - PG_USER=db_user
       - PG_DB=emagrecer_db
+      - AWS_ACCESS_KEY_ID=xyz
+      - AWS_SECRET_ACCESS_KEY=secret
     working_dir: /app/apps/client
     command: pnpm run dev

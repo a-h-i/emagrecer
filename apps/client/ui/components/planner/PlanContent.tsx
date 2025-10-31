@@ -5,7 +5,8 @@ import { ensurePlan, setSelectedDay } from '@/lib/redux/plan/plan-slice';
 import { useEffect } from 'react';
 import MacroSummary from '@/ui/components/planner/MacroSummary';
 import PlanGrid from '@/ui/components/planner/PlanGrid';
-import RecipePanel from '@/ui/components/planner/RecipePanel';
+import RecipeList from '@/ui/components/planner/recipe/list/RecipeList';
+import RecipeListFilters from '@/ui/components/planner/recipe/list/RecipeListFilters';
 
 interface PlanContentProps {
   weekStart: Date;
@@ -33,7 +34,7 @@ export default function PlanContent(props: PlanContentProps) {
         <PlanGrid onRecipeAdd={() => true} />
       </div>
       <aside className='h-fit lg:sticky lg:top-6'>
-        <RecipePanel />
+        <RecipeListFilters ListElement={RecipeList} />
       </aside>
     </div>
   );

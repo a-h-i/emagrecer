@@ -8,6 +8,8 @@ const NAMESPACES = [
   'auth',
   'consent',
   'planner',
+  'admin',
+  'errors',
 ] as const;
 
 async function loadNamespace(locale: string, ns: string) {

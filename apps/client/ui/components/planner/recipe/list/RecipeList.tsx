@@ -8,37 +8,16 @@ import {
   MealSlotCreateSchemaType,
   RecipeSchemaTypeWithTagsAndIngredients,
 } from '@emagrecer/storage';
-import RecipeRow from '@/ui/components/planner/recipe/list/RecipeRow';
 import AddRecipePopover, {
   AddRecipeFormData,
 } from '@/ui/components/planner/recipe/list/AddRecipePopover';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { selectPlan, setSlot } from '@/lib/redux/plan/plan-slice';
+import { RecipeListItems } from '@/ui/components/planner/recipe/list/RecipeListItems';
+import { useTranslations } from 'next-intl';
 
 interface RecipeListProps {
   filters: RecipeFilters;
-}
-
-interface RecipeListItemsProps {
-  recipes: RecipeSchemaTypeWithTagsAndIngredients[];
-  onAdd: (recipe: RecipeSchemaTypeWithTagsAndIngredients) => void;
-}
-function RecipeListItems(props: RecipeListItemsProps) {
-  return (
-    <>
-      {props.recipes.map((recipe) => {
-        return (
-          <RecipeRow
-            key={recipe.id}
-            recipe={recipe}
-            onAdd={() => {
-              props.onAdd(recipe);
-            }}
-          />
-        );
-      })}
-    </>
-  );
 }
 
 export default function RecipeList(props: RecipeListProps) {
@@ -49,6 +28,7 @@ export default function RecipeList(props: RecipeListProps) {
   >();
   const dispatch = useAppDispatch();
   const plan = useAppSelector(selectPlan);
+  const t = useTranslations('Errors');
 
   const onAdd = (recipe: RecipeSchemaTypeWithTagsAndIngredients) => {
     setRecipeBeingAdded(recipe);
@@ -85,11 +65,13 @@ export default function RecipeList(props: RecipeListProps) {
   if (isLoading) {
     content = <RecipeListSkeleton />;
   } else if (isError) {
-    content = <div className='text-red-400'>Error loading recipes</div>;
+    content = (
+      <div className='text-red-400'>{t('recipe.list_loading_error')}</div>
+    );
   } else if (lastPage == null || lastPage.recipes.length === 0) {
     content = <RecipeListEmptyState />;
   } else {
-    content = <RecipeListItems recipes={lastPage.recipes} onAdd={onAdd} />;
+    content = <RecipeListItems recipes={lastPage.recipes} action={onAdd} />;
   }
 
   return (

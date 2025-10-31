@@ -16,6 +16,7 @@ import {
   SessionEntity,
   VerificationTokenEntity,
 } from './AuthEntities';
+import { ProfileRole } from './ProfileRole';
 
 export * from './MacroSplit';
 export * from './NutritionInfo';
@@ -37,6 +38,7 @@ export * from './UserProfile';
 export * from './RecipeTag';
 export * from './RecipeTagsRelation';
 export * from './AuthEntities';
+export * from './ProfileRole';
 
 export const entities = [
   Aisle,
@@ -55,6 +57,7 @@ export const entities = [
   AccountEntity,
   SessionEntity,
   VerificationTokenEntity,
+  ProfileRole,
 ];
 
 export * from './schemas';

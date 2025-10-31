@@ -1,0 +1,25 @@
+{
+  "Admin": {
+    "title": "Admin Panel",
+    "nav": {
+      "recipes": "Recipes",
+      "ingredients": "Ingredients"
+    },
+    "recipes": {
+      "header": "Recipes",
+      "minutes_label": "Minutes",
+      "kcal_p_serving_label": "kcal/serving",
+      "last_updated_label": "Last updated at",
+      "new_recipe_label": "New recipe",
+      "edit_recipe_label": "Edit recipe",
+      "delete_recipe_label": "Delete recipe",
+      "save_recipe_label": "Save Recipe",
+      "english_tab_label": "English",
+      "portuguese_tab_label": "Portuguese",
+      "title_label": "Title",
+      "markdown_label": "Instructions",
+      "edit_markdown_label": "Edit",
+      "preview_markdown_label": "Preview"
+    }
+  }
+}

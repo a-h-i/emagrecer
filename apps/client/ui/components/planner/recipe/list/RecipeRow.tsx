@@ -6,7 +6,8 @@ import { useMemo } from 'react';
 
 interface RecipeRowProps {
   recipe: RecipeSchemaTypeWithTagsAndIngredients;
-  onAdd: () => void;
+  action: () => void;
+  actionLabel?: string;
 }
 
 export default function RecipeRow(props: RecipeRowProps) {
@@ -49,8 +50,8 @@ export default function RecipeRow(props: RecipeRowProps) {
             })}
           </div>
         </div>
-        <Button variant='primary' onClick={props.onAdd} className='shrink-0'>
-          {t('actions.add')}
+        <Button variant='primary' onClick={props.action} className='shrink-0'>
+          {props.actionLabel ?? t('actions.add')}
         </Button>
       </div>
     </div>
